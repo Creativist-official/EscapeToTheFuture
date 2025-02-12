@@ -8,6 +8,11 @@
 - React + Vite
 - Tailwind
 
+## TODO CONFIGURAZIONE
+- [] Descrizione, keywords, canonical, ogImage, twitterCard, favicon, apple-touch-icon, themecolor
+- [] Manifest per PWA
+- [] Notifica installability
+- [] Fonts
 
 Tutte le task e tempi su clickup.
 Attivare il timer quando si sviluppa, spegnerlo quando si fa altro pls :)
