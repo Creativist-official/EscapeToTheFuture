@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import SequencePuzzle from "../SequencePuzzle";
-import ferrisWheelOff from "../../assets/images/ruotapanoramica_off.jpg"
-import ferrisWheelOn from "../../assets/images/ruotapanoramica_on.jpg"
 
 const ControlPanel = ({ onSolve }) => {
     const [isSolved, setIsSolved] = useState(false);
@@ -15,14 +13,6 @@ const ControlPanel = ({ onSolve }) => {
         <div>
             <h3>Pannello di Controllo - Ruota Panoramica</h3>
 
-            {/* Mostra l'immagine della ruota panoramica */}
-            <img
-                src={isSolved ? ferrisWheelOn : ferrisWheelOff}
-                alt="Ruota Panoramica"
-                style={{ width: "300px", height: "auto" }}
-            />
-
-            {/* Puzzle della Ruota */}
             {!isSolved && (
                 <SequencePuzzle
                     sequence={["yellow", "red", "blue"]}
@@ -36,9 +26,9 @@ const ControlPanel = ({ onSolve }) => {
                 />
             )}
 
-            {isSolved && <p>🎡 La Ruota Panoramica è accesa!</p>}
+            {isSolved && <p>✅ Puzzle completato! La ruota è ora accesa.</p>}
         </div>
     );
 };
 
-export default ControlPanel
+export default ControlPanel;
