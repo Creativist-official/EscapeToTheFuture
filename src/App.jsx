@@ -8,8 +8,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/bitritto" element={<Bitritto />} />
-        <Route path="/modugno" element={<Modugno />} />
+        <Route path="/EscapeToTheFuture/bitritto" element={<Bitritto />} />
+        <Route path="/EscapeToTheFuture/modugno" element={<Modugno />} />
       </Routes>
     </BrowserRouter>
   );
