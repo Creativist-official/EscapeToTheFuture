@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import "@assets/style/index.css";
 
-import Bitritto from "./schools/Bitritto";
-import Modugno from "./schools/Modugno";
+import Bitritto from "./schools/Bitritto/Bitritto";
+import Modugno from "./schools/Modugno/Modugno";
 
 const App = () => {
   return (
