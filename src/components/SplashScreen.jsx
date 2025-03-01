@@ -1,18 +1,7 @@
-import Button from "../../components/Button";
-import ampolla from "../../assets/images/ampolla.png";
-import { useEffect } from "react";
+import Button from "@components/Button";
+import ampolla from "@assets/images/ampolla.png";
 
 const SplashScreen = ({ title, location }) => {
-
-    useEffect(() => {
-        // Disabilita lo scroll della pagina
-        document.body.style.overflow = "hidden";
-
-            // Ripristina lo scroll quando il componente viene smontato
-    return () => {
-        document.body.style.overflow = "auto";
-      };
-    }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-2 md:gap-10 h-screen bg-[url(../images/bg-splash.webp)] bg-center bg-clip-border bg-cover bg-origin-border bg-no-repeat gap-auto">
