@@ -1,0 +1,343 @@
+[
+    {
+        "title": "La Lettera Misteriosa",
+        "scene_image": "./assets/images/Lettera_misteriosa_con_foto_di_una_foresta.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Il detective riceve una lettera misteriosa accompagnata da una fotografia di una foresta."
+            },
+            {
+                "type": "hint",
+                "speaker": "Lettera",
+                "text": "Ciao, ti scrivo di nascosto questa lettera per aiutarmi a liberare Enrico. Troverai tutte le indicazioni necessarie per trovare il laboratorio dove è prigioniero."
+            },
+            {
+                "type": "narrator",
+                "text": "Incuriosito, il detective decide di recarsi nella foresta alla ricerca del laboratorio."
+            }
+        ]
+    },
+    {
+        "title": "Primo Enigma - L’Ingresso",
+        "scene_image": "./assets/images/foresta_con_i_3_alberi.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Il detective osserva la fotografia che ritrae tre alberi identici. Dietro la foto c'è una filastrocca."
+            },
+            {
+                "type": "hint",
+                "speaker": "Filastrocca",
+                "text": "Trova l’albero che tende a brillare, quando il sole inizia a calare.\nGuarda tra i rami, dove si cela la luce,\nsotto quel bagliore l’ingresso conduce."
+            },
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Questo deve essere l'albero giusto!"
+            },
+            {
+                "type": "narrator",
+                "text": "Il meccanismo nascosto alla base dell’albero si attiva, sbloccando l’ingresso al laboratorio."
+            }
+        ],
+        "puzzle": {
+            "type": "choice",
+            "hint": {
+                "type": "hint",
+                "speaker": "Filastrocca",
+                "text": "Cerca l'albero che brilla al tramonto tra i tre."
+            },
+            "show_after_dialogue": 1,
+            "activate_after_dialogue": 1,
+            "options": ["Albero 1", "Albero 2", "Albero 3"],
+            "solution": "Albero 2"
+        }
+    },
+    {
+        "title": "Ostacolo: Il Cane Rabbioso",
+        "scene_image": "./assets/images/Ingresso_nel_laboratorio.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "All’interno del laboratorio, il detective si imbatte in un cane rabbioso, Cujo, che blocca la strada verso una porta."
+            },
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Questo cane non mi farà passare!"
+            },
+            {
+                "type": "narrator",
+                "text": "Costretto a cambiare percorso, il detective si dirige verso una cucina."
+            }
+        ]
+    },
+    {
+        "title": "Secondo Enigma - La Cucina",
+        "scene_image": "./assets/images/cucina.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Nella cucina, il detective trova un frigorifero chiuso a chiave e una dispensa piena di alimenti, inclusi dei croccantini."
+            },
+            {
+                "type": "narrator",
+                "text": "Raccoglie i croccantini, ma quando prova a darli al cane rabbioso, questi li rifiuta, continuando a ringhiare."
+            }
+        ]
+    },
+    {
+        "title": "Ostacolo: Il Cane Rabbioso",
+        "scene_image": "./assets/images/Ingresso_nel_laboratorio.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Il detective si imbatte in un cane rabbioso, Cujo, che blocca la strada verso una porta."
+            },
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Forse questi croccantini lo calmeranno."
+            },
+            {
+                "type": "narrator",
+                "text": "Il detective prova a dare i croccantini al cane, ma questo non li accetta, continuando a ringhiare."
+            }
+        ]
+    },
+    {
+        "title": "Secondo Enigma - La Cucina",
+        "scene_image": "./assets/images/cucina.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Sulla porta del frigo, un tablet mostra un gioco dell’impiccato."
+            },
+            {
+                "type": "hint",
+                "speaker": "Tablet",
+                "text": "IN___I\nQualcosa che gli investigatori come te usano ogni giorno per svelare i misteri."
+            },
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Devo completare la parola..."
+            },
+            {
+                "type": "narrator",
+                "text": "Il frigorifero si sblocca e il detective trova una bistecca."
+            }
+        ],
+        "puzzle": {
+            "type": "code",
+            "hint": {
+                "type": "hint",
+                "speaker": "Tablet",
+                "text": "Qualcosa che gli investigatori come te usano ogni giorno per svelare i misteri."
+            },
+            "show_after_dialogue": 1,
+            "activate_after_dialogue": 2,
+            "solution": "INDIZI",
+            "code_length": 6
+        }
+    },
+    {
+        "title": "Ostacolo: Il Cane Rabbioso",
+        "scene_image": "./assets/images/Ingresso_nel_laboratorio.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Il detective si imbatte in un cane rabbioso, Cujo, che blocca la strada verso una porta."
+            },
+            {
+                "type": "narrator",
+                "text": "Il detective da la bistecca a Cujo, che la accetta e permette il passaggio."
+            }
+        ]
+    },
+    {
+        "title": "Terzo Enigma - Le Pozioni",
+        "scene_image": "./assets/images/pozioni.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Nel laboratorio, il detective si trova di fronte a un'altra porta chiusa con un codice numerico."
+            },
+            {
+                "type": "narrator",
+                "text": "Sul tavolo sono presenti quattro pozioni colorate e un contenitore trasparente con l’etichetta \"Ingrediente X\"."
+            },
+            {
+                "type": "narrator",
+                "text": "Accanto alle pozioni, c'è una filastrocca."
+            },
+            {
+                "type": "hint",
+                "speaker": "Filastrocca",
+                "text": "Il sole dorato (giallo) e la notte blu\ninsieme creano il prato là giù.\nMescolali bene senza ritardo,\nil numero apparirà come un traguardo."
+            },
+            {
+                "type": "narrator",
+                "text": "La pozione si trasforma in una sostanza trasparente che rivela il codice."
+            },
+            {
+                "type": "hint",
+                "speaker": "Codice",
+                "text": "5732"
+            },
+            {
+                "type": "narrator",
+                "text": "Il detective inserisce il codice e la porta si apre."
+            },
+            {
+                "type": "narrator",
+                "text": "All’interno della stanza successiva, il detective trova una scala per accedere al condotto di aerazione."
+            }
+        ],
+        "puzzle": {
+            "type": "multi",
+            "puzzles": [
+                {
+                    "type": "select",
+                    "hint": {
+                        "type": "hint",
+                        "speaker": "Filastrocca",
+                        "text": "Il sole dorato (giallo) e la notte blu\ninsieme creano il prato là giù.\nMescolali bene senza ritardo,\nil numero apparirà come un traguardo."
+                    },
+                    "show_after_dialogue": 3,
+                    "activate_after_dialogue": 3,
+                    "options": ["Pozione Rossa", "Pozione Gialla", "Pozione Blu", "Pozione Verde"],
+                    "solution": [
+                        "Pozione Gialla",
+                        "Pozione Blu"
+                    ]
+                },
+                {
+                    "type": "code",
+                    "solution": "5732",
+                    "hint": {
+                        "type": "hint",
+                        "speaker": "Codice",
+                        "text": "5732"
+                    },
+                    "show_after_dialogue": 5,
+                    "activate_after_dialogue": 5,
+                    "code_length": 4
+                }
+            ]
+        }
+    },
+    {
+        "title": "Raggiungimento di Enrico",
+        "scene_image": "./assets/images/stanza_segreta.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Attraverso il condotto, il detective entra in una stanza segreta e trova Enrico svenuto."
+            },
+            {
+                "type": "narrator",
+                "text": "Insieme tentano di fuggire, ma vengono sorpresi da un mago oscuro di nome Pdor."
+            }
+        ]
+    },
+    {
+        "title": "Raggiungimento di Enrico",
+        "scene_image": "./assets/images/stanza_segreta_con_mago.jpg",
+        "dialogue": [
+            {
+                "type": "speaking",
+                "speaker": "Pdor",
+                "text": "Pensavi di portare via Enrico? Questo era tutto un piano... Ora sei mio prigioniero!"
+            }
+        ]
+    },
+    {
+        "title": "Raggiungimento di Enrico",
+        "scene_image": "./assets/images/stanza_segreta_con_mago_2.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Con un gesto magico, Pdor intrappola il detective in una cella, mentre Enrico riesce a scappare."
+            }
+        ]
+    },
+    {
+        "title": "Quarto Enigma - La Cella",
+        "scene_image": "./assets/images/Stanza_onirica.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Il detective si ritrova imprigionato in una cella."
+            },
+            {
+                "type": "narrator",
+                "text": "Un cane più docile si avvicina e, il detective decide di dargli i croccantini che ha ancora con sé."
+            },
+            {
+                "type": "narrator",
+                "text": "Il cane gli porta una borsa."
+            }
+        ]
+    },
+    {
+        "title": "Quarto Enigma - La Cella",
+        "scene_image": "./assets/images/interno_della_borsa.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Il detective esamina la borsa."
+            },
+            {
+                "type": "narrator",
+                "text": "il detective diventa invisibile per un breve periodo. Pdor, vedendo la cella vuota, apre la porta per ispezionarla e il detective sgattaiola fuori inosservato."
+            }
+        ],
+        "puzzle": {
+            "type": "choice",
+            "show_after_dialogue": 3,
+            "activate_after_dialogue": 3,
+            "options": ["Martello", "Chiave", "Ketchup", "Fiala"],
+            "solution": "Fiala",
+            "outcomes": {
+                "Martello": {
+                    "type": "narrator",
+                    "text": "Il detective prova ad usare un martello, ma scatta un allarme, attirando l'attenzione di Pdor."
+                },
+                "Chiave": {
+                    "type": "narrator",
+                    "text": "La chiave si spezza, non è possibile aprire la cella."
+                },
+                "Ketchup": {
+                    "type": "narrator",
+                    "text": "Il detective versa il ketchup su di sé fingendo una ferita, Pdor lo scopre subito."
+                }
+            }
+        }
+    },
+    {
+        "title": "Conclusione",
+        "scene_image": "./assets/images/casa_detective.jpg",
+        "dialogue": [
+            {
+                "type": "narrator",
+                "text": "Una volta fuori, il detective è abbagliato da una luce intensa e, riprendendosi, si ritrova a casa sua."
+            },
+            {
+                "type": "narrator",
+                "text": "Alla TV, una notizia attira l'attensione del detective."
+            },
+            {
+                "type": "speaking",
+                "speaker": "Notiziario",
+                "text": " Ultim'ora: il giovane Enrico, rapito nei giorni scorsi, è stato appena liberato!"
+            },
+            {
+                "type": "speaking",
+                "speaker": "Enrico",
+                "text": "Una persona sconosciuta mi ha salvato. Grazie di tutto, ovunque tu sia."
+            }
+        ]
+    }
+]
