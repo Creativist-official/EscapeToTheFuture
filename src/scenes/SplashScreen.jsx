@@ -1,7 +1,11 @@
-import Button from "@components/Button";
+import Button from "../components/Button";
 import ampolla from "@assets/images/ampolla.png";
 
 const SplashScreen = ({ title, location }) => {
+
+  const handleStart = () => {
+    props.history.push("/scena1");
+  };
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-2 md:gap-10 h-screen bg-[url(../images/bg-splash.webp)] bg-center bg-clip-border bg-cover bg-origin-border bg-no-repeat gap-auto">
@@ -20,7 +24,7 @@ const SplashScreen = ({ title, location }) => {
           className="h-10 xl:h-16 z-1 transition-transform duration-300 ease-in-out transform hover:scale-120 animate-shake"
         />
       </div>
-      <Button label="INIZIA" onClick={() => props.history.push("/bitritto")} />
+      <Button label="INIZIA" onClick={handleStart} />
     </div>
   );
 };
