@@ -1,4 +1,4 @@
-import Button from "@components/Button";
+import Button from "../components/Button";
 import ampolla from "@assets/images/ampolla.png";
 
 const SplashScreen = ({ title, location }) => {

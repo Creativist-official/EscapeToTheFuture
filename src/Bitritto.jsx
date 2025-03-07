@@ -1,4 +1,5 @@
-import SplashScreen from "@components/SplashScreen";
+import SplashScreen from "./scenes/SplashScreen";
+import Scena1 from "./scenes/Scena1";
 import { MemoryRouter, Routes, Route } from "react-router";
 import RotatePhone from "./components/RotatePhone";
 import { useEffect, useState } from "react";
@@ -27,6 +28,7 @@ const Bitritto = () => {
         <MemoryRouter>
           <Routes>
             <Route path="/" element={<SplashScreen location={'SOLE LUNA BITRITTO'} title={'IL LABORATORIO DEL MAGO PDOR'} />} />
+            <Route path="/scena1" element={<Scena1/>} />
           </Routes>
         </MemoryRouter>
       )}
