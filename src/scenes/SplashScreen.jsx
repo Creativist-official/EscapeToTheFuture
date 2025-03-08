@@ -1,7 +1,26 @@
 import Button from "../components/Button";
 import ampolla from "@assets/images/ampolla.png";
+import { useEffect, useState } from "react";
 
 const SplashScreen = ({ title, location }) => {
+  const [hasRequestedFullscreen, setHasRequestedFullscreen] = useState(false);
+
+  useEffect(() => {
+    if (hasRequestedFullscreen) return;
+
+    const handleFullscreenChange = () => {
+      if (document.fullscreenElement) {
+        setHasRequestedFullscreen(true);
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, [hasRequestedFullscreen]);
+
   return (
     <div className="w-full flex flex-col items-center justify-center gap-2 md:gap-10 h-svh bg-[url(../images/bg-splash.webp)] bg-center bg-clip-border bg-cover bg-origin-border bg-no-repeat gap-auto">
       <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -22,11 +41,12 @@ const SplashScreen = ({ title, location }) => {
       <Button
         label="INIZIA"
         onClick={async () => {
-        console.log(document.fullscreenElement)
+          if (!hasRequestedFullscreen) {
           try {
             await document.body.requestFullscreen();
           } catch (err) {
             console.error(err.name, err.message);
+          }
           }
         }}
       />
