@@ -1,6 +1,8 @@
 import Button from "../components/Button";
 import ampolla from "@assets/images/ampolla.png";
 import { useEffect, useState } from "react";
+// use navigate
+import { useNavigate } from "react-router";
 
 const SplashScreen = ({ title, location }) => {
   const [hasRequestedFullscreen, setHasRequestedFullscreen] = useState(false);
@@ -48,6 +50,8 @@ const SplashScreen = ({ title, location }) => {
             console.error(err.name, err.message);
           }
           }
+
+          
         }}
       />
     </div>
