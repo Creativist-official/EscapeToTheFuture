@@ -1,8 +1,9 @@
-import SplashScreen from "./scenes/SplashScreen";
-import Scena1 from "./scenes/Scena1";
-import { MemoryRouter, Routes, Route } from "react-router";
+import { HashRouter, Routes, Route } from "react-router";
 import RotatePhone from "./components/RotatePhone";
 import { useEffect, useState } from "react";
+
+import SplashScreen from "./scenes/SplashScreen";
+import Scena1 from "./scenes/Scena1";
 
 const Bitritto = () => {
   const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
@@ -25,12 +26,12 @@ const Bitritto = () => {
       {isPortrait ? (
         <RotatePhone />
       ) : (
-        <MemoryRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<SplashScreen location={'SOLE LUNA BITRITTO'} title={'IL LABORATORIO DEL MAGO PDOR'} />} />
             <Route path="/scena1" element={<Scena1/>} />
           </Routes>
-        </MemoryRouter>
+        </HashRouter>
       )}
     </>
   );
