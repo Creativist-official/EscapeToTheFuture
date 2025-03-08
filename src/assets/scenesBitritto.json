@@ -1,17 +1,26 @@
-[
+{
+"scenes": [
     {
         "title": "La Lettera Misteriosa",
-        "scene_image": "./src/assets/images/bg-splash.webp",
+        "scene_image": "../images/bg-splash.webp",
         "dialogue": [
             {
                 "type": "narrator",
                 "text": "Il detective riceve una lettera misteriosa accompagnata da una fotografia di una foresta."
             },
             {
-                "type": "hint",
-                "speaker": "Lettera",
-                "asset": "./src/assets/images/lettera.webp",
-                "text": "Ciao, ti scrivo di nascosto questa lettera per aiutarmi a liberare Enrico. Troverai tutte le indicazioni necessarie per trovare il laboratorio dove è prigioniero."
+                "type": "prop",
+                "optional": false,
+                "asset": "./src/assets/images/Lettera_C.webp",
+                "onClick": {
+                    "type": "dialogue",
+                    "value": {
+                        "type": "hint",
+                        "speaker": "Lettera",
+                        "change_asset" : "./src/assets/images/Lettera_O.webp",
+                        "text": "Ciao, ti scrivo di nascosto questa lettera per aiutarmi a liberare Enrico. Troverai tutte le indicazioni necessarie per trovare il laboratorio dove è prigioniero."    
+                    }
+                }
             },
             {
                 "type": "narrator",
@@ -21,7 +30,7 @@
     },
     {
         "title": "Primo Enigma - L’Ingresso",
-        "scene_image": "./assets/images/foresta_con_i_3_alberi.jpg",
+        "scene_image": "../images/foresta_con_i_3_alberi.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -57,7 +66,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "./assets/images/Ingresso_nel_laboratorio.jpg",
+        "scene_image": "../images/Ingresso_nel_laboratorio.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -76,7 +85,7 @@
     },
     {
         "title": "Secondo Enigma - La Cucina",
-        "scene_image": "./assets/images/cucina.jpg",
+        "scene_image": "../images/cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -90,7 +99,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "./assets/images/Ingresso_nel_laboratorio.jpg",
+        "scene_image": "../images/Ingresso_nel_laboratorio.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -109,7 +118,7 @@
     },
     {
         "title": "Secondo Enigma - La Cucina",
-        "scene_image": "./assets/images/cucina.jpg",
+        "scene_image": "../images/cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -145,7 +154,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "./assets/images/Ingresso_nel_laboratorio.jpg",
+        "scene_image": "../images/Ingresso_nel_laboratorio.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -159,7 +168,7 @@
     },
     {
         "title": "Terzo Enigma - Le Pozioni",
-        "scene_image": "./assets/images/pozioni.jpg",
+        "scene_image": "../images/pozioni.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -231,7 +240,7 @@
     },
     {
         "title": "Raggiungimento di Enrico",
-        "scene_image": "./assets/images/stanza_segreta.jpg",
+        "scene_image": "../images/stanza_segreta.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -245,7 +254,7 @@
     },
     {
         "title": "Raggiungimento di Enrico",
-        "scene_image": "./assets/images/stanza_segreta_con_mago.jpg",
+        "scene_image": "../images/stanza_segreta_con_mago.jpg",
         "dialogue": [
             {
                 "type": "speaking",
@@ -256,7 +265,7 @@
     },
     {
         "title": "Raggiungimento di Enrico",
-        "scene_image": "./assets/images/stanza_segreta_con_mago_2.jpg",
+        "scene_image": "../images/stanza_segreta_con_mago_2.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -266,7 +275,7 @@
     },
     {
         "title": "Quarto Enigma - La Cella",
-        "scene_image": "./assets/images/Stanza_onirica.jpg",
+        "scene_image": "../images/Stanza_onirica.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -284,7 +293,7 @@
     },
     {
         "title": "Quarto Enigma - La Cella",
-        "scene_image": "./assets/images/interno_della_borsa.jpg",
+        "scene_image": "../images/interno_della_borsa.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -319,7 +328,7 @@
     },
     {
         "title": "Conclusione",
-        "scene_image": "./assets/images/casa_detective.jpg",
+        "scene_image": "../images/casa_detective.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -342,3 +351,4 @@
         ]
     }
 ]
+}
