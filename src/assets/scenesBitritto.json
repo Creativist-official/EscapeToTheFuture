@@ -1,7 +1,7 @@
 [
     {
         "title": "La Lettera Misteriosa",
-        "scene_image": "./assets/images/Lettera_misteriosa_con_foto_di_una_foresta.jpg",
+        "scene_image": "./src/assets/images/bg-splash.webp",
         "dialogue": [
             {
                 "type": "narrator",
@@ -10,6 +10,7 @@
             {
                 "type": "hint",
                 "speaker": "Lettera",
+                "asset": "./src/assets/images/lettera.webp",
                 "text": "Ciao, ti scrivo di nascosto questa lettera per aiutarmi a liberare Enrico. Troverai tutte le indicazioni necessarie per trovare il laboratorio dove è prigioniero."
             },
             {
