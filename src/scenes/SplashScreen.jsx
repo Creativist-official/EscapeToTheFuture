@@ -44,14 +44,12 @@ const SplashScreen = ({ title, location }) => {
         label="INIZIA"
         onClick={async () => {
           if (!hasRequestedFullscreen) {
-          try {
-            await document.body.requestFullscreen();
-          } catch (err) {
-            console.error(err.name, err.message);
+            try {
+              await document.body.requestFullscreen();
+            } catch (err) {
+              console.error(err.name, err.message);
+            }
           }
-          }
-
-          
         }}
       />
     </div>
