@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Speaker from '../Engine/components/Speaker';
 
 const Dialogue = ({ dialogue, onClose }) => {
@@ -14,7 +15,7 @@ const Dialogue = ({ dialogue, onClose }) => {
         return () => {
             document.head.removeChild(link);
         };
-    }, []);
+    }, [font_source]);
 
     const [isVisible, setIsVisible] = useState(false);
 
@@ -34,24 +35,32 @@ const Dialogue = ({ dialogue, onClose }) => {
 
     return (
         <div onClick={handleClick} className={`relative flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${isVisible ? 'scale-100' : 'scale-0'} animate-bounce-in`} style={{ fontFamily: font_name }}>
-            <div className="lg:scale-200 sm:scale-200 scale-100">
+            <div className="lg:scale-200 sm:scale-370 scale-100">
                 {box}
             </div>
-            <div className="absolute inset-0 flex justify-center items-center">
+            <div className="absolute inset-0 flex flex-col justify-center items-center w-full">
                 {dialogue.speaker && (
                     <div className="absolute -top-4 left-4 lg:-top-2 lg:-left-24 sm:-top-12 sm:-left-28">
                         <Speaker speaker={dialogue.speaker} type={dialogue.type} />
                     </div>
                 )}
-                <p className={`w-100 text-gray-800 text-center text-base md:text-lg lg:text-lg ${dialogue.text.includes('\n') ? 'whitespace-pre' : ''}`}>{dialogue.text}</p>
-                <div className="animate-bounce absolute bottom-4 md:right-10 lg:-right-10 lg:bottom-8 sm:-bottom-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-800" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 16l-6-6h12l-6 6z" />
-                    </svg>
-                </div>
+                <p className={`w-75 text-gray-800 text-center text-base text-md ${dialogue.text.includes('\n') ? 'whitespace-pre' : ''}`}>{dialogue.text}</p>
+            </div>
+            <div className="animate-bounce absolute -bottom-7 -right-28 lg:-bottom-4 lg:-right-0">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-800" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 16l-6-6h12l-6 6z" />
+                </svg>
             </div>
         </div>
     );
+};
+Dialogue.propTypes = {
+    dialogue: PropTypes.shape({
+        speaker: PropTypes.string,
+        type: PropTypes.string,
+        text: PropTypes.string.isRequired,
+    }).isRequired,
+    onClose: PropTypes.func,
 };
 
 export default Dialogue;
