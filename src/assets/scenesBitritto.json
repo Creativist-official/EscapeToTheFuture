@@ -66,7 +66,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "../images/Ingresso_nel_laboratorio.jpg",
+        "scene_image": "../images/Scena3/Ingresso_cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -85,7 +85,7 @@
     },
     {
         "title": "Secondo Enigma - La Cucina",
-        "scene_image": "../images/cucina.jpg",
+        "scene_image": "../images/Scena3/Cucina.png",
         "dialogue": [
             {
                 "type": "narrator",
@@ -99,7 +99,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "../images/Ingresso_nel_laboratorio.jpg",
+        "scene_image": "../images/Scena3/Ingresso_cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -118,7 +118,7 @@
     },
     {
         "title": "Secondo Enigma - La Cucina",
-        "scene_image": "../images/cucina.jpg",
+        "scene_image": "../images/Scena3/Cucina.png",
         "dialogue": [
             {
                 "type": "narrator",
@@ -154,7 +154,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "../images/Ingresso_nel_laboratorio.jpg",
+        "scene_image": "../images/Scena3/Ingresso_cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
