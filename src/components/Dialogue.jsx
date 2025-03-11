@@ -35,7 +35,7 @@ const Dialogue = ({ dialogue, onClose }) => {
 
     return (
         <div onClick={handleClick} className={`relative flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${isVisible ? 'scale-100' : 'scale-0'} animate-bounce-in`} style={{ fontFamily: font_name }}>
-            <div className="lg:scale-200 sm:scale-370 scale-100">
+            <div className="scale-100 lg:scale-200 sm:scale-400">
                 {box}
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-center w-full">
