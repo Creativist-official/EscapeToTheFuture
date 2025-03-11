@@ -6,6 +6,7 @@ import SplashScreen from "./scenes/SplashScreen";
 import Scena1 from "./scenes/Scena1";
 import JSONEngine from "./Engine/JSONEngine";
 import Scena3 from "./scenes/Scena3";
+import Scena4 from "./scenes/Scena4";
 
 const Bitritto = () => {
   const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
@@ -33,6 +34,7 @@ const Bitritto = () => {
             <Route path="/" element={<SplashScreen location={'SOLE LUNA BITRITTO'} title={'IL LABORATORIO DEL MAGO PDOR'} />} />
             <Route path="/scena1" element={<Scena1/>} />
             <Route path="/scena3" element={<Scena3/>} />
+            <Route path="/scena4" element={<Scena4/>} />
             <Route path="/engine" element={<JSONEngine/>} ></Route>
           </Routes>
         </HashRouter>
