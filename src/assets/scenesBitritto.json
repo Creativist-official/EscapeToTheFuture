@@ -2,7 +2,7 @@
 "scenes": [
     {
         "title": "La Lettera Misteriosa",
-        "scene_image": "../images/bg-splash.webp",
+        "scene_image": "assets/images/bg-splash.webp",
         "dialogue": [
             {
                 "type": "narrator",
@@ -11,13 +11,13 @@
             {
                 "type": "prop",
                 "optional": false,
-                "asset": "./src/assets/images/Lettera_C.webp",
+                "asset": "assets/images/Lettera_C.webp",
                 "onClick": {
                     "type": "dialogue",
                     "value": {
                         "type": "hint",
                         "speaker": "Lettera",
-                        "change_asset" : "./src/assets/images/Lettera_O.webp",
+                        "change_asset" : "assets/images/Lettera_O.webp",
                         "text": "Ciao, ti scrivo di nascosto questa lettera per aiutarmi a liberare Enrico. Troverai tutte le indicazioni necessarie per trovare il laboratorio dove è prigioniero."    
                     }
                 }
@@ -30,7 +30,7 @@
     },
     {
         "title": "Primo Enigma - L’Ingresso",
-        "scene_image": "../images/foresta_con_i_3_alberi.jpg",
+        "scene_image": "assets/images/foresta_con_i_3_alberi.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -66,7 +66,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "../images/Scena3/Ingresso_cucina.jpg",
+        "scene_image": "assets/images/Scena3/Ingresso_cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -85,21 +85,17 @@
     },
     {
         "title": "Secondo Enigma - La Cucina",
-        "scene_image": "../images/Scena3/Cucina.png",
+        "scene_image": "assets/images/Scena3/Cucina.png",
         "dialogue": [
             {
                 "type": "narrator",
                 "text": "Nella cucina, il detective trova un frigorifero chiuso a chiave e una dispensa piena di alimenti, inclusi dei croccantini."
-            },
-            {
-                "type": "narrator",
-                "text": "Raccoglie i croccantini, ma quando prova a darli al cane rabbioso, questi li rifiuta, continuando a ringhiare."
             }
         ]
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "../images/Scena3/Ingresso_cucina.jpg",
+        "scene_image": "assets/images/Scena3/Ingresso_cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -118,7 +114,7 @@
     },
     {
         "title": "Secondo Enigma - La Cucina",
-        "scene_image": "../images/Scena3/Cucina.png",
+        "scene_image": "assets/images/Scena3/Cucina.png",
         "dialogue": [
             {
                 "type": "narrator",
@@ -154,7 +150,7 @@
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
-        "scene_image": "../images/Scena3/Ingresso_cucina.jpg",
+        "scene_image": "assets/images/Scena3/Ingresso_cucina.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -168,7 +164,7 @@
     },
     {
         "title": "Terzo Enigma - Le Pozioni",
-        "scene_image": "../images/pozioni.jpg",
+        "scene_image": "assets/images/pozioni.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -240,7 +236,7 @@
     },
     {
         "title": "Raggiungimento di Enrico",
-        "scene_image": "../images/stanza_segreta.jpg",
+        "scene_image": "assets/images/stanza_segreta.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -254,7 +250,7 @@
     },
     {
         "title": "Raggiungimento di Enrico",
-        "scene_image": "../images/stanza_segreta_con_mago.jpg",
+        "scene_image": "assets/images/stanza_segreta_con_mago.jpg",
         "dialogue": [
             {
                 "type": "speaking",
@@ -265,7 +261,7 @@
     },
     {
         "title": "Raggiungimento di Enrico",
-        "scene_image": "../images/stanza_segreta_con_mago_2.jpg",
+        "scene_image": "assets/images/stanza_segreta_con_mago_2.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -275,7 +271,7 @@
     },
     {
         "title": "Quarto Enigma - La Cella",
-        "scene_image": "../images/Stanza_onirica.jpg",
+        "scene_image": "assets/images/Stanza_onirica.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -293,7 +289,7 @@
     },
     {
         "title": "Quarto Enigma - La Cella",
-        "scene_image": "../images/interno_della_borsa.jpg",
+        "scene_image": "assets/images/interno_della_borsa.jpg",
         "dialogue": [
             {
                 "type": "narrator",
@@ -328,7 +324,7 @@
     },
     {
         "title": "Conclusione",
-        "scene_image": "../images/casa_detective.jpg",
+        "scene_image": "assets/images/casa_detective.jpg",
         "dialogue": [
             {
                 "type": "narrator",
