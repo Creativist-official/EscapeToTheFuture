@@ -23,7 +23,7 @@ const Scena1 = () => {
         <img
           src={imageSrc}
           alt="Lettera"
-          className="w-full mb-40 transform transition-transform duration-2000 ease-in-out"
+          className="w-full transform transition-transform duration-2000 ease-in-out"
           style={{ transform: "scale(0) rotate(0deg)" }}
           onLoad={(e) => {
             e.target.style.transform = "scale(1) rotate(360deg)";
@@ -48,7 +48,7 @@ const Scena1 = () => {
                 </p>
               </div>
             </div>
-            <div className="absolute bottom-40 flex justify-center items-center">
+            <div className="absolute bottom-10 flex justify-center items-center">
               {/* Pulsante "Chiudi lettera" a sinistra */}
               <Button label="Chiudi lettera" onClick={() => {}} />
               {/* Pulsante "Esamina meglio" a destra */}
