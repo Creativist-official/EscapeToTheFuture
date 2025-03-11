@@ -28,7 +28,8 @@
 // Once all dialogues are finished it should show a button to go to the next scene
 // The button should not be shown until all dialogues are finished
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import Dialogue from '../../components/Dialogue';
 import Dialogue_with_prop from './Dialogue_with_prop';
 
@@ -62,6 +63,20 @@ const Scene = ({ scene }) => {
             ))}
         </div>
     );
+};
+Scene.propTypes = {
+    scene: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        scene_image: PropTypes.string.isRequired,
+        dialogue: PropTypes.arrayOf(
+            PropTypes.shape({
+                type: PropTypes.string.isRequired,
+                text: PropTypes.string,
+                speaker: PropTypes.string,
+                asset: PropTypes.string,
+            })
+        ).isRequired,
+    }).isRequired,
 };
 
 export default Scene;
