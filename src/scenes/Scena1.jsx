@@ -22,9 +22,9 @@ const Scena1 = () => {
   //* Aggiungerei dei suoni alla lettera che arriva e al gioco che parte (vediamo dopo però)
 
   return (
-    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-10">
+    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Scena1/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-10">
       {buttonVisible && (
-        <Button label="Apri la lettera" onClick={() => openLetter(true)} />
+        <Button onClick={() => openLetter(true)} >Apri la lettera</Button>
       )}
       <div className="w-5/11 relative">
         <img
