@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Speaker from "./Speaker";
 
-const Dialogue = ({ dialogue, onClose }) => {
+const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Dialogue = ({ dialogue, onClose }) => {
   return (
     <div
       onClick={handleClick}
-      className={`relative flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
+      className={`${absolute ? "absolute" : "relative"} ${classes} flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
         isVisible ? "scale-100" : "scale-0"
       } animate-bounce-in font-inknut`}
     >
