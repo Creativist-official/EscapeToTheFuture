@@ -1,23 +1,30 @@
-import Button from "../components/Button";
-import letteraC from "@assets/images/Lettera_C.webp";
 import { useState } from "react";
-import letteraO from "@assets/images/Lettera_O.webp";
+import { useNavigate } from "react-router";
+import Button from "@components/Button";
+import letteraC from "@assets/images/Scena1/Lettera_C.webp";
+import letteraO from "@assets/images/Scena1/Lettera_O.webp";
 
 const Scena1 = () => {
   const [imageSrc, setImageSrc] = useState(letteraC);
   const [buttonVisible, setButtonVisible] = useState(true);
   const [divVisible, setDivVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClick = () => {
-    setImageSrc(letteraO);
-    setButtonVisible(false);
-    setDivVisible(true);
+  const openLetter = (open) => {
+    //! Dal punto di vista delle performance... caricherai l'immagine solo dopo aver cliccato, causando forse problemi se connessione lenta
+    // Io metterei entrambe le immagini e una diventa display none quando deve sparire così le carica entrambe (fai valutazioni con network slow 3g)
+    setImageSrc(open ? letteraO : letteraC); 
+    setButtonVisible(!open);
+    setDivVisible(open);
   };
 
+  //! Non deve essere possibile aprire la lettera prima che l'animazione sia finita
+  //* Aggiungerei dei suoni alla lettera che arriva e al gioco che parte (vediamo dopo però)
+
   return (
-    <div className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-10">
+    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-10">
       {buttonVisible && (
-        <Button label="Apri la lettera" onClick={handleClick} />
+        <Button label="Apri la lettera" onClick={() => openLetter(true)} />
       )}
       <div className="w-5/11 relative">
         <img
@@ -28,13 +35,13 @@ const Scena1 = () => {
           onLoad={(e) => {
             e.target.style.transform = "scale(1) rotate(360deg)";
           }}
-          onClick={handleClick}
+          onClick={() => openLetter(true)}
         />
         {divVisible && (
           <>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div
-                className={`absolute bg-gray-200 font-schibsted flex flex-col items-center justify-center p-6 gap-2 w-3/4 rounded-sm transition-opacity duration-1000 ease-in-out ${
+                className={`absolute bg-gray-200 font-julee flex flex-col items-center justify-center p-6 gap-2 w-3/4 rounded-sm transition-opacity duration-1000 ease-in-out ${
                   divVisible ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -49,15 +56,13 @@ const Scena1 = () => {
               </div>
             </div>
             <div className="absolute bottom-10 flex justify-center items-center">
-              {/* Pulsante "Chiudi lettera" a sinistra */}
-              <Button label="Chiudi lettera" onClick={() => {}} />
-              {/* Pulsante "Esamina meglio" a destra */}
-              <Button label="Esamina meglio" onClick={() => {}} />
+              <Button label="Chiudi lettera" onClick={() => openLetter(false)} />
+              <Button label="Esamina meglio" onClick={() => {/*Deve girare con animazione la foto per mostrare filastrocca */}} />
             </div>
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
