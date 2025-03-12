@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./animations.css";
 
 body {
     background-color: #000;
@@ -6,28 +7,7 @@ body {
 }
 
 @theme {
-  --font-elite: Special Elite, system-ui;
-  --font-schibsted: Schibsted Grotesk, sans-serif;
-}
-
-@keyframes shake {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(10deg);
-  }
-  50% {
-    transform: rotate(-10deg);
-  }
-  75% {
-    transform: rotate(10deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-.animate-shake {
-  animation: shake 0.7s ease-in-out infinite 2s;
+  --font-elite: "Special Elite", system-ui;
+  --font-julee: "Julee", cursive;
+  --font-inknut: "Inknut Antiqua", serif;
 }
