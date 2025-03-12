@@ -19,4 +19,8 @@
   .animate-shake {
     animation: shake 0.7s ease-in-out infinite 2s;
   }
+
+  .normal-shake {
+    animation: shake 1s ease-in-out;
+  }
   
