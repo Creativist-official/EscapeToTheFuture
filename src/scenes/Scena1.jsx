@@ -3,47 +3,81 @@ import { useNavigate } from "react-router";
 import Button from "@components/Button";
 import letteraC from "@assets/images/Scena1/Lettera_C.webp";
 import letteraO from "@assets/images/Scena1/Lettera_O.webp";
+import Card from "@components/Card";
 
 const Scena1 = () => {
-  const [imageSrc, setImageSrc] = useState(letteraC);
   const [buttonVisible, setButtonVisible] = useState(true);
   const [divVisible, setDivVisible] = useState(false);
+  const [animationFinished, setAnimationFinished] = useState(false);
+  const [shake, setShake] = useState(false);
+  const [examined, setExamined] = useState(false);
   const navigate = useNavigate();
 
   const openLetter = (open) => {
-    //! Dal punto di vista delle performance... caricherai l'immagine solo dopo aver cliccato, causando forse problemi se connessione lenta
-    // Io metterei entrambe le immagini e una diventa display none quando deve sparire così le carica entrambe (fai valutazioni con network slow 3g)
-    setImageSrc(open ? letteraO : letteraC); 
     setButtonVisible(!open);
     setDivVisible(open);
   };
 
-  //! Non deve essere possibile aprire la lettera prima che l'animazione sia finita
-  //* Aggiungerei dei suoni alla lettera che arriva e al gioco che parte (vediamo dopo però)
+  const handleImageLoad = (e) => {
+    e.target.style.transform = "scale(1) rotate(360deg)";
+    setTimeout(() => {
+      setAnimationFinished(true);
+    }, 2000); // Duration of the animation
+  };
+
+  const handleShake = () => {
+    setShake(true);
+    setTimeout(() => {
+      setExamined(true);
+    },); // Duration of the shake animation
+  };
+
+  const goToForest = () => {
+    navigate("/Scena2");
+  };
 
   return (
-    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-10">
+    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-14">
       {buttonVisible && (
-        <Button label="Apri la lettera" onClick={() => openLetter(true)} />
+        <Button
+          label="Apri la lettera"
+          onClick={() => animationFinished && openLetter(true)}
+          className={`${
+            !animationFinished ? "pointer-events-none opacity-50" : ""
+          }`}
+        />
       )}
+
       <div className="w-5/11 relative">
         <img
-          src={imageSrc}
+          src={letteraC}
           alt="Lettera"
-          className="w-full transform transition-transform duration-2000 ease-in-out"
+          className={`w-full transform transition-transform duration-2000 ease-in-out ${
+            divVisible ? "hidden" : "block"
+          }`}
           style={{ transform: "scale(0) rotate(0deg)" }}
-          onLoad={(e) => {
-            e.target.style.transform = "scale(1) rotate(360deg)";
-          }}
-          onClick={() => openLetter(true)}
+          onLoad={handleImageLoad}
+          onClick={() => animationFinished && openLetter(true)}
         />
+        <img
+          src={letteraO}
+          alt="Lettera Aperta"
+          className={`w-full transform transition-transform duration-2000 ease-in-out ${
+            divVisible ? "block" : "hidden"
+          }`}
+          style={{ transform: "scale(0) rotate(0deg)" }}
+          onLoad={handleImageLoad}
+          onClick={() => animationFinished && openLetter(false)}
+        />
+
         {divVisible && (
           <>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div
-                className={`absolute bg-gray-200 font-julee flex flex-col items-center justify-center p-6 gap-2 w-3/4 rounded-sm transition-opacity duration-1000 ease-in-out ${
+                className={`select-none absolute bg-gray-200 font-julee flex flex-col items-center justify-center px-6 py-18 gap-2 w-3/4 rounded-sm transition-opacity duration-1000 ease-in-out ${
                   divVisible ? "opacity-100" : "opacity-0"
-                }`}
+                } `}
+                style={{ zIndex: 10 }}
               >
                 <h3 className="xl:text-2xl text-sm font-bold text-black text-center">
                   Ciao, ti scrivo di nascosto questa lettera per aiutarmi a
@@ -53,11 +87,21 @@ const Scena1 = () => {
                   Troverai tutte le indicazioni necessarie per trovare il
                   laboratorio dove è prigioniero.
                 </p>
+                <div className={`absolute w-full left-60 bottom-10 hover:cursor-pointer xl:left-120 xl:bottom-20 ${examined ? "normal-shake" : ""}`}>
+                  <Card />
+                </div>
               </div>
             </div>
+
             <div className="absolute bottom-10 flex justify-center items-center">
-              <Button label="Chiudi lettera" onClick={() => openLetter(false)} />
-              <Button label="Esamina meglio" onClick={() => {/*Deve girare con animazione la foto per mostrare filastrocca */}} />
+              <Button
+                label="Chiudi lettera"
+                onClick={() => openLetter(false)}
+              />
+              <Button
+                label={examined ? "Vai alla foresta" : "Esamina meglio"}
+                onClick={examined ? goToForest : handleShake}
+              />
             </div>
           </>
         )}
