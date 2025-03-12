@@ -37,7 +37,7 @@ const Scena1 = () => {
   };
 
   return (
-    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-14">
+    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Scena1/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-14">
       {buttonVisible && (
         <Button
           onClick={() => animationFinished && openLetter(true)}
