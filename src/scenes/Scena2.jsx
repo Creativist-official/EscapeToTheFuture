@@ -1,27 +1,20 @@
-import { useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import buttonArrow from "@assets/images/generic/buttonArrow.png";
 import foresta from "@assets/images/Scena2/foresta.png";
 import alberoMagico from "@assets/images/Scena2/alberoMagico.jpg";
 import Button from "@components/Button";
 import Dialogue from "../components/Dialogue";
-import Confetti from "react-confetti";
+import ImageMapper from "react-img-mapper";
+import confetti from "canvas-confetti";
+import { useNavigate } from "react-router";
 
 const Scena2 = () => {
   const [showHint, setShowHint] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isWin, setIsWin] = useState(false);
-  const [confetti, setConfetti] = useState(false);
-
-  useEffect(() => {
-    if (isWin) {
-        setConfetti(true);
-      const confettiTimer = setTimeout(() => {
-        setConfetti(false);
-      }, 3000);
-
-      return () => clearTimeout(confettiTimer);
-    }
-  }, [isWin]);
+  const [load, setLoad] = useState([false, false]);
+  const [cliccable, setCliccable] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const resetTimer = () => {
@@ -50,74 +43,147 @@ const Scena2 = () => {
     };
   }, [showHint, isWin, isError]);
 
-  const { innerWidth: width, innerHeight: height } = window;
+  const handleAreaClick = useCallback(
+    (area) => {
+      if (area.id === "albero1") {
+        setIsError(true);
+      } else if (area.id === "albero2") {
+        setIsWin(true);
+      } else if (area.id === "albero3") {
+        setIsError(true);
+      }
+    },
+    [showHint]
+  );
+
+  useEffect(() => {
+    if (isWin) {
+      confetti({
+        particleCount: 200,
+        spread: 70,
+        origin: { y: 1 },
+      });
+    }
+  }, [isWin]);
 
   return (
     <section className="w-full h-svh flex flex-col items-center justify-center relative">
       <Button classes="absolute top-2" noAnimation>
         Trova il laboratorio
       </Button>
-
+      <img
+            src={alberoMagico}
+            alt="Albero magico"
+            className="absolute aspect-video hidden"
+          />
       {!showHint && isWin && (
         <>
-          {confetti && <Confetti numberOfPieces={500} initialVelocityX={10} gravity={2}/>}
-          <svg width="100" height="100" className="absolute">
-            <circle cx="50" cy="50" r="40" fill="#5c5c5c75">
+          <svg width="100" height="100" className="absolute z-20 bottom-10 lg:bottom-24" onClick={() => cliccable && navigate("/scena3")}>
+            <circle cx="50" cy="50" r="30" fill="#ed143d80">
               <animate
                 attributeName="r"
-                values="40;45;40"
+                values="20;25;20"
                 dur="2s"
                 repeatCount="indefinite"
               />
             </circle>
           </svg>
-          <img
+          <ImageMapper
             src={alberoMagico}
-            alt="Albero magico"
-            className="absolute w-full h-full"
+            name="Albero magico"
+            natural
+            imgWidth={1920}
+            parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+            responsive={true}
+            disabled={!cliccable}
+            areas={[
+              {
+                id: "albero",
+                shape: "circle",
+                coords: [992, 852, 73],
+                fillColor: "rgba(237, 20, 61, 0.5)",
+                lineWidth: 0,
+                strokeColor: "rgba(237, 20, 61, 0.5)",
+              },
+            ]}
+            onChange={() => navigate("/scena3")}
+            isMulti={false}
+            onLoad={() => setLoad([true, true])}
           />
+          {!load[1] && (
+            <img
+              src={alberoMagico}
+              alt="Albero magico"
+              className={"select-none "}
+            />
+          )}
         </>
       )}
-      <img
-        src={foresta}
-        alt="La foresta"
-        className="select-none"
-        useMap="#image-map"
-      />
-      <map name="image-map">
-        <area
-          target=""
-          href="#scena2"
-          alt="Albero1"
-          title="Albero1"
-          coords="270,807,287,552,218,459,31,407,24,223,87,69,197,23,345,0,533,6,582,18,513,247,479,352,481,405,392,590,374,725,370,793"
-          shape="poly"
-          onClick={() => !showHint && setIsError(true)}
+      {!isWin && (
+        <ImageMapper
+          src={foresta}
+          name="La foresta"
+          width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+          height={window.innerHeight}
+          parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+          responsive={true}
+          areaProps={{ className: "animate-pulse" }}
+          disabled={showHint}
+          areas={[
+            {
+              id: "albero1",
+              shape: "poly",
+              coords: [
+                253, 802, 254, 529, 212, 460, 83, 429, 7, 365, 14, 221, 95, 151,
+                173, 104, 268, 36, 410, 7, 538, 73, 546, 134, 529, 231, 488,
+                319, 463, 398, 417, 504, 407, 787, 363, 795,
+              ],
+              fillColor: "rgba(255, 255, 255, 0.2)",
+              lineWidth: 0,
+              strokeColor: "rgba(255, 255, 255, 0)",
+            },
+            {
+              id: "albero2",
+              shape: "poly",
+              coords: [
+                855, 741, 823, 517, 709, 476, 497, 393, 488, 334, 527, 258, 544,
+                154, 575, 0, 1372, 0, 1423, 244, 1355, 393, 1158, 498, 1091,
+                571, 1055, 702, 941, 744,
+              ],
+              fillColor: "rgba(255, 255, 255, 0.2)",
+              lineWidth: 0,
+              strokeColor: "rgba(255, 255, 255, 0)",
+            },
+            {
+              id: "albero3",
+              shape: "poly",
+              coords: [
+                1491, 763, 1503, 426, 1487, 324, 1416, 302, 1428, 251, 1382, 3,
+                1844, 0, 1895, 210, 1852, 341, 1655, 405, 1632, 621, 1684, 768,
+              ],
+              fillColor: "rgba(255, 255, 255, 0.2)",
+              lineWidth: 0,
+              strokeColor: "rgba(255, 255, 255, 0)",
+            },
+          ]}
+          onChange={handleAreaClick}
+          onLoad={() => setLoad([true, false])}
+          isMulti={false}
         />
-        <area
-          target=""
-          href="#scena2"
-          alt="Albero2"
-          title="Albero2"
-          coords="633,2,583,68,535,156,530,249,491,378,530,417,615,459,740,497,810,582,827,693,842,732,886,753,1034,753,1037,653,1061,561,1110,510,1190,483,1322,436,1378,363,1407,278,1420,244,1376,132,1337,46,1303,7"
-          shape="poly"
-          onClick={() => !showHint && setIsWin(true)}
+      )}
+
+      {!load[0] && (
+        <img
+          src={foresta}
+          alt="La foresta"
+          className={"select-none " + (isWin ? "hidden" : "")}
         />
-        <area
-          target=""
-          href="#scena2"
-          alt="Albero3"
-          title="Albero3"
-          coords="1485,741,1478,339,1400,302,1405,198,1329,10,1873,10,1878,212,1845,337,1622,451,1672,624,1688,741,1692,766,1488,766"
-          shape="poly"
-          onClick={() => !showHint && setIsError(true)}
-        />
-      </map>
+      )}
 
       {!showHint ? (
         <>
           {!isError && !isWin && (
-            <div>
+            <div className="z-10">
               <img
                 src={buttonArrow}
                 alt="Scegli questo albero"
@@ -156,12 +222,25 @@ const Scena2 = () => {
           absolute
           classes="bottom-10"
           dialogue={{
-            speaker: "Suggerimento",
+            speaker: "Detective",
             text: "Oh no! Questo albero non sembra nascondere niente di interessante.",
           }}
           onClose={() => {
             setShowHint(false);
             setIsError(false);
+          }}
+        />
+      )}
+      {isWin && (
+        <Dialogue
+          absolute
+          classes="bottom-10"
+          dialogue={{
+            speaker: "Detective",
+            text: "Ecco! Questo sembra essere l'ingresso al laboratorio.",
+          }}
+          onClose={() => {
+            setCliccable(true);
           }}
         />
       )}
