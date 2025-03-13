@@ -23,7 +23,7 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
       onClick={handleClick}
       className={`${absolute ? "absolute" : "relative"} ${classes} flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
         isVisible ? "scale-100" : "scale-0"
-      } animate-bounce-in font-inknut`}
+      } animate-bounce-in font-inknut z-20`}
     >
       <div className="scale-100 lg:scale-200 sm:scale-400">
         <svg
