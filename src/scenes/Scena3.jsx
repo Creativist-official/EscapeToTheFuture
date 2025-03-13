@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import ImageMapper from "react-img-mapper";
 import Dialogue from '../components/Dialogue';
 
 import cujoImg from '../assets/images/Scena3/Cujo.png';
 import cujoWoof from '../assets/woof.mp3';
 import speaker_box_img from '../assets/images/generic/bg-button.png';
+import { useNavigate } from "react-router";
 
 import sceneBitritto from '../assets/scenesBitritto.json';
 
@@ -19,17 +21,17 @@ const Scena3 = () => {
     const [hasDogBeef, setHasDogBeef] = useState(false);
     const [hint, setHint] = useState("");
 
-    console.log("./public/"+ scene.scene_image);
-    
+    const navigate = useNavigate();
 
     return (
 
-        <div className={"w-full flex flex-col items-center justify-center gap-2 md:gap-10 h-svh bg-[url(./public/"+ scene.scene_image +")] bg-center bg-cover bg-origin-border bg-no-repeat gap-auto"}>
+        <div className={"w-full flex flex-col items-center justify-center gap-2 md:gap-10 h-svh gap-auto"}>
+            {/* Dialogues */}
             <div key={sceneIndex} className="absolute bottom-10 z-10">
                 {
                     scene.dialogue.map((dialogue, index) => (
                         index === currentDialogueIndex && (
-                            <Dialogue key={index} dialogue={dialogue} onClose={() => {
+                            <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
                                 // If kitchen scene, show only first dialogue
                                 console.log("Scene "+ sceneIndex+": "+scene.title);
                                 
@@ -45,6 +47,92 @@ const Scena3 = () => {
                     ))
                 }
             </div>
+            {/* End dialogues */}
+
+            <ImageMapper
+                src={"./" + scene.scene_image}
+                name="Sfondo"
+                natural
+                parentWidth={window.innerWidth}
+                responsive={true}
+                disabled={currentDialogueIndex < scene.dialogue.length - 1}
+                areas={[
+                    sceneIndex %2 == 0 ? ({
+                    id: "porta_cucina",
+                    shape: "rect",
+                    coords: [256, 256, 600, 950],
+                    fillColor: "rgba(237, 20, 61, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(237, 20, 61, 0.5)",
+                }) : ({
+                    id: "dispensa",
+                    shape: "rect",
+                    coords: [256, 256, 600, 950],
+                    fillColor: "rgba(237, 20, 61, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(237, 20, 61, 0.5)",
+                }, 
+                {
+                    id: "tablet",
+                    shape: "rect",
+                    coords: [256, 256, 600, 950],
+                    fillColor: "rgba(237, 20, 61, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(237, 20, 61, 0.5)",
+                }),
+                ]}
+                onChange={() => alert("porta")}
+                isMulti={false}
+            />
+
+            <div className="absolute pt-50">
+                <ImageMapper
+                    src={cujoImg}
+                    name="Cane"
+                    natural
+                    parentWidth={window.innerWidth * 0.25}
+                    responsive={true}
+                    disabled={currentDialogueIndex < scene.dialogue.length - 1}
+                    areas={[
+                    {
+                        id: "cane",
+                        shape: "rect",
+                        coords: [75, 50, 350, 400],
+                        fillColor: "rgba(20, 49, 237, 0.5)",
+                        lineWidth: 0,
+                        strokeColor: "rgba(20, 20, 237, 0.5)",
+                    },
+                    ]}
+                    onClick={() => {
+                        console.log("Cane cliccato");
+                        
+                        const audio = new Audio(cujoWoof);
+                        audio.play();
+
+                        if (hasDogFood) {
+                            setSceneIndex(4);
+                            setCurrentDialogueIndex(0);
+                        } else if (hasDogBeef) {
+                            if (currentDialogueIndex >= scene.dialogue.length - 1) {
+                                // Set scene to scene 6 and reset the dialogue
+                                setSceneIndex(6);
+                            }
+                            navigate("/scena4");
+                        }
+                        setCurrentDialogueIndex(0);
+                        
+                        if (!hasDogBeef || !hasDogFood) {
+                            // Player does not have dog food or beef. Highlight the door
+                            setHint("kitchen");
+                        } else {
+                            setHint("");
+                        }
+                    }}
+                    isMulti={false}
+                />
+            </div>
+
+            
             {
                 sceneIndex %2 == 0 ? (
                     <div>
@@ -65,68 +153,9 @@ const Scena3 = () => {
                                 </div>
                             )
                         }
-
-                        <button className='absolute top-0 left-[40%] border-red-500 border-4 bg-white' onClick={() => {
-                                setHasDogBeef(true);
-                            }
-                        }>
-                            Defeat dog
-                        </button>
-
-                        <button className='border-green-500 border-4 bg-white' onClick={() => {
-                                setHasDogFood(true);
-                            }
-                        }>
-                            Get dog food
-                        </button>
-
-                        {/* Kithcen door button */}
-                        <button className="z-10 border-4 border-red-500 absolute w-[20%] h-[80%] top-[20%] left-[12%] lg:h-[38%] lg:top-[36%] lg:w-[22%] lg:left-[38%] xl:h-[78%] xl:top-[20%] xl:w-[18%] xl:left-[13%] cursor-pointer bg-transparent"
-                            onClick={() => {
-                                if (hint == "kitchen") {
-                                    setHint("");
-                                }
-                                if (!hasDogFood) {
-                                    setSceneIndex(3);
-                                } else if (!hasDogBeef) {
-                                    setSceneIndex(5);
-                                }
-                                setCurrentDialogueIndex(0);
-                            }}
-                        ></button>
-
-                        <div className="flex items-center justify-center w-full h-full relative top-23 left-5">
-                            <img className='w-70 relative bottom-5 lg:w-100 lg:top-10 xl:top-20 xl:scale-120' src={cujoImg} alt="" />
-                            <button
-                                className={"border-blue-500 border-4 absolute w-[65%] h-[70%] top-[6%] left-[15%] lg:h-[38%] lg:top-[36%] lg:w-[22%] lg:left-[38%] xl:h-[87%] xl:top-[25%] xl:w-[90%] xl:left-[0%] cursor-pointer bg-transparent"}
-                                onClick={() => {
-                                    const audio = new Audio(cujoWoof);
-                                    audio.play();
-
-                                    if (hasDogFood) {
-                                        setSceneIndex(4);
-                                        setCurrentDialogueIndex(0);
-                                    } else if (hasDogBeef) {
-                                        if (currentDialogueIndex >= scene.dialogue.length - 1) {
-                                            // Set scene to scene 6 and reset the dialogue
-                                            setSceneIndex(6);
-                                        }
-                                        // TODO: Dog is defeated, go to scene Scena4 using router
-                                    }
-                                    setCurrentDialogueIndex(0);
-                                    
-                                    if (!hasDogBeef || !hasDogFood) {
-                                        // Player does not have dog food or beef. Highlight the door
-                                        setHint("kitchen");
-                                    } else {
-                                        setHint("");
-                                    }
-                                }}
-                            ></button>
-                        </div>
                     </div>
                 ) : (
-                    <div className={"w-100 h-100"}>
+                    <div className={"w-100 h-100 "}>
 
                         {/* Croccantini button */}
                         {
