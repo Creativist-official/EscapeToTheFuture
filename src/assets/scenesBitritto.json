@@ -76,10 +76,6 @@
                 "type": "speaking",
                 "speaker": "Detective",
                 "text": "Questo cane non mi farà passare!"
-            },
-            {
-                "type": "narrator",
-                "text": "Costretto a cambiare percorso, il detective si dirige verso una cucina."
             }
         ]
     },
