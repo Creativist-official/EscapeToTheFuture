@@ -83,10 +83,6 @@
         "title": "Secondo Enigma - La Cucina",
         "scene_image": "assets/images/Scena3/Cucina.png",
         "dialogue": [
-            {
-                "type": "narrator",
-                "text": "Nella cucina, il detective trova un frigorifero chiuso a chiave e una dispensa piena di alimenti, inclusi dei croccantini."
-            }
         ]
     },
     {
