@@ -83,6 +83,16 @@
         "title": "Secondo Enigma - La Cucina",
         "scene_image": "assets/images/Scena3/Cucina.png",
         "dialogue": [
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Il frigo sembra bloccato... Ma quello è un tablet! Forse posso usarlo per sbloccare il frigo."
+            },
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Chissà cosa c'è dentro quella dispensa..."
+            }
         ]
     },
     {
@@ -113,32 +123,11 @@
                 "text": "Sulla porta del frigo, un tablet mostra un gioco dell’impiccato."
             },
             {
-                "type": "hint",
-                "speaker": "Tablet",
-                "text": "IN___I\nQualcosa che gli investigatori come te usano ogni giorno per svelare i misteri."
-            },
-            {
                 "type": "speaking",
                 "speaker": "Detective",
-                "text": "Devo completare la parola..."
-            },
-            {
-                "type": "narrator",
-                "text": "Il frigorifero si sblocca e il detective trova una bistecca."
+                "text": "Devo completare la parola per sbloccare il frigo."
             }
-        ],
-        "puzzle": {
-            "type": "code",
-            "hint": {
-                "type": "hint",
-                "speaker": "Tablet",
-                "text": "Qualcosa che gli investigatori come te usano ogni giorno per svelare i misteri."
-            },
-            "show_after_dialogue": 1,
-            "activate_after_dialogue": 2,
-            "solution": "INDIZI",
-            "code_length": 6
-        }
+        ]
     },
     {
         "title": "Ostacolo: Il Cane Rabbioso",
