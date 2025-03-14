@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 import ImageMapper from "react-img-mapper";
 import Dialogue from '../components/Dialogue';
 
 import cujoImg from '../assets/images/Scena3/Cujo.png';
 import cujoWoof from '../assets/woof.mp3';
 import speaker_box_img from '../assets/images/generic/bg-button.png';
-import { useNavigate } from "react-router";
 
 import sceneBitritto from '../assets/scenesBitritto.json';
 
