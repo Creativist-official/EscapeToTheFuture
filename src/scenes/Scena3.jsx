@@ -2,17 +2,20 @@ import { useState } from 'react';
 import { useNavigate } from "react-router";
 import ImageMapper from "react-img-mapper";
 import Dialogue from '../components/Dialogue';
+import confetti from "canvas-confetti";
 
 import cujoImg from '@assets/images/Scena3/Cujo.png';
 import cujoWoof from '@assets/woof.mp3';
-import ingressoCucina from '@assets/images/Scena3/Ingresso_cucina.jpg';
+import ingressoCucina from '@assets/images/Scena3/Corridoio_verde.png';
 
 import sceneBitritto from '@assets/scenesBitritto.json';
 
 
 const Scena3 = () => {
-    const scene = sceneBitritto.scenes[2];
+    const [scene, setScene] = useState(sceneBitritto.scenes[2]);
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
+
+    const [dogDefeated, setDogDefeated] = useState(false);
 
     const navigate = useNavigate();
     return (
@@ -28,6 +31,16 @@ const Scena3 = () => {
                                 } else {
                                     // All dialogues are finished, show the button to go to the next scene
                                     console.log('All dialogues are finished');
+
+                                    // If dog has beef, make dog disappear
+                                    if (localStorage.getItem('hasDogBeef')) {
+                                        setDogDefeated(true);
+                                        confetti({
+                                            particleCount: 200,
+                                            spread: 70,
+                                            origin: { y: 1 },
+                                        })
+                                    }
                                 }
                             }} />
                         )
@@ -36,24 +49,34 @@ const Scena3 = () => {
             </div>
 
             {/* ImageMapper sfondo */}
-            <div className="absolute object-cover">
+            <div className="flex flex-col justify-center items-center h-svh">
                 <ImageMapper
                     src={ingressoCucina}
                     name="Ingresso cucina"
                     natural
                     imgWidth={1920}
                     parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-                    disabled={currentDialogueIndex < scene.dialogue.length - 1}
+                    disabled={(currentDialogueIndex < scene.dialogue.length - 1)}
                     responsive={true}
                     areas={[
                     {
                         id: "porta_cucina",
                         shape: "rect",
                         coords: [256, 256, 600, 950],
+                        disabled: (localStorage.getItem('hasDogBeef') && localStorage.getItem('hasDogFood')),
                         fillColor: "rgba(237, 20, 61, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(237, 20, 61, 0.5)",
                     },
+                    {
+                        id: "porta_laboratorio",
+                        disabled: !dogDefeated,
+                        shape: "rect",
+                        coords: [75, 50, 350, 400],
+                        fillColor: "rgba(20, 49, 237, 0.5)",
+                        lineWidth: 0,
+                        strokeColor: "rgba(20, 20, 237, 0.5)",
+                    }
                     ]}
                     onChange={() => navigate("/scena4")}
                     isMulti={false}
@@ -61,7 +84,8 @@ const Scena3 = () => {
             </div>
 
             {/* ImageMapper Cujo */}
-            <div className="absolute w-full flex justify-center top-0 mt-[25%]">
+            {/* <div className={"absolute w-full flex justify-center top-0 mt-[35%]" + (dogDefeated ? ' hidden' : '')}> */}
+            <div className={"absolute w-full flex justify-center top-[44svh]" + (dogDefeated ? ' hidden' : '')}>
                 <ImageMapper
                     src={cujoImg}
                     name="Cujo"
@@ -82,6 +106,17 @@ const Scena3 = () => {
                     onChange={() => {
                         const audio = new Audio(cujoWoof);
                         audio.play();
+                        let hasDogBeef = localStorage.getItem('hasDogBeef');
+                        let hasDogFood = localStorage.getItem('hasDogFood');
+
+                        if (hasDogBeef) {
+                            // Carica il dialogo della bistecca Scena 6
+                            setScene(sceneBitritto.scenes[6]);
+                        } else if (!hasDogFood) {
+                            // Carica il dialogo dei croccantini Scena 4
+                            setScene(sceneBitritto.scenes[4]);
+                        }
+                        setCurrentDialogueIndex(0);
                     }}
                     isMulti={false}
                 />
