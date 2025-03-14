@@ -188,6 +188,14 @@ const Scena4 = () => {
                                 lineWidth: 0,
                                 strokeColor: "rgba(237, 20, 61, 0.5)",
                             },
+                            {
+                                id: "other",
+                                shape: "poly",
+                                coords: [330, 235, 690, 400,],
+                                fillColor: "rgba(20, 237, 24, 0.5)",
+                                lineWidth: 0,
+                                strokeColor: "rgba(42, 237, 20, 0.5)",
+                            }
                             ]}
                             onImageClick={(e) => e.stopPropagation()}
                             onClick={(area) => {
