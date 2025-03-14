@@ -3,32 +3,37 @@ import { useNavigate } from "react-router";
 import ImageMapper from "react-img-mapper";
 import confetti from "canvas-confetti";
 
+import Dialogue from '../components/Dialogue';
+import ImpiccatoButton from '../components/ImpiccatoButton';
+
 import cucina_lock from '@assets/images/Scena4/Cucina_lock.png';
 import cucina_unlocked from '@assets/images/Scena4/Cucina_unlock.png';
 import cucina_open from '@assets/images/Scena4/Cucina_open.png';
-import ImpiccatoButton from '../components/ImpiccatoButton';
 
 import dispensaImg from '@assets/images/Scena4/Dispensa.jpg';
 import tabletImg from '@assets/images/Scena4/Tablet.png';
 import speaker_box_img from '@assets/images/generic/bg-button.png';
+
+import sceneBitritto from '@assets/scenesBitritto.json';
 
 const Scena4 = () => {
     const navigate = useNavigate();
     const [dispensaOpen, setDispensaOpen] = useState(false);
     const [dispensaHint, setDispensaHint] = useState(true);
     const [impiccatoOpen, setImpiccatoOpen] = useState(false);
-    // 0: Locked, 1: Unlocked, 2: Open
-    const [cucinaState, setCucinaState] = useState(0);
     // Stato dell'impiccato, può solo aumentare
     const [impiccatoState, setImpiccatoState] = useState(0);
-    // Animazione del pulsante "Torna da Cujo"
-    const [backAnimated, setBackAnimated] = useState(false);
     
     
     const [hasDogFood, setHasDogFood] = useState(localStorage.getItem("hasDogFood") === null ? false : JSON.parse(localStorage.getItem("hasDogFood")));
     const [hasDogBeef, setHasDogBeef] = useState(localStorage.getItem("hasDogBeef") === null ? false : JSON.parse(localStorage.getItem("hasDogBeef")));
     // Scritta dell'impiccato
     const [impiccatoText, setImpiccatoText] = useState(localStorage.getItem("impiccatoText") === null ? ['_', '_', '_', '_', '_', '_'] : JSON.parse(localStorage.getItem("impiccatoText")));
+    
+    // 0: Locked, 1: Unlocked, 2: Open
+    const [cucinaState, setCucinaState] = useState(hasDogBeef ? 2 : 0);
+    // Animazione del pulsante "Torna da Cujo"
+    const [backAnimated, setBackAnimated] = useState(false);
 
     useEffect(() => {
         localStorage.setItem("impiccatoText", JSON.stringify(impiccatoText));
@@ -36,8 +41,44 @@ const Scena4 = () => {
     
     localStorage.setItem("hasDogFood", JSON.stringify(hasDogFood));
     localStorage.setItem("hasDogBeef", JSON.stringify(hasDogBeef));
+
+    const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
+    const [scene, setScene] = useState(hasDogBeef && !hasDogFood ? {
+        "dialogue": [
+            {
+                "type": "speaking",
+                "speaker": "Detective",
+                "text": "Quella dispensa potrebbe nascondere qualcosa di utile."
+            },
+        ]
+    } : sceneBitritto.scenes[4]);
+
+    const showCustomDialogue = (custom_dialogue) => {
+        console.log("custom dialogue called");
+        setCurrentDialogueIndex(0);
+        setScene({
+            dialogue: custom_dialogue
+        });
+    }
+
     return (
         <div>
+            {/* Dialogues */}
+            <div className="absolute w-full bottom-[7%]">
+                {
+                    scene.dialogue.map((dialogue, index) => (
+                        index === currentDialogueIndex && (
+                            <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
+                                if (currentDialogueIndex <= scene.dialogue.length) {
+                                    setCurrentDialogueIndex(currentDialogueIndex + 1);
+                                } else {
+                                    console.log('All dialogues are finished');
+                                }
+                            }} />
+                        )
+                    ))
+                }
+            </div>
 
             {/* ImageMapper sfondo */}
             <div className="absolute object-cover z-0">
@@ -48,7 +89,7 @@ const Scena4 = () => {
                     imgWidth={1920}
                     parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
                     responsive={true}
-                    disabled={cucinaState === 2}
+                    disabled={cucinaState === 2 && hasDogFood}
                     areas={[
                     {
                         id: "dispensa",
@@ -62,12 +103,21 @@ const Scena4 = () => {
                     {
                         id: "frigo_con_tablet",
                         shape: "rect",
-                        coords: (cucinaState != 2 ? [1510, 35, 1900, 800] : [1470, 45, 1900, 800]),
+                        coords: (cucinaState != 2 ? [1510, 35, 1900, 450] : [1470, 45, 1900, 450]),
                         fillColor: "rgba(237, 20, 61, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(237, 20, 61, 0.5)",
-                        active: !hasDogFood
+                        disabled: cucinaState === 2
                     },
+                    {
+                        id: "tablet",
+                        shape: "rect",
+                        coords: [1510, 450, 1900, 800],
+                        fillColor: "rgba(42, 20, 237, 0.5)",
+                        lineWidth: 0,
+                        strokeColor: "rgba(20, 31, 237, 0.5)",
+                        disabled: cucinaState != 0
+                    }
                     ]}
                     onClick={(area) => {
                         if (area.id === 'dispensa') {
@@ -76,24 +126,46 @@ const Scena4 = () => {
                             } else {
                                 setDispensaOpen(true);
                             }
-                        } else if (area.id === 'frigo_con_tablet') {
-                            console.log(cucinaState);
+                        } else if (area.id === 'tablet') {
+                            showCustomDialogue([
+                                {
+                                    "type": "speaking",
+                                    "speaker": "Detective",
+                                    "text": "Devo risolvere questo indovinello per aprire il frigo."
+                                },
+                            ]);
                             
                             if (cucinaState === 0) {
                                 // Apri impiccato
                                 setImpiccatoOpen(true);
                                 // Hide hints
                                 setDispensaHint(false);
-                            } else if (cucinaState === 1) {
+                            }
+                        } else if (area.id === 'frigo_con_tablet') {
+                            if (cucinaState === 1) {
                                 // Apri frigo
                                 setCucinaState(2);
-                            } else {
+                                showCustomDialogue([
+                                    {
+                                        "type": "speaking",
+                                        "speaker": "Detective",
+                                        "text": "Una bistecca! Questa mi servirà con Cujo."
+                                    },
+                                ]);
                                 // Get dog beef
                                 setHasDogBeef(true);
                                 // Set cookie
                                 localStorage.setItem("hasDogBeef", JSON.stringify(true));
                                 // Make "Torna da Cujo" button animated
                                 setBackAnimated(true);
+                            } else {
+                                showCustomDialogue([
+                                    {
+                                        "type": "speaking",
+                                        "speaker": "Detective",
+                                        "text": "Il frigo sembra bloccato... Ma quello è un tablet! Forse posso usarlo per sbloccare il frigo."
+                                    },
+                                ]);
                             }
                         }
                     }}
@@ -106,7 +178,7 @@ const Scena4 = () => {
                     <div className="fixed inset-0 backdrop-brightness-70 flex items-center justify-center" onClick={() => setImpiccatoOpen(false)}>
                         <div className="absolute z-4 flex flex-col items-center justify-evenly w-[64%] h-[65%]" onClick={(e) => e.stopPropagation()} >
                             <h1 className='text-[2rem] font-[Special_Elite] w-170 text-center'>Qualcosa che gli investigatori usano ogni giorno per svelare i misteri</h1>
-                            <div className="flex flex-row items-center justify-between w-[100%]">
+                            <div className="flex flex-row items-center justify-between">
                                 <img src={'/EscapeToTheFuture/src/assets/images/Scena4/Impiccato_cucina/' + impiccatoState + '.png'} alt={"stato " + impiccatoState + " dell'impiccato"} className='w-80' />
                                 <div className="flex flex-col items-center justify-center grow-1">
                                     <div className="flex flex-row">
@@ -143,8 +215,21 @@ const Scena4 = () => {
                                                                 spread: 70,
                                                                 origin: { y: 1 },
                                                               });
-                                                        // Close tablet
-                                                        setImpiccatoOpen(false);
+
+                                                        // Show custom dialogue
+                                                        showCustomDialogue([
+                                                            {
+                                                                "type": "speaking",
+                                                                "speaker": "Detective",
+                                                                "text": "Il frigo si è sbloccato! Ora posso aprirlo."
+                                                            },
+                                                        ]);
+
+                                                        // Wait for the dialogue to finish
+                                                        setTimeout(() => {
+                                                            // Close impiccato
+                                                            setImpiccatoOpen(false);
+                                                        }, 3000);
                                                     }
                                                 } else {
                                                     // Update the impiccatoState
@@ -191,20 +276,42 @@ const Scena4 = () => {
                             {
                                 id: "other",
                                 shape: "poly",
-                                coords: [330, 235, 690, 400,],
+                                coords: [
+                                    330, 65, 
+                                    330, 435,
+                                    690, 435,
+                                    690, 800,
+                                    1060, 800,
+                                    1060, 65, 
+                                ],
                                 fillColor: "rgba(20, 237, 24, 0.5)",
                                 lineWidth: 0,
                                 strokeColor: "rgba(42, 237, 20, 0.5)",
                             }
                             ]}
-                            onImageClick={(e) => e.stopPropagation()}
-                            onClick={(area) => {
+                            onClick={(area, index, e) => {
+                                e.stopPropagation()
                                 if (area.id === 'dog_food') {
-                                    console.log('You got the dog food');
                                     setHasDogFood(true);
                                     // Set cookie
                                     localStorage.setItem("hasDogFood", JSON.stringify(true));
                                     setDispensaOpen(false);
+                                    // Dialogo croccantini
+                                    showCustomDialogue([
+                                        {
+                                            "type": "speaking",
+                                            "speaker": "Detective",
+                                            "text": "Forse questi piaceranno a Cujo."
+                                        },
+                                    ]);
+                                } else if (area.id === 'other') {
+                                    showCustomDialogue([
+                                        {
+                                            "type": "speaking",
+                                            "speaker": "Detective",
+                                            "text": "Questo non mi serve."
+                                        },
+                                    ]);
                                 }
                             }}
                             isMulti={false}
