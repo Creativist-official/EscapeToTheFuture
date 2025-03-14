@@ -6,6 +6,8 @@ import ampolla from "@assets/images/ampolla.png";
 const SplashScreen = ({ title, location }) => {
   const [hasRequestedFullscreen, setHasRequestedFullscreen] = useState(false);
   const navigate = useNavigate();
+  // reset localstorage
+  localStorage.clear();
 
   useEffect(() => {
     if (hasRequestedFullscreen) return;
