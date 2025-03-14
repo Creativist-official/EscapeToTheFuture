@@ -21,11 +21,11 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
   return (
     <div
       onClick={handleClick}
-      className={`${absolute ? "absolute" : "relative"} ${classes} flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
+      className={`${absolute ? "absolute" : "relative"} ${classes} pointer-none flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
         isVisible ? "scale-100" : "scale-0"
       } animate-bounce-in font-inknut z-20`}
     >
-      <div className="scale-100 lg:scale-200 sm:scale-400">
+      <div className="scale-100 lg:scale-200 sm:scale-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 563 145"
@@ -65,7 +65,7 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
           {dialogue.text}
         </p>
       </div>
-      <div className="animate-bounce absolute -bottom-7 -right-28 lg:-bottom-4 lg:-right-0">
+      <div className="animate-bounce absolute -bottom-7 -right-0 lg:-bottom-4 lg:-right-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-8 w-8 text-gray-800"
