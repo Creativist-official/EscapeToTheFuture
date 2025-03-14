@@ -14,6 +14,9 @@ import sceneBitritto from '@assets/scenesBitritto.json';
 const Scena3 = () => {
     const [scene, setScene] = useState(sceneBitritto.scenes[2]);
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
+    const hasDogBeef = localStorage.getItem('hasDogBeef');
+    const hasDogFood = localStorage.getItem('hasDogFood');
+    
 
     const [dogDefeated, setDogDefeated] = useState(false);
 
@@ -25,7 +28,16 @@ const Scena3 = () => {
                 {
                     scene.dialogue.map((dialogue, index) => (
                         index === currentDialogueIndex && (
-                            <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {                                
+                            <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
+
+                                if (hasDogBeef) {
+                                    // Carica il dialogo della bistecca Scena 6
+                                    setScene(sceneBitritto.scenes[6]);
+                                } else if (!hasDogFood) {
+                                    // Carica il dialogo dei croccantini Scena 4
+                                    setScene(sceneBitritto.scenes[4]);
+                                }
+
                                 if (currentDialogueIndex < scene.dialogue.length - 1) {
                                     setCurrentDialogueIndex(currentDialogueIndex + 1);
                                 } else {
@@ -72,13 +84,13 @@ const Scena3 = () => {
                         id: "porta_laboratorio",
                         disabled: !dogDefeated,
                         shape: "rect",
-                        coords: [75, 50, 350, 400],
-                        fillColor: "rgba(20, 49, 237, 0.5)",
+                        coords: [852, 314, 1080, 793],
+                        fillColor: "rgba(237, 20, 208, 0.5)",
                         lineWidth: 0,
-                        strokeColor: "rgba(20, 20, 237, 0.5)",
+                        strokeColor: "rgba(237, 20, 222, 0.5)",
                     }
                     ]}
-                    onChange={() => navigate("/scena4")}
+                    onChange={() => navigate("/scena5")}
                     isMulti={false}
                 />
             </div>
@@ -106,16 +118,7 @@ const Scena3 = () => {
                     onChange={() => {
                         const audio = new Audio(cujoWoof);
                         audio.play();
-                        let hasDogBeef = localStorage.getItem('hasDogBeef');
-                        let hasDogFood = localStorage.getItem('hasDogFood');
-
-                        if (hasDogBeef) {
-                            // Carica il dialogo della bistecca Scena 6
-                            setScene(sceneBitritto.scenes[6]);
-                        } else if (!hasDogFood) {
-                            // Carica il dialogo dei croccantini Scena 4
-                            setScene(sceneBitritto.scenes[4]);
-                        }
+                        
                         setCurrentDialogueIndex(0);
                     }}
                     isMulti={false}
