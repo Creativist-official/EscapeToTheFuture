@@ -68,7 +68,7 @@ const Scena2 = () => {
 
   return (
     <section className="w-full h-svh flex flex-col items-center justify-center relative">
-      <Button classes="absolute top-2" noAnimation>
+      <Button classes="absolute top-2" noAnimation stretch>
         Trova il laboratorio
       </Button>
       <img

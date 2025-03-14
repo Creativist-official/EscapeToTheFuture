@@ -41,7 +41,6 @@ const SplashScreen = ({ title, location }) => {
         />
       </div>
       <Button
-        label="INIZIA"
         onClick={async () => {
           if (!hasRequestedFullscreen) {
             try {
@@ -52,7 +51,7 @@ const SplashScreen = ({ title, location }) => {
           }
           navigate("/scena1")
         }}
-      />
+      >INIZIA</Button>
     </div>
   );
 };
