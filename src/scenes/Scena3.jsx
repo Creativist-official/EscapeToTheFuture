@@ -101,7 +101,6 @@ const Scena3 = () => {
                         id: "porta_cucina",
                         shape: "rect",
                         coords: [206, 256, 580, 950],
-                        disabled: (hasDogBeef != null && hasDogFood != null),
                         fillColor: "rgba(237, 20, 61, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(237, 20, 61, 0.5)",
