@@ -51,10 +51,9 @@ const Scena4 = () => {
                 "text": "Quella dispensa potrebbe nascondere qualcosa di utile."
             },
         ]
-    } : sceneBitritto.scenes[4]);
+    } : sceneBitritto.scenes[3]);
 
     const showCustomDialogue = (custom_dialogue) => {
-        console.log("custom dialogue called");
         setCurrentDialogueIndex(0);
         setScene({
             dialogue: custom_dialogue
@@ -64,24 +63,22 @@ const Scena4 = () => {
     return (
         <div>
             {/* Dialogues */}
-            <div className="absolute w-full bottom-[7%]">
-                {
-                    scene.dialogue.map((dialogue, index) => (
-                        index === currentDialogueIndex && (
-                            <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
-                                if (currentDialogueIndex <= scene.dialogue.length) {
-                                    setCurrentDialogueIndex(currentDialogueIndex + 1);
-                                } else {
-                                    console.log('All dialogues are finished');
-                                }
-                            }} />
-                        )
-                    ))
-                }
-            </div>
+            {
+                scene.dialogue.map((dialogue, index) => (
+                    index === currentDialogueIndex && (
+                        <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
+                            if (currentDialogueIndex <= scene.dialogue.length) {
+                                setCurrentDialogueIndex(currentDialogueIndex + 1);
+                            } else {
+                                console.log('All dialogues are finished');
+                            }
+                        }} />
+                    )
+                ))
+            }
 
             {/* ImageMapper sfondo */}
-            <div className="absolute object-cover z-0">
+            <div className="flex flex-col justify-center items-center h-svh">
                 <ImageMapper
                     src={cucinaState == 0 ? cucina_lock : (cucinaState == 1 ? cucina_unlocked : cucina_open)}
                     name="Cucina"
@@ -318,7 +315,7 @@ const Scena4 = () => {
                         />
                     </div>
                 ) : 
-                (!hasDogFood && dispensaHint) && <div className="absolute left-[33%] top-[10%] scale-80 xl:left-[37%] xl:top-[13%] lg:top-[8%] lg:left-[35%] pointer-events-none z-2">
+                (!hasDogFood && dispensaHint) && <div className="absolute left-[33%] top-[10%] scale-80 xl:left-[37%] xl:top-[13%] lg:top-[18%] lg:left-[35%] pointer-events-none z-2">
                     <svg width="100" height="100">
                         <circle cx="50" cy="50" r="40" fill="#5c5c5c75">
                             <animate

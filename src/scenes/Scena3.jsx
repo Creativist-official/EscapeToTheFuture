@@ -23,41 +23,39 @@ const Scena3 = () => {
     return (
         <div>
             {/* Dialogues */}
-            <div className="absolute w-full bottom-[7%]">
-                {
-                    scene.dialogue.map((dialogue, index) => (
-                        index === currentDialogueIndex && (
-                            <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
+            {
+                scene.dialogue.map((dialogue, index) => (
+                    index === currentDialogueIndex && (
+                        <Dialogue key={currentDialogueIndex} dialogue={dialogue} onClose={() => {
 
-                                if (hasDogBeef) {
-                                    // Carica il dialogo della bistecca Scena 6
-                                    setScene(sceneBitritto.scenes[6]);
-                                } else if (hasDogFood) {
-                                    // Carica il dialogo dei croccantini Scena 4
-                                    setScene(sceneBitritto.scenes[4]);
+                            if (hasDogBeef === true) {
+                                // Carica il dialogo della bistecca Scena 6
+                                setScene(sceneBitritto.scenes[6]);
+                            } else if (hasDogFood === true) {
+                                // Carica il dialogo dei croccantini Scena 4
+                                setScene(sceneBitritto.scenes[4]);
+                            }
+
+                            if (currentDialogueIndex < scene.dialogue.length - 1) {
+                                setCurrentDialogueIndex(currentDialogueIndex + 1);
+                            } else {
+                                // All dialogues are finished, show the button to go to the next scene
+                                console.log('All dialogues are finished');
+
+                                // If dog has beef, make dog disappear
+                                if (hasDogBeef === true) {
+                                    setDogDefeated(true);
+                                    confetti({
+                                        particleCount: 200,
+                                        spread: 70,
+                                        origin: { y: 1 },
+                                    })
                                 }
-
-                                if (currentDialogueIndex < scene.dialogue.length - 1) {
-                                    setCurrentDialogueIndex(currentDialogueIndex + 1);
-                                } else {
-                                    // All dialogues are finished, show the button to go to the next scene
-                                    console.log('All dialogues are finished');
-
-                                    // If dog has beef, make dog disappear
-                                    if (localStorage.getItem('hasDogBeef')) {
-                                        setDogDefeated(true);
-                                        confetti({
-                                            particleCount: 200,
-                                            spread: 70,
-                                            origin: { y: 1 },
-                                        })
-                                    }
-                                }
-                            }} />
-                        )
-                    ))
-                }
-            </div>
+                            }
+                        }} />
+                    )
+                ))
+            }
 
             {/* ImageMapper sfondo */}
             <div className="flex flex-col justify-center items-center h-svh">
