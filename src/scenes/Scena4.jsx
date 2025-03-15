@@ -9,6 +9,7 @@ import ImpiccatoButton from '../components/ImpiccatoButton';
 import cucina_lock from '@assets/images/Scena4/Cucina_lock.png';
 import cucina_unlocked from '@assets/images/Scena4/Cucina_unlock.png';
 import cucina_open from '@assets/images/Scena4/Cucina_open.png';
+import cucina_no_bistecca from '@assets/images/Scena4/Cucina_NoBistecca.png';
 
 import dispensaImg from '@assets/images/Scena4/Dispensa.jpg';
 import tabletImg from '@assets/images/Scena4/Tablet.png';
@@ -30,8 +31,8 @@ const Scena4 = () => {
     // Scritta dell'impiccato
     const [impiccatoText, setImpiccatoText] = useState(localStorage.getItem("impiccatoText") === null ? ['_', '_', '_', '_', '_', '_'] : JSON.parse(localStorage.getItem("impiccatoText")));
     
-    // 0: Locked, 1: Unlocked, 2: Open
-    const [cucinaState, setCucinaState] = useState(hasDogBeef ? 2 : 0);
+    // 0: Locked, 1: Unlocked, 2: Open, 3: Took bistecca
+    const [cucinaState, setCucinaState] = useState(hasDogBeef ? 3 : 0);
     // Animazione del pulsante "Torna da Cujo"
     const [backAnimated, setBackAnimated] = useState(false);
 
@@ -78,9 +79,9 @@ const Scena4 = () => {
             }
 
             {/* ImageMapper sfondo */}
-            <div className="flex flex-col justify-center items-center h-svh">
+            <div className="z-0 flex flex-col justify-center items-center h-svh">
                 <ImageMapper
-                    src={cucinaState == 0 ? cucina_lock : (cucinaState == 1 ? cucina_unlocked : cucina_open)}
+                    src={cucinaState == 0 ? cucina_lock : (cucinaState == 1 ? cucina_unlocked : cucinaState == 2 ? cucina_open : cucina_no_bistecca)}
                     name="Cucina"
                     natural
                     imgWidth={1920}
@@ -109,11 +110,11 @@ const Scena4 = () => {
                     {
                         id: "tablet",
                         shape: "rect",
-                        coords: [1510, 450, 1900, 800],
+                        coords: (cucinaState === 2 ? [1470, 300, 1900, 800] : [1510, 450, 1900, 800]),
                         fillColor: "rgba(42, 20, 237, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(20, 31, 237, 0.5)",
-                        disabled: cucinaState != 0
+                        disabled: cucinaState === 3
                     }
                     ]}
                     onClick={(area) => {
@@ -124,19 +125,29 @@ const Scena4 = () => {
                                 setDispensaOpen(true);
                             }
                         } else if (area.id === 'tablet') {
-                            showCustomDialogue([
-                                {
-                                    "type": "speaking",
-                                    "speaker": "Detective",
-                                    "text": "Devo risolvere questo indovinello per aprire il frigo."
-                                },
-                            ]);
                             
                             if (cucinaState === 0) {
+                                showCustomDialogue([
+                                    {
+                                        "type": "speaking",
+                                        "speaker": "Detective",
+                                        "text": "Devo risolvere questo indovinello per aprire il frigo."
+                                    },
+                                ]);
                                 // Apri impiccato
                                 setImpiccatoOpen(true);
+                                
                                 // Hide hints
                                 setDispensaHint(false);
+                            } else if (cucinaState === 2) {
+                                // Set cucina state to 3
+                                setCucinaState(3);
+                                // Get dog beef
+                                setHasDogBeef(true);
+                                // Set cookie
+                                localStorage.setItem("hasDogBeef", JSON.stringify(true));
+                                // Make "Torna da Cujo" button animated
+                                setBackAnimated(true);
                             }
                         } else if (area.id === 'frigo_con_tablet') {
                             if (cucinaState === 1) {
@@ -149,13 +160,9 @@ const Scena4 = () => {
                                         "text": "Una bistecca! Questa mi servirà con Cujo."
                                     },
                                 ]);
-                                // Get dog beef
-                                setHasDogBeef(true);
-                                // Set cookie
-                                localStorage.setItem("hasDogBeef", JSON.stringify(true));
-                                // Make "Torna da Cujo" button animated
-                                setBackAnimated(true);
-                            } else {
+                                // show hints
+                                setDispensaHint(true);
+                            } else  {
                                 showCustomDialogue([
                                     {
                                         "type": "speaking",
@@ -172,7 +179,7 @@ const Scena4 = () => {
 
             {/* Impiccato */}
             {impiccatoOpen && (
-                    <div className="fixed inset-0 backdrop-brightness-70 flex items-center justify-center" onClick={() => setImpiccatoOpen(false)}>
+                    <div className="fixed z-2 inset-0 backdrop-brightness-70 flex items-center justify-center" onClick={() => setImpiccatoOpen(false)}>
                         <div className="absolute z-4 flex flex-col items-center justify-evenly w-[64%] h-[65%]" onClick={(e) => e.stopPropagation()} >
                             <h1 className='text-[2rem] font-[Special_Elite] w-170 text-center'>Qualcosa che gli investigatori usano ogni giorno per svelare i misteri</h1>
                             <div className="flex flex-row items-center justify-between">
