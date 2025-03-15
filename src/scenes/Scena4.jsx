@@ -61,6 +61,21 @@ const Scena4 = () => {
         });
     }
 
+    // Preload delle risorse
+    const [preload, setPreload] = useState({
+        "cucina" : {
+            "lock": false,
+            "unlocked": false,
+            "open": false,
+            "no_bistecca": false
+        },
+        "dispensa": false,
+        "tablet": false,
+        "impiccato": [
+            false, false, false, false, false, false, false
+        ]
+    });
+
     return (
         <div>
             {/* Dialogues */}
@@ -80,10 +95,126 @@ const Scena4 = () => {
 
             {/* ImageMapper sfondo */}
             <div className="z-0 flex flex-col justify-center items-center h-svh">
+                {/* Preload */}
+                {
+                    !preload.cucina.lock &&
+                    <img
+                        src={cucina_lock}
+                        alt="Cucina locked"
+                        className={'img-mapper-img ' + (cucinaState !== 0 && 'hidden')}
+                        style={
+                            {
+                                position: 'absolute',
+                                top: '0px',
+                                left: '0px',
+                                zIndex: '1',
+                                userSelect: 'none',
+                                width: '100%',
+                                height: 'auto',
+                            }
+                        }
+                    />
+                }
+                {
+                    !preload.cucina.unlocked &&
+                    <img
+                        src={cucina_unlocked}
+                        alt="Cucina unlocked"
+                        className={'img-mapper-img ' + (cucinaState !== 1 && 'hidden')}
+                        style={
+                            {
+                                position: 'absolute',
+                                top: '0px',
+                                left: '0px',
+                                zIndex: '1',
+                                userSelect: 'none',
+                                width: '100%',
+                                height: 'auto',
+                            }
+                        }
+                    />
+                }
+                {
+                    !preload.cucina.open &&
+                    <img
+                        src={cucina_open}
+                        alt="Cucina open"
+                        className={'img-mapper-img ' + (cucinaState !== 2 && 'hidden')}
+                        style={
+                            {
+                                position: 'absolute',
+                                top: '0px',
+                                left: '0px',
+                                zIndex: '1',
+                                userSelect: 'none',
+                                width: '100%',
+                                height: 'auto',
+                            }
+                        }
+                    />
+                }
+                {
+                    !preload.cucina.no_bistecca &&
+                    <img
+                        src={cucina_no_bistecca}
+                        alt="Cucina no bistecca"
+                        className={'img-mapper-img ' + (cucinaState !== 3 && 'hidden')}
+                        style={
+                            {
+                                position: 'absolute',
+                                top: '0px',
+                                left: '0px',
+                                zIndex: '1',
+                                userSelect: 'none',
+                                width: '100%',
+                                height: 'auto',
+                            }
+                        }
+                    />
+                }
                 <ImageMapper
                     src={cucinaState == 0 ? cucina_lock : (cucinaState == 1 ? cucina_unlocked : cucinaState == 2 ? cucina_open : cucina_no_bistecca)}
                     name="Cucina"
                     natural
+                    // Preload
+                    onChange={() => {
+                        if (cucinaState === 0) {
+                            setPreload({
+                                ...preload,
+                                "cucina": {
+                                    ...preload.cucina,
+                                    "lock": true
+                                }
+                            });
+                        }
+                        if (cucinaState === 1) {
+                            setPreload({
+                                ...preload,
+                                "cucina": {
+                                    ...preload.cucina,
+                                    "unlocked": true
+                                }
+                            });
+                        }
+                        if (cucinaState === 2) {
+                            setPreload({
+                                ...preload,
+                                "cucina": {
+                                    ...preload.cucina,
+                                    "open": true
+                                }
+                            });
+                        }
+                        if (cucinaState === 3) {
+                            setPreload({
+                                ...preload,
+                                "cucina": {
+                                    ...preload.cucina,
+                                    "no_bistecca": true
+                                }
+                            });
+                        }
+                    }}
                     imgWidth={1920}
                     parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
                     responsive={true}
@@ -240,9 +371,9 @@ const Scena4 = () => {
                                                     if (impiccatoState < 6){
                                                         setImpiccatoState(impiccatoState + 1);
                                                     } else {
-                                                        console.log('Game over');
                                                         // If impiccato reaches 6, go to game over
-                                                        // TODO: navigate("/gameover?reason=impiccato")
+                                                        localStorage.setItem("gameover_reason", "Hai perso all'impiccato! Il frigo è rimasto chiuso e non riesci a distrarre Cujo. La parola corretta era INDIZI.");
+                                                        navigate("/gameover");
                                                     }
                                                 }
                                             }} />
@@ -261,10 +392,34 @@ const Scena4 = () => {
             {
                 dispensaOpen ? (
                     <div className="fixed inset-0 backdrop-brightness-70 flex items-center justify-center z-2" onClick={() => setDispensaOpen(false)}>
+                        {/* Preload */}
+                        {!preload.dispensa && 
+                        <img
+                            src={dispensaImg}
+                            alt="Dispensa"
+                            className={'img-mapper-img'}
+                            style={
+                                {
+                                    position: 'absolute',
+                                    zIndex: '1',
+                                    userSelect: 'none',
+                                    width: '55%',
+                                    height: 'auto',
+                                }
+                            }
+                        />}
                         <ImageMapper
                             src={dispensaImg}
                             name="Dispensa"
                             natural
+                            onLoad={
+                                () => {
+                                    setPreload({
+                                        ...preload,
+                                        "dispensa": true
+                                    });
+                                }
+                            }
                             imgWidth={1920 * 0.8}
                             parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth * .55}
                             responsive={true}
