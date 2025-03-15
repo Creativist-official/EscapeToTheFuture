@@ -28,8 +28,8 @@ const Scena1 = () => {
   const handleShake = () => {
     setShake(true);
     setTimeout(() => {
-      setExamined(true);
-    },); // Duration of the shake animation
+      setShake(false);
+    }, 1000); // Duration of the shake animation
   };
 
   const goToForest = () => {
@@ -86,19 +86,22 @@ const Scena1 = () => {
                   Troverai tutte le indicazioni necessarie per trovare il
                   laboratorio dove è prigioniero.
                 </p>
-                <div className={`absolute w-full left-60 bottom-10 hover:cursor-pointer xl:left-120 xl:bottom-20 ${examined ? "normal-shake" : ""}`}>
+                <div
+                  className={`absolute w-full left-60 bottom-10 hover:cursor-pointer xl:left-120 xl:bottom-20 ${
+                    shake ? "normal-shake" : ""
+                  }`}
+                  onClick={() => setExamined(true)}
+                >
                   <Card />
                 </div>
               </div>
             </div>
 
             <div className="absolute bottom-10 flex justify-center items-center">
-              <Button
-                onClick={() => openLetter(false)}
-              >Chiudi lettera</Button>
-              <Button
-                onClick={examined ? goToForest : handleShake}
-              >{examined ? "Vai alla foresta" : "Esamina meglio"}</Button>
+              <Button onClick={() => openLetter(false)}>Chiudi lettera</Button>
+              <Button onClick={examined ? goToForest : handleShake}>
+                {examined ? "Vai alla foresta" : "Esamina meglio"}
+              </Button>
             </div>
           </>
         )}
