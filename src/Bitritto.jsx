@@ -3,6 +3,7 @@ import RotatePhone from "./components/RotatePhone";
 import { useEffect, useState } from "react";
 
 import JSONEngine from "./Engine/JSONEngine";
+import GameOver from "./scenes/GameOver";
 import SplashScreen from "./scenes/SplashScreen";
 import Scena1 from "./scenes/Scena1";
 import Scena2 from "./scenes/Scena2";
@@ -40,6 +41,8 @@ const Bitritto = () => {
             <Route path="/scena4" element={<Scena4/>} />
             <Route path="/scena5" element={<Scena5/>} />
             <Route path="/engine" element={<JSONEngine/>} />
+            {/* Game over */}
+            <Route path="*" element={<GameOver reason={localStorage.getItem("gameover_reason") === null ? "Hai perso!" : localStorage.getItem("gameover_reason")} />} />
           </Routes>
         </HashRouter>
       )}
