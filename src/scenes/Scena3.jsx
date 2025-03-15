@@ -19,6 +19,11 @@ const Scena3 = () => {
 
     const [dogDefeated, setDogDefeated] = useState(false);
 
+    // Preload handling
+
+    const [cujoImgLoaded, setCujoImgLoaded] = useState(false);
+    const [ingressoCucinaLoaded, setIngressoCucinaLoaded] = useState(false);
+    
     const navigate = useNavigate();
     return (
         <div>
@@ -59,8 +64,32 @@ const Scena3 = () => {
 
             {/* ImageMapper sfondo */}
             <div className="flex flex-col justify-center items-center h-svh">
+                {
+                    !ingressoCucinaLoaded &&
+                    <img
+                        src={ingressoCucina}
+                        alt="Ingresso cucina"
+                        className='img-mapper-img'
+                        style={
+                            {
+                                position: 'absolute',
+                                top: '0px',
+                                left: '0px',
+                                zIndex: '1',
+                                userSelect: 'none',
+                                width: '100%',
+                                height: 'auto',
+                            }
+                        }
+                    />
+                }
                 <ImageMapper
                     src={ingressoCucina}
+                    onLoad={() => {
+                        setIngressoCucinaLoaded(true);
+                        console.log('ingressoCucina loaded. Time: ', new Date().getTime());
+                        
+                    }}
                     name="Ingresso cucina"
                     natural
                     imgWidth={1920}
@@ -72,7 +101,7 @@ const Scena3 = () => {
                         id: "porta_cucina",
                         shape: "rect",
                         coords: [206, 256, 580, 950],
-                        // disabled: (hasDogBeef != null && hasDogFood != null),
+                        disabled: (hasDogBeef != null && hasDogFood != null),
                         fillColor: "rgba(237, 20, 61, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(237, 20, 61, 0.5)",
@@ -99,12 +128,37 @@ const Scena3 = () => {
             </div>
 
             {/* ImageMapper Cujo */}
-            {/* <div className={"absolute w-full flex justify-center top-0 mt-[35%]" + (dogDefeated ? ' hidden' : '')}> */}
             <div className={"absolute w-full flex justify-center top-[44svh]" + (dogDefeated ? ' hidden' : '')}>
+                {
+                    !cujoImgLoaded &&
+                    <img
+                        src={cujoImg}
+                        alt="Cujo"
+                        className='img-mapper-img'
+                        style={
+                            {
+                                position: 'absolute',
+                                zIndex: '1',
+                                userSelect: 'none',
+                                height: 'auto',
+                            }
+                        }
+                    />
+                }
                 <ImageMapper
                     src={cujoImg}
                     name="Cujo"
                     natural
+                    onLoad={() => {
+                        setCujoImgLoaded(true);
+                        console.log('Cujo loaded. Time: ', new Date().getTime());
+                        /* Cujo sound preload */
+                        const audio = new Audio(cujoWoof);
+                        audio.addEventListener('canplaythrough', () => {
+                            console.log('Cujo woof loaded. Time: ', new Date().getTime());
+                            }
+                        );
+                    }}
                     parentWidth={window.innerWidth * 0.25}
                     disabled={currentDialogueIndex < scene.dialogue.length - 1}
                     responsive={true}
