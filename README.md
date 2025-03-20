@@ -6,7 +6,7 @@
 
 ## Scaffolding
 - React + Vite
-- Tailwind
+- Pixi js
 
 ## TODO CONFIGURAZIONE
 - [] Descrizione, keywords, canonical, ogImage, twitterCard, favicon, apple-touch-icon, themecolor

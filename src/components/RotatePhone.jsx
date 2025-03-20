@@ -1,4 +1,4 @@
-import rotateGif from "@assets/images/generic/rotatePhone.GIF";
+import rotateGif from "@images/ui/rotatePhone.GIF";
 
 const RotatePhone = () => {
    return <div className="h-svh flex items-center justify-center flex-col">

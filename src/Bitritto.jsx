@@ -1,18 +1,13 @@
-import { HashRouter, Routes, Route } from "react-router";
-import RotatePhone from "./components/RotatePhone";
 import { useEffect, useState } from "react";
+import { HashRouter, Routes, Route } from "react-router";
+import RotatePhone from "@components/RotatePhone";
 
-import JSONEngine from "./Engine/JSONEngine";
-import GameOver from "./scenes/GameOver";
-import SplashScreen from "./scenes/SplashScreen";
-import Scena1 from "./scenes/Scena1";
-import Scena2 from "./scenes/Scena2";
-import Scena3 from "./scenes/Scena3";
-import Scena4 from "./scenes/Scena4";
-import Scena5 from "./scenes/Scena5";
+import Scena1 from "@scenes/Scena1";
 
 const Bitritto = () => {
-  const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
+  const [isPortrait, setIsPortrait] = useState(
+    window.matchMedia("(orientation: portrait)").matches
+  );
 
   useEffect(() => {
     const handleOrientationChange = () => {
@@ -26,7 +21,6 @@ const Bitritto = () => {
     };
   }, []);
 
-  
   return (
     <>
       {isPortrait ? (
@@ -34,15 +28,15 @@ const Bitritto = () => {
       ) : (
         <HashRouter>
           <Routes>
-            <Route path="/" element={<SplashScreen location={'SOLE LUNA BITRITTO'} title={'IL LABORATORIO DEL MAGO PDOR'} />} />
+            <Route
+              path="/"
+              element={
+                <div className="h-screen flex items-center justify-center text-white">
+                  <h1 className="text-3xl text-white">Hello, Bitritto!</h1>
+                </div>
+              }
+            />
             <Route path="/scena1" element={<Scena1/>} />
-            <Route path="/scena2" element={<Scena2/>} />
-            <Route path="/scena3" element={<Scena3/>} />
-            <Route path="/scena4" element={<Scena4/>} />
-            <Route path="/scena5" element={<Scena5/>} />
-            <Route path="/engine" element={<JSONEngine/>} />
-            {/* Game over */}
-            <Route path="*" element={<GameOver reason={localStorage.getItem("gameover_reason") === null ? "Hai perso!" : localStorage.getItem("gameover_reason")} />} />
           </Routes>
         </HashRouter>
       )}
