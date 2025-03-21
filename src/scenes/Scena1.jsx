@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "@components/Button";
 import letteraC from "@assets/images/Scena1/Lettera_C.webp";
 import letteraO from "@assets/images/Scena1/Lettera_O.webp";
 import Card from "@components/Card";
+
+import letteraGiraSound from "@assets/sounds/scena1/crunchy_paper-33625.mp3";
+import fotoGirataSound from "@assets/sounds/scena1/walkman-button-272973.mp3";
+import ambientSound from "@assets/sounds/scena1/Detective tune Sound SFX - Sound effect [qgEx3LqfIHM].mp3";
 
 const Scena1 = () => {
   const [buttonVisible, setButtonVisible] = useState(true);
@@ -13,7 +17,56 @@ const Scena1 = () => {
   const [examined, setExamined] = useState(false);
   const navigate = useNavigate();
 
+  // Gestione audio
+  const [playing, setPlaying] = useState({
+    "ambient": {
+      playing: false,
+    },
+    "letter": { 
+      playing: false 
+    },
+    "photo": { 
+      playing: false 
+    },
+  });
+
+  useEffect(() => {
+    // Initialize audio players
+    const ambientAudio = new Audio(ambientSound);
+    const letterAudio = new Audio(letteraGiraSound);
+    const photoAudio = new Audio(fotoGirataSound);
+
+    setPlaying({
+      "ambient": {
+        player: ambientAudio,
+        playing: false,
+      },
+      "letter": { 
+        player: letterAudio,
+        playing: false 
+      },
+      "photo": { 
+        player: photoAudio,
+        playing: false 
+      },
+    });
+
+    ambientAudio.loop = true;
+    ambientAudio.volume = 0.6;
+    ambientAudio.play();
+
+    return () => {
+      ambientAudio.pause();
+    };
+  }, []);
+
   const openLetter = (open) => {
+    
+    playing.letter.player.play();
+    setPlaying((prev) => ({
+      ...prev,
+      "letter": { ...prev["letter"], playing: true }
+    }));        
     setButtonVisible(!open);
     setDivVisible(open);
   };
@@ -26,6 +79,7 @@ const Scena1 = () => {
   };
 
   const handleShake = () => {
+    
     setShake(true);
     setTimeout(() => {
       setShake(false);
@@ -36,8 +90,46 @@ const Scena1 = () => {
     navigate("/Scena2");
   };
 
+  const giraFoto = () => {
+    setExamined(true);
+    // Riproduci foto girata
+    playing.photo.player.play();
+    setPlaying((prev) => ({
+      ...prev,
+      "photo": { ...prev["photo"], playing: true }
+    }));
+  };
+
   return (
     <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Scena1/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-14">
+      {/* Bottone per consentire audio */}
+      {
+        !playing["ambient"].playing && (
+        <div className="absolute top-0 right-0 p-2 scale-60">
+          <Button
+            onClick={async () => {
+              if (!playing["ambient"].playing){
+                const ambient = playing["ambient"].player;
+                ambient.loop = true;
+                // Volume 60
+                ambient.volume = 0.5;
+                ambient.play();
+                setPlaying((prev) => ({
+                  ...prev,
+                  "ambient": { ...prev["ambient"], playing: true }
+                }));
+              } else {
+                const ambient = playing["ambient"].player;
+                ambient.pause();
+                setPlaying((prev) => ({
+                  ...prev,
+                  "ambient": { ...prev["ambient"], playing: false }
+                }));
+              }
+              }}
+            >{playing["ambient"].playing ? "Disattiva" : "Attiva"} musica</Button>
+        </div>
+      )}
       {buttonVisible && (
         <Button
           onClick={() => animationFinished && openLetter(true)}
@@ -90,7 +182,9 @@ const Scena1 = () => {
                   className={`absolute w-full left-60 bottom-10 hover:cursor-pointer xl:left-120 xl:bottom-20 ${
                     shake ? "normal-shake" : ""
                   }`}
-                  onClick={() => setExamined(true)}
+                  onClick={() => {
+                    giraFoto();
+                  }}
                 >
                   <Card />
                 </div>

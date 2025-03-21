@@ -327,9 +327,8 @@ const Scena4 = () => {
                                     </div>
                                     <div className="flex flex-wrap flex-row w-80">
                                         {/* Map buttons N E U O Z D I Z */}
-                                        {['N', 'E', 'U', 'O', 'Z', 'D', 'I', 'Z'].map((keycap, index) => (
+                                        {['N', 'E', 'U', 'O', 'K', 'D', 'I', 'Z'].map((keycap, index) => (
                                             <ImpiccatoButton key={index} keycap={keycap} onClick={() => {
-                                                console.log(keycap);
                                                 // Check if the keycap is in the text
                                                 let secret_word = "INDIZI";
                                                 if( secret_word.includes(keycap) ){

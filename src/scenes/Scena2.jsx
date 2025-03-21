@@ -2,6 +2,9 @@ import { use, useCallback, useEffect, useState } from "react";
 import buttonArrow from "@assets/images/generic/buttonArrow.png";
 import foresta from "@assets/images/Scena2/foresta.png";
 import alberoMagico from "@assets/images/Scena2/alberoMagico.jpg";
+
+import ambientSound from "@assets/sounds/scena2/forest-ambience-296528.mp3";
+
 import Button from "@components/Button";
 import Dialogue from "../components/Dialogue";
 import ImageMapper from "react-img-mapper";
@@ -16,7 +19,27 @@ const Scena2 = () => {
   const [cliccable, setCliccable] = useState(false);
   const navigate = useNavigate();
 
+  // Gestione audio
+  const [playing, setPlaying] = useState({
+    "ambient": {
+      playing: false,
+    }
+  });
+
   useEffect(() => {
+    // Initialize audio players
+    const ambientAudio = new Audio(ambientSound);
+    setPlaying({
+      "ambient": {
+        player: ambientAudio,
+        playing: false,
+      },
+    });
+
+    ambientAudio.loop = true;
+    ambientAudio.volume = 0.6;
+    ambientAudio.play();
+    
     const resetTimer = () => {
       if (!showHint && !isWin && !isError) {
         setShowHint(false);
@@ -36,6 +59,7 @@ const Scena2 = () => {
     window.addEventListener("touchstart", resetTimer);
 
     return () => {
+      ambientAudio.pause();
       clearTimeout(timer);
       window.removeEventListener("mousemove", resetTimer);
       window.removeEventListener("click", resetTimer);
