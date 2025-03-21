@@ -19,9 +19,8 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
   };
 
   return (
-    <div className="absolute w-full bottom-[7%] flex justify-center">
+    <div className={"absolute w-full h-full pb-[1%] flex justify-center items-end " + (isVisible && "z-20")} onClick={handleClick}>
       <div
-        onClick={handleClick}
         className={`${absolute ? "absolute" : "relative"} ${classes} flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
           isVisible ? "scale-100" : "scale-0"
         } animate-bounce-in font-inknut z-20`}
@@ -51,22 +50,7 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
               d="M543.059 91.925c0 26.47-117.09 47.927-261.529 47.927S20 118.395 20 91.925C20 65.456 137.091 44 281.53 44c144.439 0 261.529 21.457 261.529 47.926Z"
             />
           </svg>
-        </div>
-        <div className="absolute inset-0 flex flex-col justify-center items-center w-full">
-          {dialogue.speaker && (
-            <div className="absolute -top-4 left-4 lg:-top-2 lg:-left-24 sm:-top-12 sm:-left-28">
-              <Speaker speaker={dialogue.speaker} type={dialogue.type} />
-            </div>
-          )}
-          <p
-            className={`w-75 text-gray-800 text-center text-base text-md ${
-              dialogue.text.includes("\n") ? "whitespace-pre" : ""
-            }`}
-          >
-            {dialogue.text}
-          </p>
-        </div>
-        <div className="animate-bounce absolute -bottom-7 -right-0 lg:-bottom-4 lg:-right-0">
+          <div className="animate-bounce absolute bottom-0 right-10 scale-50">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8 text-gray-800"
@@ -81,6 +65,21 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
               d="M12 16l-6-6h12l-6 6z"
             />
           </svg>
+        </div>
+        </div>
+        <div className="absolute inset-0 flex flex-col justify-center items-center w-full">
+          {dialogue.speaker && (
+            <div className="absolute -top-4 left-4 lg:-top-2 lg:-left-24 sm:-top-12 sm:-left-28">
+              <Speaker speaker={dialogue.speaker} type={dialogue.type} />
+            </div>
+          )}
+          <p
+            className={`w-75 text-gray-800 text-center text-base text-md ${
+              dialogue.text.includes("\n") ? "whitespace-pre" : ""
+            }`}
+          >
+            {dialogue.text}
+          </p>
         </div>
       </div>
     </div>
