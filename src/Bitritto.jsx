@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { HashRouter, Routes, Route } from "react-router";
+import { Application } from "@pixi/react";
 import RotatePhone from "@components/RotatePhone";
 
 import Scena1 from "@scenes/Scena1";
@@ -26,19 +27,14 @@ const Bitritto = () => {
       {isPortrait ? (
         <RotatePhone />
       ) : (
-        <HashRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <div className="h-screen flex items-center justify-center text-white">
-                  <h1 className="text-3xl text-white">Hello, Bitritto!</h1>
-                </div>
-              }
-            />
-            <Route path="/scena1" element={<Scena1/>} />
-          </Routes>
-        </HashRouter>
+        <Application resizeTo={window}>
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={null} />
+              <Route path="/scena1" element={<Scena1 />} />
+            </Routes>
+          </HashRouter>
+        </Application>
       )}
     </>
   );
