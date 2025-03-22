@@ -177,7 +177,7 @@ const Scena4 = () => {
                     name="Cucina"
                     natural
                     // Preload
-                    onChange={() => {
+                    onLoad={() => {
                         if (cucinaState === 0) {
                             setPreload({
                                 ...preload,
