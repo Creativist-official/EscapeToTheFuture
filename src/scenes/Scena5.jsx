@@ -35,11 +35,14 @@ const Scena5 = () => {
     const [correctCode, setCorrectCode] = useState(false);
 
     const handleMapClick = (area) => {
-        if (bgValue === 7) {
+        if (bgValue === 7 || bgValue === 8) {
             setBgValue(prevBgValue);
         } else {
             if (clickCount < 2 || (clickCount === 2 && area.id === "code")) {
-                if (lastClickedId !== area.id || !["red", "blue", "yellow"].includes(area.id)) {
+                if (
+                    lastClickedId !== area.id ||
+                    !["red", "blue", "yellow"].includes(area.id)
+                ) {
                     setPrevBgValue(bgValue);
                     setBgValue((prevValue) => prevValue + area.value);
                     if (area.id !== "code" && area.id !== "hint") {
@@ -59,23 +62,36 @@ const Scena5 = () => {
     };
 
     const handleNavigate = () => {
-        navigate('/scena6');
+        navigate("/scena6");
     };
 
     return (
         <section className="w-full h-svh flex flex-col items-center justify-center relative">
             {correctCode ? (
-                <Button classes="absolute bottom-2 left-2" onClick={handleNavigate}>Vai Avanti</Button>
+                <Button classes="absolute bottom-2 left-2" onClick={handleNavigate}>
+                    Vai Avanti
+                </Button>
             ) : (
-                <Button classes="absolute bottom-2 left-2" onClick={handleReset}>Reset</Button>
+                <Button classes="absolute bottom-2 left-2" onClick={handleReset}>
+                    Reset
+                </Button>
             )}
             <ImageMapper
                 src={labImages[bgValue].src}
+                name="lab"
                 width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
                 height={window.innerHeight}
                 parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
                 responsive={true}
-                onClick={handleMapClick}
+                onChange={(area) => {
+                    if (area.id === "grid") {
+                        //console.log("Navigating to scena6");
+                        handleNavigate();
+                    } else {
+                        //console.log("Handling map click");
+                        handleMapClick(area);
+                    }
+                }}
                 areas={[
                     {
                         id: "blue",
@@ -87,20 +103,20 @@ const Scena5 = () => {
                         fillColor: "rgba(0, 0, 255, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(0, 0, 255, 0.5)",
-                        value: 1,
+                        value: 2,
                     },
                     {
                         id: "yellow",
                         shape: "poly",
                         coords: [
-                            623, 359, 613, 346, 642, 342, 676, 344, 671, 361, 669, 407, 728,
-                            543, 730, 554, 720, 565, 712, 571, 583, 573, 566, 557, 551,
-                            555, 537, 620, 405,
+                            555, 536, 620, 410, 617, 348, 676, 346, 671, 358, 669, 371, 673,
+                            409, 730, 532, 730, 548, 723, 563, 717, 571, 705, 575, 581, 575,
+                            564, 568, 555, 551,
                         ],
                         fillColor: "rgba(255, 255, 0, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(255, 255, 0, 0.5)",
-                        value: 2,
+                        value: 1,
                     },
                     {
                         id: "red",
@@ -133,8 +149,17 @@ const Scena5 = () => {
                         strokeColor: "rgba(0, 0, 0, 0.5)",
                         value: 7,
                     },
+                    {
+                        id: "grid",
+                        shape: "rect",
+                        coords: [23, 52, 417, 240],
+                        fillColor: "rgba(0, 0, 0, 0.5)",
+                        lineWidth: 0,
+                        strokeColor: "rgba(0, 0, 0, 0.5)",
+                        disabled: !correctCode,
+                    },
                 ]}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
             />
         </section>
     );
