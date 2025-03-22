@@ -314,7 +314,13 @@
             {
                 "type": "narrator",
                 "text": "Alla TV, una notizia attira l'attensione del detective."
-            },
+            }
+        ]
+    },
+    {
+        "title": "Conclusione",
+        "scene_image": "assets/images/foresta.jpg",
+        "dialogue": [
             {
                 "type": "speaking",
                 "speaker": "Notiziario",
