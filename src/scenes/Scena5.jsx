@@ -34,6 +34,8 @@ const Scena5 = () => {
   const [lastClickedId, setLastClickedId] = useState(null);
   const [correctCode, setCorrectCode] = useState(false);
   const [codeInput, setCodeInput] = useState("");
+  const [isConfirmPressed, setIsConfirmPressed] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleMapClick = (area) => {
     if (bgValue === 7 || bgValue === 8) {
@@ -55,23 +57,43 @@ const Scena5 = () => {
       }
     }
   };
-
-
   const handleCodeInput = (area) => {
-    if (area.id >= "0" && area.id <= "9") {
-      setCodeInput((prevInput) => prevInput + area.id);
-    } else if (area.id === "delete") {
-      setCodeInput((prevInput) => prevInput.slice(0, -1));
-    } else if (area.id === "confirm" && codeInput === "24") {
+    if (area.id === "delete") {
+      handleDelete();
+    } else if (area.id === "confirm") {
+      setIsConfirmPressed(true);
+    } else {
+      handleAddDigit(area.id);
+    }
+  };
+
+  const handleDelete = () => {
+    setCodeInput((prev) => prev.slice(0, -1));
+  };
+
+  const handleConfirm = () => {
+    if (codeInput === "24") {
       setCorrectCode(true);
     } else {
       setCodeInput("ERRORE");
+      setIsError(true);
       setTimeout(() => {
         setCodeInput("");
+        setIsError(false);
       }, 3000);
     }
-    console.log(area.id, codeInput);
   };
+
+  const handleAddDigit = (digit) => {
+    setCodeInput((prev) => prev + digit);
+  };
+
+  useEffect(() => {
+    if (isConfirmPressed) {
+      handleConfirm();
+      setIsConfirmPressed(false);
+    }
+  }, [isConfirmPressed, codeInput]);
 
   useEffect(() => {
     if (correctCode) {
@@ -213,6 +235,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 255, 0, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 255, 0, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "2",
@@ -221,6 +244,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "3",
@@ -229,6 +253,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "4",
@@ -237,6 +262,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "5",
@@ -245,6 +271,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "6",
@@ -253,6 +280,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "7",
@@ -261,6 +289,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "8",
@@ -269,6 +298,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "9",
@@ -277,6 +307,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "0",
@@ -285,6 +316,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "confirm",
@@ -293,6 +325,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
                 {
                   id: "delete",
@@ -301,6 +334,7 @@ const Scena5 = () => {
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
+                  disabled: isError,
                 },
               ]
             : []),
