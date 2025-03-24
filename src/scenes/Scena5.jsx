@@ -1,15 +1,16 @@
 import ImageMapper from "react-img-mapper";
-import blue from "../assets/images/Scena5/lab-blue.png";
-import red from "../assets/images/Scena5/lab-red.png";
-import green from "../assets/images/Scena5/lab-green.png";
-import yellow from "../assets/images/Scena5/lab-yellow.png";
-import purple from "../assets/images/Scena5/lab-purple.png";
-import orange from "../assets/images/Scena5/lab-orange.png";
-import empty from "../assets/images/Scena5/lab-empty.png";
-import code from "../assets/images/Scena5/lab-code.png";
-import hint from "../assets/images/Scena5/lab-hint.png";
-import unlocked from "../assets/images/Scena5/lab-unlocked.png";
+import blue from "@assets/images/Scena5/lab-blue.png";
+import red from "@assets/images/Scena5/lab-red.png";
+import green from "@assets/images/Scena5/lab-green.png";
+import yellow from "@assets/images/Scena5/lab-yellow.png";
+import purple from "@assets/images/Scena5/lab-purple.png";
+import orange from "@assets/images/Scena5/lab-orange.png";
+import empty from "@assets/images/Scena5/lab-empty.png";
+import code from "@assets/images/Scena5/lab-code.png";
+import hint from "@assets/images/Scena5/lab-hint.png";
+import unlocked from "@assets/images/Scena5/lab-unlocked.png";
 import Button from "../components/Button";
+import Dialogue from "../components/Dialogue";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -36,6 +37,53 @@ const Scena5 = () => {
   const [codeInput, setCodeInput] = useState("");
   const [isConfirmPressed, setIsConfirmPressed] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  //Dialoghi
+  const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
+  const scene = {
+    dialogue: [
+      {
+        type: "narrator",
+        text: "Nel laboratorio, il detective si trova di fronte a un'altra porta chiusa con un codice numerico.",
+      },
+      {
+        type: "narrator",
+        text: "Sul tavolo sono presenti quattro pozioni colorate e un contenitore trasparente",
+      },
+      {
+        type: "hint",
+        text: "Affisso al muro, c'è un foglio con scritta su una filastrocca",
+      },
+      {
+        type: "narrator",
+        text: "Si è aperto il lucchetto che chiudeva il condotto!",
+      },
+    ],
+  };
+
+  const [isInactive, setIsInactive] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    const resetTimer = () => {
+      if (bgValue !== 7 && bgValue !== 8 && bgValue !== 9 && bgValue !== 3) {
+        setIsInactive(false);
+        clearTimeout(timer);
+        timer = setTimeout(() => setIsInactive(true), 10000);
+      }
+    };
+
+    window.addEventListener("keypress", resetTimer);
+    window.addEventListener("touchstart", resetTimer);
+
+    resetTimer();
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("keypress", resetTimer);
+      window.removeEventListener("touchstart", resetTimer);
+    };
+  }, [bgValue]);
 
   const handleMapClick = (area) => {
     if (bgValue === 7 || bgValue === 8) {
@@ -123,6 +171,42 @@ const Scena5 = () => {
         }
       }}
     >
+      {scene.dialogue.map(
+        (dialogue, index) =>
+          index === currentDialogueIndex && (
+            <Dialogue
+              key={currentDialogueIndex}
+              dialogue={dialogue}
+              onClose={() => {
+                if (currentDialogueIndex < 1) {
+                  setCurrentDialogueIndex(currentDialogueIndex + 1);
+                } else {
+                  console.log("All dialogues are finished");
+                }
+              }}
+            />
+          )
+      )}
+
+      {isInactive && bgValue!=9 && bgValue!=8 && bgValue!=7 && bgValue!=4 ? (
+        <Dialogue
+          dialogue={scene.dialogue[2]}
+          onClose={() => {
+            setCliccable(true);
+            setIsInactive(false);
+          }}
+        />
+      ) : null}
+
+      {bgValue===9 ? (
+        <Dialogue
+          dialogue={scene.dialogue[3]}
+          onClose={() => {
+            setCliccable(true);
+          }}
+        />
+      ) : null}
+
       {correctCode ? (
         <Button classes="absolute bottom-2 left-2" onClick={handleNavigate}>
           Vai Avanti
@@ -133,7 +217,7 @@ const Scena5 = () => {
         </Button>
       )}
       {bgValue === 8 && (
-        <div className="absolute top-50 ml-10 flex items-center justify-center z-10">
+        <div className="absolute top-[22%] ml-10 flex items-center justify-center z-10">
           <div className="bg-[#E4E7E6] border-2 border-black px-25 py-4 rounded">
             <p>{codeInput}</p>
           </div>
