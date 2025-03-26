@@ -120,7 +120,7 @@ const Scena5 = () => {
   };
 
   const handleConfirm = () => {
-    if (codeInput === "24") {
+    if (codeInput === "5732") {
       setCorrectCode(true);
     } else {
       setCodeInput("ERRORE");
@@ -130,10 +130,6 @@ const Scena5 = () => {
         setIsError(false);
       }, 3000);
     }
-  };
-
-  const handleAddDigit = (digit) => {
-    setCodeInput((prev) => prev + digit);
   };
 
   useEffect(() => {
@@ -156,6 +152,15 @@ const Scena5 = () => {
     setLastClickedId(null);
     setCodeInput("");
     setCorrectCode(false);
+  };
+
+  const handleAddDigit = (digit) => {
+    setCodeInput((prev) => {
+      if (prev === "ERRORE" || prev.length < 4) {
+        return prev + digit;
+      }
+      return prev;
+    });
   };
 
   const handleNavigate = () => {
@@ -188,7 +193,11 @@ const Scena5 = () => {
           )
       )}
 
-      {isInactive && bgValue!=9 && bgValue!=8 && bgValue!=7 && bgValue!=4 ? (
+      {isInactive &&
+      bgValue != 9 &&
+      bgValue != 8 &&
+      bgValue != 7 &&
+      bgValue != 4 ? (
         <Dialogue
           dialogue={scene.dialogue[2]}
           onClose={() => {
@@ -198,7 +207,7 @@ const Scena5 = () => {
         />
       ) : null}
 
-      {bgValue===9 ? (
+      {bgValue === 9 ? (
         <Dialogue
           dialogue={scene.dialogue[3]}
           onClose={() => {
@@ -217,9 +226,9 @@ const Scena5 = () => {
         </Button>
       )}
       {bgValue === 8 && (
-        <div className="absolute top-[22%] ml-10 flex items-center justify-center z-10">
-          <div className="bg-[#E4E7E6] border-2 border-black px-25 py-4 rounded">
-            <p>{codeInput}</p>
+        <div className="absolute mb-[21%] flex items-center justify-center z-10">
+          <div className="bg-[#E4E7E6] border-2 border-black px-25 py-4 rounded ">
+            <p className="font-quantico text-6xl">{codeInput}</p>
           </div>
         </div>
       )}
@@ -315,7 +324,7 @@ const Scena5 = () => {
                 {
                   id: "1",
                   shape: "rect",
-                  coords: [807, 489, 688, 369],
+                  coords: [741, 381, 837, 476],
                   fillColor: "rgba(0, 255, 0, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 255, 0, 0.5)",
@@ -324,7 +333,7 @@ const Scena5 = () => {
                 {
                   id: "2",
                   shape: "rect",
-                  coords: [900, 369, 1020, 489],
+                  coords: [913, 381, 1008, 474],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -333,7 +342,7 @@ const Scena5 = () => {
                 {
                   id: "3",
                   shape: "rect",
-                  coords: [1111, 364, 1232, 487],
+                  coords: [1084, 379, 1177, 477],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -342,7 +351,7 @@ const Scena5 = () => {
                 {
                   id: "4",
                   shape: "rect",
-                  coords: [688, 530, 810, 644],
+                  coords: [741, 511, 839, 604],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -351,7 +360,7 @@ const Scena5 = () => {
                 {
                   id: "5",
                   shape: "rect",
-                  coords: [900, 530, 1018, 647],
+                  coords: [912, 510, 1010, 608],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -360,7 +369,7 @@ const Scena5 = () => {
                 {
                   id: "6",
                   shape: "rect",
-                  coords: [1111, 530, 1230, 645],
+                  coords: [1083, 510, 1176, 603],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -369,7 +378,7 @@ const Scena5 = () => {
                 {
                   id: "7",
                   shape: "rect",
-                  coords: [686, 686, 807, 808],
+                  coords: [741, 637, 839, 733],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -378,7 +387,7 @@ const Scena5 = () => {
                 {
                   id: "8",
                   shape: "rect",
-                  coords: [898, 686, 1020, 804],
+                  coords: [912, 640, 1010, 738],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -387,7 +396,7 @@ const Scena5 = () => {
                 {
                   id: "9",
                   shape: "rect",
-                  coords: [1113, 685, 1232, 809],
+                  coords: [1084, 639, 1179, 735],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -396,7 +405,7 @@ const Scena5 = () => {
                 {
                   id: "0",
                   shape: "rect",
-                  coords: [898, 854, 1020, 966],
+                  coords: [915, 766, 1008, 862],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -405,7 +414,7 @@ const Scena5 = () => {
                 {
                   id: "confirm",
                   shape: "rect",
-                  coords: [1108, 851, 1235, 966],
+                  coords: [1081, 764, 1176, 863],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
@@ -414,7 +423,7 @@ const Scena5 = () => {
                 {
                   id: "delete",
                   shape: "rect",
-                  coords: [686, 851, 812, 966],
+                  coords: [739, 766, 839, 861],
                   fillColor: "rgba(0, 0, 255, 0.5)",
                   lineWidth: 0,
                   strokeColor: "rgba(0, 0, 255, 0.5)",
