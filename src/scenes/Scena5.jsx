@@ -69,7 +69,7 @@ const Scena5 = () => {
       if (bgValue !== 7 && bgValue !== 8 && bgValue !== 9 && bgValue !== 3) {
         setIsInactive(false);
         clearTimeout(timer);
-        timer = setTimeout(() => setIsInactive(true), 10000);
+        timer = setTimeout(() => setIsInactive(true), 8000);
       }
     };
 
