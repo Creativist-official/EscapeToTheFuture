@@ -1,4 +1,4 @@
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import buttonArrow from "@assets/images/generic/buttonArrow.png";
 import foresta from "@assets/images/Scena2/foresta.png";
 import alberoMagico from "@assets/images/Scena2/alberoMagico.jpg";
