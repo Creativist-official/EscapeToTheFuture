@@ -12,7 +12,9 @@
 - [] Descrizione, keywords, canonical, ogImage, twitterCard, favicon, apple-touch-icon, themecolor
 - [] Manifest per PWA
 - [] Notifica installability
-- [] Fonts
 
 Tutte le task e tempi su clickup.
 Attivare il timer quando si sviluppa, spegnerlo quando si fa altro pls :)
+
+## WAKATIME
+- Jonny: [![wakatime](https://wakatime.com/badge/user/c82f4683-34a5-4724-a5f4-5c2a6f37d55c/project/9f73260b-7dc8-414c-a36e-8c18fc137093.svg?style=flat-square)](https://wakatime.com/badge/user/c82f4683-34a5-4724-a5f4-5c2a6f37d55c/project/9f73260b-7dc8-414c-a36e-8c18fc137093)
