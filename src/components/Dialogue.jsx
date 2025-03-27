@@ -6,8 +6,15 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
+    if (dialogue.delay) {
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, dialogue.delay);
+      return () => clearTimeout(timer);
+    } else {
+      setIsVisible(true);
+    }
+  }, [dialogue.delay]);
 
   const handleClick = () => {
     setIsVisible(false);
@@ -92,6 +99,7 @@ Dialogue.propTypes = {
     speaker: PropTypes.string,
     type: PropTypes.string,
     text: PropTypes.string.isRequired,
+    delay: PropTypes.number,
   }).isRequired,
   onClose: PropTypes.func,
 };
