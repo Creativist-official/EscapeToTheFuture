@@ -2,8 +2,15 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router";
 import Button from '../components/Button';
 
+import gameover_sound from '@assets/sounds/gameover/videogame-death-sound-43894.mp3';
+
 const GameOver = ({reason}) => {
     const navigate = useNavigate();
+    // Play the game over sound
+    const audio = new Audio(gameover_sound);
+    audio.volume = 0.5;
+    audio.play();
+
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-[url(../images/bg-splash.webp)] bg-center bg-clip-border bg-cover bg-origin-border bg-no-repeat">
             <div className="backdrop-brightness-50 h-full w-full flex flex-col items-center justify-center">
