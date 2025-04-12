@@ -76,7 +76,7 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
         </div>
         <div className="absolute inset-0 flex flex-col justify-center items-center w-full">
           {dialogue.speaker && (
-            <div className="absolute -top-4 left-4 lg:-top-2 lg:-left-24 sm:-top-12 sm:-left-28">
+            <div className="absolute -top-4 left-4 lg:top-10 lg:-left-24 sm:-top-5 sm:-left-28">
               <Speaker speaker={dialogue.speaker} type={dialogue.type} />
             </div>
           )}
