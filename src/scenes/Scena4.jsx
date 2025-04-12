@@ -15,6 +15,7 @@ import dispensaImg from '@assets/images/Scena4/Dispensa.jpg';
 import tabletImg from '@assets/images/Scena4/Tablet.png';
 import speaker_box_img from '@assets/images/generic/bg-button.png';
 
+import ambientSound from '@assets/sounds/scena4/refrigerator-hum-58719.mp3';
 import tablet_pop from '@assets/sounds/scena4/trimmed-pop-91931.mp3';
 import frigo_unlock from '@assets/sounds/scena4/door-lock-43124.mp3';
 
@@ -79,6 +80,19 @@ const Scena4 = () => {
             false, false, false, false, false, false, false
         ]
     });
+
+    // Gestione audio sottofondo
+    useEffect(() => {
+        const ambientAudio = new Audio(ambientSound);
+        ambientAudio.loop = true;
+        ambientAudio.volume = 0.6;
+
+        ambientAudio.play();
+
+        return () => {
+            ambientAudio.pause();
+        };
+    }, []);
 
     return (
         <div>
@@ -363,7 +377,7 @@ const Scena4 = () => {
                                                         const audio = new Audio(frigo_unlock);
                                                         audio.volume = 0.5;
                                                         audio.play();
-                                                        
+
 
                                                         // Show confetti
                                                         confetti({
