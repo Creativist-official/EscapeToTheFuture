@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import ImageMapper from "react-img-mapper";
 import Dialogue from '../components/Dialogue';
@@ -7,6 +7,8 @@ import confetti from "canvas-confetti";
 import cujoImg from '@assets/images/Scena3/Cujo.png';
 import cujoWoof from '@assets/woof.mp3';
 import ingressoCucina from '@assets/images/Scena3/Corridoio_verde.png';
+
+import ambientSound from '@assets/sounds/scena3/Wandering - The City Pt. 2 ｜ Hive City Ambient Music [xSQBtGKsSE8].mp3';
 
 import sceneBitritto from '@assets/scenesBitritto.json';
 
@@ -23,6 +25,19 @@ const Scena3 = () => {
 
     const [cujoImgLoaded, setCujoImgLoaded] = useState(false);
     const [ingressoCucinaLoaded, setIngressoCucinaLoaded] = useState(false);
+
+    // Gestione audio sottofondo
+    useEffect(() => {
+        const ambientAudio = new Audio(ambientSound);
+        ambientAudio.loop = true;
+        ambientAudio.volume = 0.6;
+
+        ambientAudio.play();
+
+        return () => {
+            ambientAudio.pause();
+        };
+    }, []);
     
     const navigate = useNavigate();
     return (
