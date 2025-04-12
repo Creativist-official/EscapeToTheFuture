@@ -18,6 +18,7 @@ import speaker_box_img from '@assets/images/generic/bg-button.png';
 import ambientSound from '@assets/sounds/scena4/refrigerator-hum-58719.mp3';
 import tablet_pop from '@assets/sounds/scena4/trimmed-pop-91931.mp3';
 import frigo_unlock from '@assets/sounds/scena4/door-lock-43124.mp3';
+import open_dispensa from '@assets/sounds/scena4/trim-wardrobe-door-94773.mp3';
 
 import sceneBitritto from '@assets/scenesBitritto.json';
 
@@ -81,11 +82,11 @@ const Scena4 = () => {
         ]
     });
 
-    // Gestione audio sottofondo
+    // Gestione audio
     useEffect(() => {
         const ambientAudio = new Audio(ambientSound);
         ambientAudio.loop = true;
-        ambientAudio.volume = 0.6;
+        ambientAudio.volume = 0.3;
 
         ambientAudio.play();
 
@@ -272,6 +273,9 @@ const Scena4 = () => {
                                 console.log('You already have dog food');
                             } else {
                                 setDispensaOpen(true);
+                                const audio = new Audio(open_dispensa);
+                                audio.volume = 0.5;
+                                audio.play();
                             }
                         } else if (area.id === 'tablet') {
                         if (cucinaState === 0) {
