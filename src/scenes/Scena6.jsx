@@ -9,6 +9,8 @@ import enricoScappato from "@assets/images/Scena6/enricoScappato.png";
 import cagnolino from "@assets/images/Scena6/cagnolino.png";
 import borsa from "@assets/images/Scena6/borsa.png";
 
+import enrico_russa from "@assets/sounds/scena6/male-snore-1-29322.mp3";
+
 import Dialogue from "@components/Dialogue";
 import confetti from "canvas-confetti";
 import { useNavigate } from "react-router";
@@ -79,6 +81,20 @@ const Scena6 = () => {
     startVelocity: 30,
     colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
   };
+
+  // Gestione sfx enrico russa
+  // Enrico deve russare fino alla scena 4
+  const [enricoSnore, setPlayEnricoSnore] = useState(new Audio(enrico_russa));
+  useEffect(() => {
+    if (scene < 4) {
+      enricoSnore.play();
+      enricoSnore.volume = 0.1;
+      enricoSnore.loop = true;
+    } else {
+      enricoSnore.pause();
+      enricoSnore.currentTime = 0;
+    }
+  }, [scene]);
 
   //Rimuovi animazione di entrata cagnolino
   useEffect(() => {
