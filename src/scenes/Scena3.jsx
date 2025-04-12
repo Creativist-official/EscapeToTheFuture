@@ -104,6 +104,7 @@ const Scena3 = () => {
                         fillColor: "rgba(237, 20, 61, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(237, 20, 61, 0.5)",
+                        disabled: (hasDogBeef && hasDogFood),
                     },
                     {
                         id: "porta_laboratorio",
