@@ -32,7 +32,8 @@ const Scena4 = () => {
     const [impiccatoText, setImpiccatoText] = useState(localStorage.getItem("impiccatoText") === null ? ['_', '_', '_', '_', '_', '_'] : JSON.parse(localStorage.getItem("impiccatoText")));
     
     // 0: Locked, 1: Unlocked, 2: Open, 3: Took bistecca
-    const [cucinaState, setCucinaState] = useState(hasDogBeef ? 3 : 0);
+    // const [cucinaState, setCucinaState] = useState(hasDogBeef ? 3 : 0);
+    const [cucinaState, setCucinaState] = useState(localStorage.getItem("cucinaState") === null ? (hasDogBeef ? 3 : 0) : JSON.parse(localStorage.getItem("cucinaState")));
     // Animazione del pulsante "Torna da Cujo"
     const [backAnimated, setBackAnimated] = useState(false);
 
@@ -218,7 +219,7 @@ const Scena4 = () => {
                     imgWidth={1920}
                     parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
                     responsive={true}
-                    disabled={cucinaState === 2 && hasDogFood}
+                    disabled={hasDogBeef && hasDogFood}
                     areas={[
                     {
                         id: "dispensa",
@@ -232,11 +233,11 @@ const Scena4 = () => {
                     {
                         id: "frigo_con_tablet",
                         shape: "rect",
-                        coords: (cucinaState != 2 ? [1510, 35, 1900, 450] : [1470, 45, 1900, 450]),
+                        coords: ((cucinaState != 2 ? [1510, 35, 1900, 450] : [1470, 45, 1900, 800])),
                         fillColor: "rgba(237, 20, 61, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(237, 20, 61, 0.5)",
-                        disabled: cucinaState === 2
+                        disabled: hasDogBeef===true
                     },
                     {
                         id: "tablet",
@@ -245,7 +246,7 @@ const Scena4 = () => {
                         fillColor: "rgba(42, 20, 237, 0.5)",
                         lineWidth: 0,
                         strokeColor: "rgba(20, 31, 237, 0.5)",
-                        disabled: cucinaState === 3
+                        disabled: cucinaState === 2
                     }
                     ]}
                     onClick={(area) => {
@@ -256,8 +257,7 @@ const Scena4 = () => {
                                 setDispensaOpen(true);
                             }
                         } else if (area.id === 'tablet') {
-                            
-                            if (cucinaState === 0) {
+                        if (cucinaState === 0) {
                                 showCustomDialogue([
                                     {
                                         "type": "speaking",
@@ -270,6 +270,24 @@ const Scena4 = () => {
                                 
                                 // Hide hints
                                 setDispensaHint(false);
+                            }
+                        } else if (area.id === 'frigo_con_tablet') {
+                            if (cucinaState === 1) {
+                                // Apri frigo
+                                setCucinaState(2);
+                                // Set cookie
+                                localStorage.setItem("cucinaState", JSON.stringify(2));
+                                showCustomDialogue([
+                                    {
+                                        "type": "speaking",
+                                        "speaker": "Detective",
+                                        "text": "Una bistecca! Questa mi servirà con Cujo."
+                                    },
+                                ]);
+                                // show hints if player has not picked up dog food
+                                if (!hasDogFood) {
+                                    setDispensaHint(true);
+                                }
                             } else if (cucinaState === 2) {
                                 // Set cucina state to 3
                                 setCucinaState(3);
@@ -279,21 +297,7 @@ const Scena4 = () => {
                                 localStorage.setItem("hasDogBeef", JSON.stringify(true));
                                 // Make "Torna da Cujo" button animated
                                 setBackAnimated(true);
-                            }
-                        } else if (area.id === 'frigo_con_tablet') {
-                            if (cucinaState === 1) {
-                                // Apri frigo
-                                setCucinaState(2);
-                                showCustomDialogue([
-                                    {
-                                        "type": "speaking",
-                                        "speaker": "Detective",
-                                        "text": "Una bistecca! Questa mi servirà con Cujo."
-                                    },
-                                ]);
-                                // show hints
-                                setDispensaHint(true);
-                            } else  {
+                            } else {
                                 showCustomDialogue([
                                     {
                                         "type": "speaking",
@@ -343,7 +347,10 @@ const Scena4 = () => {
                                                     if( new_text.join('') === secret_word ){
                                                         // Set cucinaState to 1
                                                         setCucinaState(1);
+                                                        // Save cucinaState in localstorage
+                                                        localStorage.setItem("cucinaState", JSON.stringify(1));
                                                         
+                                                        // Show confetti
                                                         confetti({
                                                                 particleCount: 200,
                                                                 spread: 70,
@@ -365,15 +372,12 @@ const Scena4 = () => {
                                                             setImpiccatoOpen(false);
                                                         }, 3000);
                                                     }
-                                                } else {
-                                                    // Update the impiccatoState
-                                                    if (impiccatoState < 6){
+                                                } else if (impiccatoState < 6){
                                                         setImpiccatoState(impiccatoState + 1);
-                                                    } else {
-                                                        // If impiccato reaches 6, go to game over
-                                                        localStorage.setItem("gameover_reason", "Hai perso all'impiccato! Il frigo è rimasto chiuso e non riesci a distrarre Cujo. La parola corretta era INDIZI.");
-                                                        navigate("/gameover");
-                                                    }
+                                                } else {
+                                                    // If impiccato reaches 6, go to game over
+                                                    localStorage.setItem("gameover_reason", "Hai perso all'impiccato! Il frigo è rimasto chiuso e non riesci a distrarre Cujo. La parola corretta era INDIZI.");
+                                                    navigate("/gameover");
                                                 }
                                             }} />
                                         ))}
