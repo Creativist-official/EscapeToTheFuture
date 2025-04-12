@@ -11,6 +11,7 @@ import borsa from "@assets/images/Scena6/borsa.png";
 
 import enrico_russa from "@assets/sounds/scena6/male-snore-1-29322.mp3";
 import pdor_woosh from "@assets/sounds/scena6/fantasy-whoosh-intense-fast-228315.mp3";
+import cane_rabbioso from "@assets/sounds/scena6/dachshund-play-growling-34014.mp3";
 
 import Dialogue from "@components/Dialogue";
 import confetti from "canvas-confetti";
@@ -96,6 +97,21 @@ const Scena6 = () => {
       enricoSnore.currentTime = 0;
     }
   }, [scene]);
+
+  // Gestione sfx cane rabbioso
+  // Il cane deve ringhiare da quando compare (scena 4) finché non esce di scena o non gli vengono dati i croccantini
+  const [dogSound, setPlayDogSound] = useState(new Audio(cane_rabbioso));
+  useEffect(() => {
+    if (scene === 4 && !dogClicked) {
+      dogSound.play();
+      dogSound.volume = 0.3;
+      dogSound.loop = true;
+    } else if (hasDogFood) {
+      dogSound.pause();
+      dogSound.currentTime = 0;
+    }
+  }, [scene, dogAnimation, dogClicked, hasDogFood]);
+
 
   //Rimuovi animazione di entrata cagnolino
   useEffect(() => {
@@ -414,6 +430,9 @@ const Scena6 = () => {
             }}
             onClose={() => {
               setDogAnimation(2);
+              // stop dogSound
+              dogSound.pause();
+              dogSound.currentTime = 0;
               setTimeout(() => {
                 localStorage.setItem(
                   "gameover_reason",
