@@ -15,6 +15,8 @@ import dispensaImg from '@assets/images/Scena4/Dispensa.jpg';
 import tabletImg from '@assets/images/Scena4/Tablet.png';
 import speaker_box_img from '@assets/images/generic/bg-button.png';
 
+import tablet_pop from '@assets/sounds/scena4/trimmed-pop-91931.mp3';
+
 import sceneBitritto from '@assets/scenesBitritto.json';
 
 const Scena4 = () => {
@@ -258,19 +260,25 @@ const Scena4 = () => {
                             }
                         } else if (area.id === 'tablet') {
                         if (cucinaState === 0) {
-                                showCustomDialogue([
-                                    {
-                                        "type": "speaking",
-                                        "speaker": "Detective",
-                                        "text": "Devo risolvere questo indovinello per aprire il frigo."
-                                    },
-                                ]);
-                                // Apri impiccato
-                                setImpiccatoOpen(true);
-                                
-                                // Hide hints
-                                setDispensaHint(false);
-                            }
+                            // Play pop
+                            const audio = new Audio(tablet_pop);
+                            audio.volume = 0.5;
+                            audio.play();
+                            
+                            // Show custom dialogue
+                            showCustomDialogue([
+                                {
+                                    "type": "speaking",
+                                    "speaker": "Detective",
+                                    "text": "Devo risolvere questo indovinello per aprire il frigo."
+                                },
+                            ]);
+                            // Apri impiccato
+                            setImpiccatoOpen(true);
+                            
+                            // Hide hints
+                            setDispensaHint(false);
+                        }
                         } else if (area.id === 'frigo_con_tablet') {
                             if (cucinaState === 1) {
                                 // Apri frigo
