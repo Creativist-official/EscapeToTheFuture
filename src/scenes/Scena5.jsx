@@ -15,6 +15,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
+import water_fill_sound from "@assets/sounds/scena5/filling-glass-of-water-38501.mp3";
+
 const Scena5 = () => {
   const navigate = useNavigate();
   const labImages = [
@@ -97,6 +99,10 @@ const Scena5 = () => {
           lastClickedId !== area.id ||
           !["red", "blue", "yellow"].includes(area.id)
         ) {
+          // Play fill sound
+          const audio = new Audio(water_fill_sound);
+          audio.volume = 0.3;
+          audio.play();
           setPrevBgValue(bgValue);
           setBgValue((prevValue) => prevValue + area.value);
           setClickCount((prevCount) => prevCount + 1);
