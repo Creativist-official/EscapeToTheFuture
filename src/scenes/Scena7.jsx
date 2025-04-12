@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ImageMapper from "react-img-mapper";
 
 import Camera from '@assets/images/Scena7/Camera.png';
 import Notiziario from '@assets/images/Scena7/Notiziario.png';
+
+import news_intro from '@assets/sounds/scena7/tv-news-logo-154117.mp3';
+import news from '@assets/sounds/scena7/SFX - Tv Tower Observation Deck Epidemic Sound.mp3';
 
 import Dialogue from '../components/Dialogue';
 
@@ -18,6 +21,22 @@ const Scena7 = () => {
         camera: false,
         notiziario: false,
     });
+
+    // Play news intro sound when the image changes to Notiziario, then after audio ends play news sound
+    useEffect(() => {
+        if (currentImage === Notiziario && !preload.notiziario) {
+            const audio = new Audio(news_intro);
+            audio.play();
+            audio.onended = () => {
+                const newsAudio = new Audio(news);
+                newsAudio.play();
+                setPreload({
+                    ...preload,
+                    notiziario: true,
+                });
+            };
+        }
+    }, [currentImage, preload]);
 
     return (
         <div>
@@ -90,7 +109,7 @@ const Scena7 = () => {
                     ]}
                     onClick={(area) => {
                         if (area.id === "televisione") {
-                            console.log('Clicked on televisione');
+                            // Play News Intro
                             // Change image to Notiziario
                             setCurrentImage(Notiziario);
                             // Change scene to 14
