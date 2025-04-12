@@ -10,6 +10,7 @@ import cagnolino from "@assets/images/Scena6/cagnolino.png";
 import borsa from "@assets/images/Scena6/borsa.png";
 
 import enrico_russa from "@assets/sounds/scena6/male-snore-1-29322.mp3";
+import pdor_woosh from "@assets/sounds/scena6/fantasy-whoosh-intense-fast-228315.mp3";
 
 import Dialogue from "@components/Dialogue";
 import confetti from "canvas-confetti";
@@ -88,7 +89,7 @@ const Scena6 = () => {
   useEffect(() => {
     if (scene < 4) {
       enricoSnore.play();
-      enricoSnore.volume = 0.1;
+      enricoSnore.volume = 0.3;
       enricoSnore.loop = true;
     } else {
       enricoSnore.pause();
@@ -172,6 +173,12 @@ const Scena6 = () => {
   //Gestione coriandoli e particelle
   useEffect(() => {
     if (scene == 2 || scene == 4) {
+      if (scene == 2) {
+        // Play pdor_woosh
+        const pdorWoosh = new Audio(pdor_woosh);
+        pdorWoosh.volume = 0.7;
+        pdorWoosh.play();
+      }
       confetti({
         ...defaults,
         particleCount: 80,
