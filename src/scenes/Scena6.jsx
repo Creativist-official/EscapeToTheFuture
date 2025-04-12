@@ -12,6 +12,7 @@ import borsa from "@assets/images/Scena6/borsa.png";
 import enrico_russa from "@assets/sounds/scena6/male-snore-1-29322.mp3";
 import pdor_woosh from "@assets/sounds/scena6/fantasy-whoosh-intense-fast-228315.mp3";
 import cane_rabbioso from "@assets/sounds/scena6/dachshund-play-growling-34014.mp3";
+import pdor_busted from "@assets/sounds/scena6/trim-police-siren-sound-effect-317645.mp3";
 
 import Dialogue from "@components/Dialogue";
 import confetti from "canvas-confetti";
@@ -234,6 +235,9 @@ const Scena6 = () => {
     }
   }, [scene]);
 
+  // pdor busted sound
+  const [pdorBusted, setPdorBusted] = useState(new Audio(pdor_busted));
+
   return (
     <section className="w-full h-svh flex flex-col items-center justify-center relative">
       {dogAnimation == 2 && (
@@ -375,6 +379,11 @@ const Scena6 = () => {
               ]}
               onChange={(area) => {
                 setItemSelected(area.id);
+                if (area.id !== "Invisibilità") {
+                  // Play busted sfx
+                  pdorBusted.volume = 0.7;
+                  pdorBusted.play();
+                }
                 setShowBorsa([false, false]);
               }}
               isMulti={false}
@@ -457,6 +466,9 @@ const Scena6 = () => {
             if (itemSelected === "Invisibilità") {
               navigate("/scena7");
             } else {
+              // stop busted
+              pdorBusted.pause();
+              pdorBusted.currentTime = 0;
               localStorage.setItem(
                 "gameover_reason",
                 JSON.stringify(itemToDialogue(itemSelected))
