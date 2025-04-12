@@ -16,6 +16,7 @@ import tabletImg from '@assets/images/Scena4/Tablet.png';
 import speaker_box_img from '@assets/images/generic/bg-button.png';
 
 import tablet_pop from '@assets/sounds/scena4/trimmed-pop-91931.mp3';
+import frigo_unlock from '@assets/sounds/scena4/door-lock-43124.mp3';
 
 import sceneBitritto from '@assets/scenesBitritto.json';
 
@@ -264,7 +265,7 @@ const Scena4 = () => {
                             const audio = new Audio(tablet_pop);
                             audio.volume = 0.5;
                             audio.play();
-                            
+
                             // Show custom dialogue
                             showCustomDialogue([
                                 {
@@ -358,6 +359,12 @@ const Scena4 = () => {
                                                         // Save cucinaState in localstorage
                                                         localStorage.setItem("cucinaState", JSON.stringify(1));
                                                         
+                                                        // Play unlocked sound
+                                                        const audio = new Audio(frigo_unlock);
+                                                        audio.volume = 0.5;
+                                                        audio.play();
+                                                        
+
                                                         // Show confetti
                                                         confetti({
                                                                 particleCount: 200,
