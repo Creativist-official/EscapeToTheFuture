@@ -102,34 +102,7 @@ const Scena1 = () => {
 
   return (
     <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Scena1/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-14">
-      {/* Bottone per consentire audio */}
-      {
-        !playing["ambient"].playing && (
-        <div className="absolute top-0 right-0 p-2 scale-60">
-          <Button
-            onClick={async () => {
-              if (!playing["ambient"].playing){
-                const ambient = playing["ambient"].player;
-                ambient.loop = true;
-                // Volume 60
-                ambient.volume = 0.5;
-                ambient.play();
-                setPlaying((prev) => ({
-                  ...prev,
-                  "ambient": { ...prev["ambient"], playing: true }
-                }));
-              } else {
-                const ambient = playing["ambient"].player;
-                ambient.pause();
-                setPlaying((prev) => ({
-                  ...prev,
-                  "ambient": { ...prev["ambient"], playing: false }
-                }));
-              }
-              }}
-            >{playing["ambient"].playing ? "Disattiva" : "Attiva"} musica</Button>
-        </div>
-      )}
+
       {buttonVisible && (
         <Button
           onClick={() => animationFinished && openLetter(true)}
