@@ -17,8 +17,11 @@ import speaker_box_img from '@assets/images/generic/bg-button.png';
 
 import ambientSound from '@assets/sounds/scena4/refrigerator-hum-58719.mp3';
 import tablet_pop from '@assets/sounds/scena4/trimmed-pop-91931.mp3';
-import frigo_unlock from '@assets/sounds/scena4/door-lock-43124.mp3';
+import frigo_locked from '@assets/sounds/scena4/door-lock-43124.mp3';
+import frigo_unlock from '@assets/sounds/scena4/trim-chiavi-lucchetto-68025.mp3';
 import open_dispensa from '@assets/sounds/scena4/trim-wardrobe-door-94773.mp3';
+import impiccato_win from '@assets/sounds/scena4/3-up-2-89189.mp3';
+import impiccato_fail from '@assets/sounds/scena4/trim-wrong-47985.mp3';
 
 import sceneBitritto from '@assets/scenesBitritto.json';
 
@@ -325,6 +328,10 @@ const Scena4 = () => {
                                 // Make "Torna da Cujo" button animated
                                 setBackAnimated(true);
                             } else {
+                                // Play locked sound
+                                const audio = new Audio(frigo_locked);
+                                audio.volume = 0.5;
+                                audio.play();
                                 showCustomDialogue([
                                     {
                                         "type": "speaking",
@@ -376,11 +383,16 @@ const Scena4 = () => {
                                                         setCucinaState(1);
                                                         // Save cucinaState in localstorage
                                                         localStorage.setItem("cucinaState", JSON.stringify(1));
-                                                        
-                                                        // Play unlocked sound
-                                                        const audio = new Audio(frigo_unlock);
+                                                        // Play impiccato win sound
+                                                        const audio = new Audio(impiccato_win);
                                                         audio.volume = 0.5;
                                                         audio.play();
+                                                        // Wait for the sound to finish, then play the unlock sound
+                                                        setTimeout(() => {
+                                                            const audio = new Audio(frigo_unlock);
+                                                            audio.volume = 0.5;
+                                                            audio.play();
+                                                        }, 1000);
 
 
                                                         // Show confetti
@@ -406,7 +418,13 @@ const Scena4 = () => {
                                                         }, 3000);
                                                     }
                                                 } else if (impiccatoState < 6){
-                                                        setImpiccatoState(impiccatoState + 1);
+                                                    // Play impiccato fail sound
+                                                    const audio = new Audio(impiccato_fail);
+                                                    audio.volume = 0.5;
+                                                    audio.play();
+                                                    // Shake the tablet
+                                                    
+                                                    setImpiccatoState(impiccatoState + 1);
                                                 } else {
                                                     // If impiccato reaches 6, go to game over
                                                     localStorage.setItem("gameover_reason", "Hai perso all'impiccato! Il frigo è rimasto chiuso e non riesci a distrarre Cujo. La parola corretta era INDIZI.");
