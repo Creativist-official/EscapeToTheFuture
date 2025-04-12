@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 
 import water_fill_sound from "@assets/sounds/scena5/filling-glass-of-water-38501.mp3";
+import keystroke from "@assets/sounds/generic/trim-keyboard-typing-one-short-1-292590.mp3";
 
 const Scena5 = () => {
   const navigate = useNavigate();
@@ -112,6 +113,11 @@ const Scena5 = () => {
     }
   };
   const handleCodeInput = (area) => {
+    // Play keystroke sound
+    const audio = new Audio(keystroke);
+    audio.volume = 0.3;
+    audio.play();
+
     if (area.id === "delete") {
       handleDelete();
     } else if (area.id === "confirm") {

@@ -22,6 +22,7 @@ import frigo_unlock from '@assets/sounds/scena4/trim-chiavi-lucchetto-68025.mp3'
 import open_dispensa from '@assets/sounds/scena4/trim-wardrobe-door-94773.mp3';
 import impiccato_win from '@assets/sounds/scena4/3-up-2-89189.mp3';
 import impiccato_fail from '@assets/sounds/scena4/trim-wrong-47985.mp3';
+import keystroke from "@assets/sounds/generic/trim-keyboard-typing-one-short-1-292590.mp3";
 
 import sceneBitritto from '@assets/scenesBitritto.json';
 
@@ -367,6 +368,12 @@ const Scena4 = () => {
                                         {/* Map buttons N E U O Z D I Z */}
                                         {['N', 'E', 'U', 'O', 'K', 'D', 'I', 'Z'].map((keycap, index) => (
                                             <ImpiccatoButton key={index} keycap={keycap} onClick={() => {
+                                                // Play keystroke sound
+                                                    const audio = new Audio(keystroke);
+                                                    audio.volume = 0.3;
+                                                    audio.play();
+                                                
+
                                                 // Check if the keycap is in the text
                                                 let secret_word = "INDIZI";
                                                 if( secret_word.includes(keycap) ){
