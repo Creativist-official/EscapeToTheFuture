@@ -14,6 +14,12 @@ import pdor_woosh from "@assets/sounds/scena6/fantasy-whoosh-intense-fast-228315
 import cane_rabbioso from "@assets/sounds/scena6/dachshund-play-growling-34014.mp3";
 import pdor_busted from "@assets/sounds/scena6/trim-police-siren-sound-effect-317645.mp3";
 
+import chiave_rotta from "@assets/sounds/scena6/broken-bottle-191998.mp3";
+import ketchup from "@assets/sounds/scena6/cartoon-splat-6086.mp3";
+import pozione from "@assets/sounds/scena6/magical-spell-cast-190272.mp3";
+import jail_door from "@assets/sounds/scena6/jaildoorclose-6173.mp3";
+import pdor_evil from "@assets/sounds/scena6/evil-laugh-21137.mp3";
+
 import Dialogue from "@components/Dialogue";
 import confetti from "canvas-confetti";
 import { useNavigate } from "react-router";
@@ -193,8 +199,14 @@ const Scena6 = () => {
       if (scene == 2) {
         // Play pdor_woosh
         const pdorWoosh = new Audio(pdor_woosh);
-        pdorWoosh.volume = 0.7;
+        pdorWoosh.volume = 0.5;
         pdorWoosh.play();
+        // wait 0.3 seconds then play pdor_evil
+        setTimeout(() => {
+          const pdorEvil = new Audio(pdor_evil);
+          pdorEvil.volume = 0.7;
+          pdorEvil.play();
+        }, 300);
       }
       confetti({
         ...defaults,
@@ -215,6 +227,10 @@ const Scena6 = () => {
     }
 
     if (scene == 3) {
+      // Play jail door sound
+      const doorSound = new Audio(jail_door);
+      doorSound.volume = 0.7;
+      doorSound.play();
       const duration = 500;
       const interval = setInterval(() => {
         confetti({
@@ -380,9 +396,35 @@ const Scena6 = () => {
               onChange={(area) => {
                 setItemSelected(area.id);
                 if (area.id !== "Invisibilità") {
-                  // Play busted sfx
-                  pdorBusted.volume = 0.7;
-                  pdorBusted.play();
+                  const obj_audio = new Audio(chiave_rotta);
+                  if (area.id === "Chiave") {
+                    // Play chiave rotta sfx
+                    // Set obj_audio source to chiave rotta
+                    obj_audio.src = chiave_rotta;
+                  }
+                  if (area.id === "Ketchup") {
+                    // Play ketchup sfx
+                    obj_audio.src = ketchup;
+                  }
+                  if (area.id === "Martello") {
+                    // Play martello sfx
+                    obj_audio.src = chiave_rotta;
+                  }
+                  obj_audio.volume = 0.7;
+                  obj_audio.play();
+
+                  // Wait for 1 second and then play busted sfx
+                  setTimeout(() => {
+                    // Play busted sfx
+                    pdorBusted.volume = 0.7;
+                    pdorBusted.play();
+                  }, 1000);
+
+                } else {
+                  // Play invisibility sfx
+                  const obj_audio = new Audio(pozione);
+                  obj_audio.volume = 0.7;
+                  obj_audio.play();
                 }
                 setShowBorsa([false, false]);
               }}
@@ -466,7 +508,6 @@ const Scena6 = () => {
             if (itemSelected === "Invisibilità") {
               navigate("/scena7");
             } else {
-              // stop busted
               pdorBusted.pause();
               pdorBusted.currentTime = 0;
               localStorage.setItem(
