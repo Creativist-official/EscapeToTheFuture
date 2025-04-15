@@ -74,33 +74,6 @@ const SplashScreen = ({ title, location }) => {
     <div className="w-full flex flex-col items-center justify-center gap-2 md:gap-10 h-svh bg-[url(../images/bg-splash.webp)] bg-center bg-clip-border bg-cover bg-origin-border bg-no-repeat gap-auto">
       <div className="absolute inset-0 bg-black opacity-60"></div>
 
-      {/* Bottone per consentire audio */}
-      <div className="absolute top-0 right-0 p-2 scale-60">
-        <Button
-          onClick={async () => {
-            if (!playing["ambient"].playing){
-              const ambient = playing["ambient"].player;
-              ambient.loop = true;
-              // Volume 60
-              ambient.volume = 0.5;
-              ambient.play();
-              setPlaying((prev) => ({
-                ...prev,
-                "ambient": { ...prev["ambient"], playing: true }
-              }));
-            } else {
-              const ambient = playing["ambient"].player;
-              ambient.pause();
-              setPlaying((prev) => ({
-                ...prev,
-                "ambient": { ...prev["ambient"], playing: false }
-              }));
-            }
-            }}
-          >{playing["ambient"].playing ? "Disattiva" : "Attiva"} musica</Button>
-      </div>
-      
-
           <h1 className="2xl:w-1/2 md:w-2/3 w-2/3 text-5xl md:text-7xl xl:text-8xl font-bold text-center select-none font-elite text-orange-600 z-1">
           {title}
           </h1>
