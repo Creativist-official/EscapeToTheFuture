@@ -19,6 +19,7 @@ import ketchup from "@assets/sounds/scena6/cartoon-splat-6086.mp3";
 import pozione from "@assets/sounds/scena6/magical-spell-cast-190272.mp3";
 import jail_door from "@assets/sounds/scena6/jaildoorclose-6173.mp3";
 import pdor_evil from "@assets/sounds/scena6/evil-laugh-21137.mp3";
+import stanza_ansia from '@assets/sounds/scena7/dungeon-sound-effect-240254.mp3';
 
 import Dialogue from "@components/Dialogue";
 import confetti from "canvas-confetti";
@@ -253,6 +254,20 @@ const Scena6 = () => {
 
   // pdor busted sound
   const [pdorBusted, setPdorBusted] = useState(new Audio(pdor_busted));
+
+  // Ambient sound (stanzaAnsia)
+  const [stanzaAnsia, setStanzaAnsia] = useState(new Audio(stanza_ansia));
+  useEffect(() => {
+    if (scene === 4) {
+      stanzaAnsia.loop = true;
+      stanzaAnsia.volume = 0.3;
+      stanzaAnsia.play();
+    } else {
+      stanzaAnsia.pause();
+      stanzaAnsia.currentTime = 0;
+    }
+  }, [scene, stanzaAnsia]);
+
 
   return (
     <section className="w-full h-svh flex flex-col items-center justify-center relative">

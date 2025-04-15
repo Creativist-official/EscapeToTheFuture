@@ -6,7 +6,7 @@ import Notiziario from '@assets/images/Scena7/Notiziario.png';
 
 import news_intro from '@assets/sounds/scena7/tv-news-logo-154117.mp3';
 import news from '@assets/sounds/scena7/SFX - Tv Tower Observation Deck Epidemic Sound.mp3';
-import stanza_ansia from '@assets/sounds/scena7/dungeon-sound-effect-240254.mp3';
+
 
 import Dialogue from '../components/Dialogue';
 
@@ -23,30 +23,15 @@ const Scena7 = () => {
         notiziario: false,
     });
 
-    // Gestione audio
-    const [ambientSound, setAmbientSound] = useState(new Audio(stanza_ansia));
-    // Play ambient sound stanza_ansia when image is not Notiziario
-    useEffect(() => {
-        if (currentImage !== Notiziario && !preload.camera) {
-            ambientSound.loop = true;
-            ambientSound.volume = 0.7;
-            ambientSound.play();
-            setPreload({
-                ...preload,
-                camera: true,
-            });
-        }
-    }, [currentImage, preload, ambientSound]);
-
+    
     // Play news intro sound when the image changes to Notiziario, then after audio ends play news sound
     useEffect(() => {
         if (currentImage === Notiziario && !preload.notiziario) {
-            // Stop ambient sound
-            ambientSound.pause();
             const audio = new Audio(news_intro);
             audio.play();
             audio.onended = () => {
                 const newsAudio = new Audio(news);
+                newsAudio.volume = 0.5;
                 newsAudio.play();
                 setPreload({
                     ...preload,
@@ -54,7 +39,7 @@ const Scena7 = () => {
                 });
             };
         }
-    }, [currentImage, preload, ambientSound]);
+    }, [currentImage, preload]);
 
     return (
         <div>
