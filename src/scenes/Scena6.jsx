@@ -260,7 +260,7 @@ const Scena6 = () => {
   useEffect(() => {
     if (scene === 4) {
       stanzaAnsia.loop = true;
-      stanzaAnsia.volume = 0.3;
+      stanzaAnsia.volume = 0.4;
       stanzaAnsia.play();
     } else {
       stanzaAnsia.pause();
