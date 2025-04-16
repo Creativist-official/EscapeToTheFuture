@@ -94,11 +94,10 @@ const Scena3 = () => {
                         style={
                             {
                                 position: 'absolute',
-                                top: '0px',
                                 left: '0px',
                                 zIndex: '1',
                                 userSelect: 'none',
-                                width: '100%',
+                                width: window.innerWidth > 1920 ? 1920 : window.innerWidth,
                                 height: 'auto',
                             }
                         }
@@ -164,6 +163,7 @@ const Scena3 = () => {
                                 zIndex: '1',
                                 userSelect: 'none',
                                 height: 'auto',
+                                width: window.innerWidth * 0.25,
                             }
                         }
                     />
