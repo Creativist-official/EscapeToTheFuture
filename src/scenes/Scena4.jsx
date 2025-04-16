@@ -366,7 +366,7 @@ const Scena4 = () => {
             {/* Impiccato */}
             {impiccatoOpen && (
                     <div className="fixed z-2 inset-0 backdrop-brightness-70 flex items-center justify-center" onClick={() => setImpiccatoOpen(false)}>
-                        <div className="absolute z-4 flex flex-col items-center justify-evenly w-[64%] h-[65%]" onClick={(e) => e.stopPropagation()} >
+                        <div className="absolute z-4 flex flex-col items-center justify-evenly h-[65%] md:scale-65 lg:scale-100" onClick={(e) => e.stopPropagation()} >
                             <h1 className='text-[2rem] font-[Special_Elite] w-170 text-center'>Qualcosa che gli investigatori usano ogni giorno per svelare i misteri</h1>
                             <div className="flex flex-row items-center justify-between">
                                 <img src={'/EscapeToTheFuture/src/assets/images/Scena4/Impiccato_cucina/' + impiccatoState + '.png'} alt={"stato " + impiccatoState + " dell'impiccato"} className='w-80' />
@@ -468,7 +468,7 @@ const Scena4 = () => {
                                 </div>
                             </div>
                         </div>
-                        <img src={tabletImg} alt="Tablet del frigo" />
+                        <img src={tabletImg} alt="Tablet del frigo" className='md:scale-65 lg:scale-100' />
                     </div>
                 )
             }
