@@ -20,7 +20,14 @@ const GameOver = ({reason}) => {
                 <h2 className="font-elite text-3xl md:text-3xl xl:text-4xl z-1 text-white select-none w-300 text-center">{reason}</h2>
                 <Button
                     onClick={async () => {
-                        navigate("/")
+                        // Stop all playing sounds
+                        const audios = document.querySelectorAll("audio");
+                        audios.forEach(audio => {
+                            audio.pause();
+                            audio.currentTime = 0;
+                        });
+
+                        navigate("/");
                     }}
                 >RIPROVA</Button>
             </div>
