@@ -13,6 +13,7 @@ import Scena4 from "./scenes/Scena4";
 import Scena5 from "./scenes/Scena5";
 import Scena6 from "./scenes/Scena6";
 import Scena7 from "./scenes/Scena7";
+import Win from "./scenes/Win";
 
 const Bitritto = () => {
   const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
@@ -48,6 +49,8 @@ const Bitritto = () => {
             <Route path="/engine" element={<JSONEngine/>} />
             {/* Game over */}
             <Route path="*" element={<GameOver reason={localStorage.getItem("gameover_reason") === null ? "Hai perso!" : localStorage.getItem("gameover_reason")} />} />
+            {/* Win */}
+            <Route path="/win" element={<Win/>} />
           </Routes>
         </HashRouter>
       )}
