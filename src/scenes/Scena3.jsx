@@ -5,7 +5,7 @@ import Dialogue from '../components/Dialogue';
 import confetti from "canvas-confetti";
 
 import cujoImg from '@assets/images/Scena3/Cujo.png';
-import cujoWoof from '@assets/woof.mp3';
+import cujoWoof from "@assets/sounds/scena6/dachshund-play-growling-34014.mp3";
 import ingressoCucina from '@assets/images/Scena3/Corridoio_verde.png';
 
 import ambientSound from '@assets/sounds/scena3/Wandering - The City Pt. 2 ｜ Hive City Ambient Music [xSQBtGKsSE8].mp3';
@@ -26,6 +26,9 @@ const Scena3 = () => {
     const [cujoImgLoaded, setCujoImgLoaded] = useState(false);
     const [ingressoCucinaLoaded, setIngressoCucinaLoaded] = useState(false);
 
+    // Gestione suono cujo rabbioso
+    const [cujoGrowling, setCujoGrowling] = useState(new Audio(cujoWoof));
+
     // Gestione audio sottofondo
     useEffect(() => {
         const ambientAudio = new Audio(ambientSound);
@@ -34,10 +37,11 @@ const Scena3 = () => {
 
         ambientAudio.play();
 
+
         return () => {
             ambientAudio.pause();
         };
-    }, []);
+    }, [cujoGrowling]);
     
     const navigate = useNavigate();
     return (
@@ -65,6 +69,8 @@ const Scena3 = () => {
                                 // If dog has beef, make dog disappear
                                 if (hasDogBeef === true) {
                                     setDogDefeated(true);
+                                    // stop growling
+                                    cujoGrowling.pause();
                                     confetti({
                                         particleCount: 200,
                                         spread: 70,
@@ -133,6 +139,8 @@ const Scena3 = () => {
                     ]}
                     onChange={(area) => {
                         if (area.id === 'porta_cucina') {
+                            // Stop the growling sound
+                            cujoGrowling.pause();
                             navigate('/scena4');
                         } else if (area.id === 'porta_laboratorio') {
                             navigate('/scena5');
@@ -166,13 +174,6 @@ const Scena3 = () => {
                     natural
                     onLoad={() => {
                         setCujoImgLoaded(true);
-                        console.log('Cujo loaded. Time: ', new Date().getTime());
-                        /* Cujo sound preload */
-                        const audio = new Audio(cujoWoof);
-                        audio.addEventListener('canplaythrough', () => {
-                            console.log('Cujo woof loaded. Time: ', new Date().getTime());
-                            }
-                        );
                     }}
                     parentWidth={window.innerWidth * 0.25}
                     disabled={currentDialogueIndex < scene.dialogue.length - 1}
@@ -188,8 +189,12 @@ const Scena3 = () => {
                         },
                     ]}
                     onChange={() => {
-                        const audio = new Audio(cujoWoof);
-                        audio.play();
+                        // Play the sound of the dog growling if not already playing
+                        if (cujoGrowling.paused) {
+                            cujoGrowling.currentTime = 0;
+                            cujoGrowling.play();
+                            cujoGrowling.loop = true;
+                        }
                         
                         setCurrentDialogueIndex(0);
                     }}

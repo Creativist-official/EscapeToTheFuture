@@ -11,7 +11,7 @@ import borsa from "@assets/images/Scena6/borsa.png";
 
 import enrico_russa from "@assets/sounds/scena6/male-snore-1-29322.mp3";
 import pdor_woosh from "@assets/sounds/scena6/fantasy-whoosh-intense-fast-228315.mp3";
-import cane_rabbioso from "@assets/sounds/scena6/dachshund-play-growling-34014.mp3";
+import cane_rabbioso from '@assets/woof.mp3';
 import pdor_busted from "@assets/sounds/scena6/trim-police-siren-sound-effect-317645.mp3";
 
 import chiave_rotta from "@assets/sounds/scena6/broken-bottle-191998.mp3";
@@ -112,8 +112,15 @@ const Scena6 = () => {
   useEffect(() => {
     if (scene === 4 && !dogClicked) {
       dogSound.play();
-      dogSound.volume = 0.3;
-      dogSound.loop = true;
+      dogSound.volume = 0.5;
+      dogSound.loop = false;
+      dogSound.addEventListener("ended", () => {
+        setTimeout(() => {
+          if (Math.random() > 0.5) {
+            dogSound.play();
+          }
+        }, Math.random() * 4000 + 2000);
+      });
     } else if (hasDogFood) {
       dogSound.pause();
       dogSound.currentTime = 0;
