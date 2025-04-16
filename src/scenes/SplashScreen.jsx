@@ -81,7 +81,7 @@ const SplashScreen = ({ title, location }) => {
 
       {/* Bottone per consentire audio */}
       {!playing["ambient"].playing && (
-        <div className="absolute top-0 right-0 p-2 scale-60">
+        <div className="absolute -right-25 lg:right-0 p-2 scale-85 lg:scale-100">
           <Button
             onClick={async () => {
               
@@ -105,12 +105,35 @@ const SplashScreen = ({ title, location }) => {
               }
             }}
           >
-            Attiva sottofondo
+            <div className="flex flex-row items-center justify-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-16 text-black"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.25 5.25L6.75 9H4.5a.75.75 0 00-.75.75v4.5c0 .414.336.75.75.75h2.25l4.5 3.75V5.25z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14.25 8.25a6.75 6.75 0 010 9.5m2.25-11.75a9.75 9.75 0 010 13.75"
+                />
+              </svg>
+              <span className="text-black font-elite text-xl w-1/2 text-start">
+                Attiva sottofondo
+              </span>
+            </div>
           </Button>
         </div>
       )}
 
-      <h1 className="2xl:w-1/2 md:w-2/3 w-2/3 text-5xl md:text-7xl xl:text-8xl font-bold text-center select-none font-elite text-orange-600 z-1">
+      <h1 className="2xl:w-1/2 md:w-2/3 w-2/3 text-5xl md:text-5xl xl:text-8xl font-bold text-center select-none font-elite text-orange-600 z-1">
         {title}
       </h1>
       <div className="flex items-end justify-center gap-1">
