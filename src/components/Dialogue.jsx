@@ -26,7 +26,7 @@ const Dialogue = ({ dialogue, absolute=false, classes, onClose }) => {
   };
 
   return (
-    <div className={"absolute w-full h-full pb-[1%] flex justify-center items-end " + (isVisible && "z-20")} onClick={handleClick}>
+    <div className={"absolute w-full h-full pb-[10svh] flex justify-center items-end " + (isVisible && "z-20")} onClick={handleClick}>
       <div
         className={`${absolute ? "absolute" : "relative"} ${classes} flex justify-center items-center mx-auto sm:mb-8 min-h-[23%] md:mb-0 lg:w-100 w-3/8 transition-transform transform ${
           isVisible ? "scale-100" : "scale-0"
