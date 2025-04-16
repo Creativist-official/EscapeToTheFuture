@@ -471,8 +471,7 @@ const Scena6 = () => {
           absolute
           classes="bottom-10"
           dialogue={{
-            speaker: "Narratore",
-            type: "hint",
+            type: "narrator",
             text: "Il cagnolino ti ringrazia dei croccantini e ti porta una borsa con degli oggetti.",
           }}
           onClose={() => {
@@ -486,6 +485,7 @@ const Scena6 = () => {
             absolute
             classes="bottom-10"
             dialogue={{
+              type: "speaking",
               speaker: "Detective",
               text: "Ciao cagnolino... ti piacciono i croccantini?",
             }}
@@ -498,6 +498,7 @@ const Scena6 = () => {
             absolute
             classes="bottom-10"
             dialogue={{
+              type: "speaking",
               speaker: "Detective",
               text: "Ciao cagnolino... Non ho cibo per te, mi dispiace :(",
             }}
@@ -522,8 +523,7 @@ const Scena6 = () => {
           absolute
           classes="bottom-10"
           dialogue={{
-            speaker: "Narratore",
-            type: "hint",
+            type: "narrator",
             text: itemToDialogue(itemSelected),
           }}
           onClose={() => {
