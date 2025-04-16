@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
-import water_fill_sound from "@assets/sounds/scena5/filling-glass-of-water-38501.mp3";
+import water_fill_sound from "@assets/sounds/scena5/trim-filling-glass-of-water-38501.mp3";
 import keystroke from "@assets/sounds/generic/trim-keyboard-typing-one-short-1-292590.mp3";
 
 const Scena5 = () => {
@@ -65,6 +65,9 @@ const Scena5 = () => {
   };
 
   const [isInactive, setIsInactive] = useState(false);
+  
+    // Gestione SFX riempimento ampolla
+    const [waterFillSound, setWaterFillSound] = useState(new Audio(water_fill_sound));
 
   useEffect(() => {
     let timer;
@@ -80,13 +83,21 @@ const Scena5 = () => {
     window.addEventListener("touchstart", resetTimer);
 
     resetTimer();
+    // Preload sound if not already playable
+    if (waterFillSound.readyState === 0) {
+      waterFillSound.volume = 0.3;
+      waterFillSound.preload = "auto";
+      waterFillSound.muted = false;
+      waterFillSound.load();
+    }
+      
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("keypress", resetTimer);
       window.removeEventListener("touchstart", resetTimer);
     };
-  }, [bgValue]);
+  }, [bgValue, waterFillSound]);
 
   const handleMapClick = (area) => {
     if (bgValue === 7 || bgValue === 8) {
@@ -100,10 +111,9 @@ const Scena5 = () => {
           lastClickedId !== area.id ||
           !["red", "blue", "yellow"].includes(area.id)
         ) {
-          // Play fill sound
-          const audio = new Audio(water_fill_sound);
-          audio.volume = 0.3;
-          audio.play();
+          // restart fill sound
+          waterFillSound.currentTime = 0;
+          waterFillSound.play();
           setPrevBgValue(bgValue);
           setBgValue((prevValue) => prevValue + area.value);
           setClickCount((prevCount) => prevCount + 1);
