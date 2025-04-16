@@ -527,6 +527,9 @@ const Scena6 = () => {
             text: itemToDialogue(itemSelected),
           }}
           onClose={() => {
+            // Pause ambient sound
+            stanzaAnsia.pause();
+            stanzaAnsia.currentTime = 0;
             if (itemSelected === "Invisibilità") {
               navigate("/scena7");
             } else {
