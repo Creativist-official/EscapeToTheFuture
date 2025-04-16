@@ -306,6 +306,14 @@ const Scena4 = () => {
                             if (cucinaState === 1) {
                                 // Apri frigo
                                 setCucinaState(2);
+                                // Imposta l'immagine del frigo aperto nel preload
+                                setPreload({
+                                    ...preload,
+                                    "cucina": {
+                                        ...preload.cucina,
+                                        "open": true
+                                    }
+                                });
                                 // Set cookie
                                 localStorage.setItem("cucinaState", JSON.stringify(2));
                                 showCustomDialogue([
@@ -322,6 +330,14 @@ const Scena4 = () => {
                             } else if (cucinaState === 2) {
                                 // Set cucina state to 3
                                 setCucinaState(3);
+                                // Imposta l'immagine del frigo aperto senza bistecca nel preload
+                                setPreload({
+                                    ...preload,
+                                    "cucina": {
+                                        ...preload.cucina,
+                                        "no_bistecca": true
+                                    }
+                                });
                                 // Get dog beef
                                 setHasDogBeef(true);
                                 // Set cookie
@@ -388,6 +404,14 @@ const Scena4 = () => {
                                                     if( new_text.join('') === secret_word ){
                                                         // Set cucinaState to 1
                                                         setCucinaState(1);
+                                                        // Set the image of the fridge unlocked in the preload
+                                                        setPreload({
+                                                            ...preload,
+                                                            "cucina": {
+                                                                ...preload.cucina,
+                                                                "unlocked": true
+                                                            }
+                                                        });
                                                         // Save cucinaState in localstorage
                                                         localStorage.setItem("cucinaState", JSON.stringify(1));
                                                         // Play impiccato win sound
