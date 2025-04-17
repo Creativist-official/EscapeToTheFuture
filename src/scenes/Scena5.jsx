@@ -353,30 +353,30 @@ const Scena5 = () => {
             }px`, // Calcola il centro orizzontale dell'area
             transform: "translate(-50%, -50%)", // Centra il div rispetto al punto calcolato
             width: `${((1193 - 785) / 1920) * imageRef.current.clientWidth}px`, // Larghezza relativa all'immagine
-            height: `${((322 - 217) / 1080) * imageRef.current.clientHeight}px`, // Altezza relativa all'immagine
-          }}
-          className="flex items-center justify-center z-10"
-        >
-          <div className="bg-[#E4E7E6] rounded px-4 py-2">
-            <p
-              className={`font-quantico text-6xl ${
-                isError ? "text-red-500" : "text-black"
-              }`}
-            >
-              {codeInput}
-            </p>
-          </div>
-        </div>
-      )}
-      <div ref={imageRef}>
-        <ImageMapper
-          src={labImages[bgValue].src}
-          name="lab"
-          width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-          height={window.innerHeight}
-          parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-          responsive={true}
-          onClick={(area, _, event) => {
+             // Altezza relativa all'immagine
+                  }}
+                  className="flex items-center justify-center z-10"
+                >
+                  <div className="bg-[#E4E7E6] rounded">
+                  <p
+                    className={`font-quantico text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-7xl ${
+                    isError ? "text-red-500" : "text-black"
+                    }`}
+                  >
+                    {codeInput}
+                  </p>
+                  </div>
+                </div>
+                )}
+                <div ref={imageRef}>
+                <ImageMapper
+                  src={labImages[bgValue].src}
+                  name="lab"
+                  width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+                  height={window.innerHeight}
+                  parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+                  responsive={true}
+                  onClick={(area, _, event) => {
             if (bgValue === 8 && event.target.tagName === "AREA") {
               handleCodeInput(area);
             } else if (area.id === "grid") {
