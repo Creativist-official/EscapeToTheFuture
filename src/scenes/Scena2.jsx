@@ -4,6 +4,8 @@ import foresta from "@assets/images/Scena2/foresta.png";
 import alberoMagico from "@assets/images/Scena2/alberoMagico.jpg";
 
 import ambientSound from "@assets/sounds/scena2/forest-ambience-296528.mp3";
+import doorOpen from "@assets/sounds/scena2/squeaky-door-open-317165.mp3";
+import successSound from "@assets/sounds/scena4/3-up-2-89189.mp3";
 
 import Button from "@components/Button";
 import Dialogue from "../components/Dialogue";
@@ -18,19 +20,19 @@ const Scena2 = () => {
   const [load, setLoad] = useState([false, false]);
   const [cliccable, setCliccable] = useState(false);
   const navigate = useNavigate();
-
+  
   // Gestione audio
   const [playing, setPlaying] = useState({
-    "ambient": {
+    ambient: {
       playing: false,
-    }
+    },
   });
 
   useEffect(() => {
     // Initialize audio players
     const ambientAudio = new Audio(ambientSound);
     setPlaying({
-      "ambient": {
+      ambient: {
         player: ambientAudio,
         playing: false,
       },
@@ -39,7 +41,7 @@ const Scena2 = () => {
     ambientAudio.loop = true;
     ambientAudio.volume = 0.6;
     ambientAudio.play();
-    
+
     const resetTimer = () => {
       if (!showHint && !isWin && !isError) {
         setShowHint(false);
@@ -87,6 +89,8 @@ const Scena2 = () => {
         spread: 70,
         origin: { y: 1 },
       });
+      const successAudio = new Audio(successSound);
+      successAudio.play();
     }
   }, [isWin]);
 
@@ -96,13 +100,25 @@ const Scena2 = () => {
         Trova il laboratorio
       </Button>
       <img
-            src={alberoMagico}
-            alt="Albero magico"
-            className="absolute aspect-video hidden"
-          />
+        src={alberoMagico}
+        alt="Albero magico"
+        className="absolute aspect-video hidden"
+      />
       {!showHint && isWin && (
         <>
-          <svg width="100" height="100" className="absolute z-20 bottom-10 lg:bottom-24" onClick={() => cliccable && navigate("/scena3")}>
+          {window.innerWidth <= 900 && <svg
+            width="100"
+            height="100"
+            className="absolute z-20 top-64"
+            onClick={() => {
+              if (cliccable) {
+                const doorAudio = new Audio(doorOpen);
+                doorAudio.play();
+
+                setTimeout(() => navigate("/scena3"), 1500);
+              }
+            }}
+          >
             <circle cx="50" cy="50" r="30" fill="#ed143d80">
               <animate
                 attributeName="r"
@@ -111,7 +127,7 @@ const Scena2 = () => {
                 repeatCount="indefinite"
               />
             </circle>
-          </svg>
+          </svg>}
           <ImageMapper
             src={alberoMagico}
             name="Albero magico"
@@ -130,7 +146,16 @@ const Scena2 = () => {
                 strokeColor: "rgba(237, 20, 61, 0.5)",
               },
             ]}
-            onChange={() => navigate("/scena3")}
+            imgProps={{ className: "sm:-translate-y-22" }}
+            canvasProps={{ className: "sm:-translate-y-22" }}
+            onChange={() => {
+              if (cliccable) {
+                const doorAudio = new Audio(doorOpen);
+                doorAudio.play();
+
+                setTimeout(() => navigate("/scena3"), 1500);
+              }
+            }}
             isMulti={false}
             onLoad={() => setLoad([true, true])}
           />
