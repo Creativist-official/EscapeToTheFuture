@@ -48,7 +48,7 @@ const Bitritto = () => {
             <Route path="/scena7" element={<Scena7/>} />
             <Route path="/engine" element={<JSONEngine/>} />
             {/* Game over */}
-            <Route path="*" element={<GameOver reason={localStorage.getItem("gameover_reason") === null ? "Hai perso!" : localStorage.getItem("gameover_reason")} />} />
+            <Route path="*" element={<GameOver/>} />
             {/* Win */}
             <Route path="/win" element={<Win/>} />
           </Routes>
