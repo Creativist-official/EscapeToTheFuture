@@ -11,15 +11,20 @@ import hint from "@assets/images/Scena5/lab-hint.png";
 import unlocked from "@assets/images/Scena5/lab-unlocked.png";
 import Button from "../components/Button";
 import Dialogue from "../components/Dialogue";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
 import water_fill_sound from "@assets/sounds/scena5/trim-filling-glass-of-water-38501.mp3";
 import keystroke from "@assets/sounds/generic/trim-keyboard-typing-one-short-1-292590.mp3";
+import doorUnlocked from "@assets/sounds/scena4/door-lock-43124.mp3";
+import errorSound from "@assets/sounds/scena5/error.mp3";
+import correctCodesfx from "@assets/sounds/scena5/correct.mp3";
 
 const Scena5 = () => {
   const navigate = useNavigate();
+  const imageRef = useRef(null); // Riferimento all'immagine
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
   const labImages = [
     { id: 0, src: empty },
     { id: 1, src: yellow },
@@ -61,6 +66,15 @@ const Scena5 = () => {
         type: "narrator",
         text: "Si è aperto il lucchetto che chiudeva il condotto!",
       },
+      {
+        type: "narrator",
+        text: "Sembra che questa combinazione di colori non sia corretta, riprova",
+      },
+      {
+        type: "narrator",
+        text: "Wow, adesso si vede un codice!\nForse devo inserirlo nel tastierino!",
+      },
+
     ],
   };
 
@@ -99,6 +113,14 @@ const Scena5 = () => {
     };
   }, [bgValue, waterFillSound]);
 
+  useEffect(() => {
+  if (bgValue === 3) {
+    const correctCodeSound = new Audio(correctCodesfx);
+    correctCodeSound.volume = 0.3;
+    correctCodeSound.play();
+  }
+}, [bgValue]);
+
   const handleMapClick = (area) => {
     if (bgValue === 7 || bgValue === 8) {
       setBgValue(prevBgValue);
@@ -111,9 +133,16 @@ const Scena5 = () => {
           lastClickedId !== area.id ||
           !["red", "blue", "yellow"].includes(area.id)
         ) {
-          // restart fill sound
+          // Restart and limit the duration of the sound
           waterFillSound.currentTime = 0;
           waterFillSound.play();
+
+          // Stop the sound after 1 second
+          setTimeout(() => {
+            waterFillSound.pause();
+            waterFillSound.currentTime = 0;
+          }, 900);
+
           setPrevBgValue(bgValue);
           setBgValue((prevValue) => prevValue + area.value);
           setClickCount((prevCount) => prevCount + 1);
@@ -122,6 +151,7 @@ const Scena5 = () => {
       }
     }
   };
+
   const handleCodeInput = (area) => {
     // Play keystroke sound
     const audio = new Audio(keystroke);
@@ -145,6 +175,11 @@ const Scena5 = () => {
     if (codeInput === "5732") {
       setCorrectCode(true);
     } else {
+      // Play error sound
+      const errorAudio = new Audio(errorSound);
+      errorAudio.volume = 0.3;
+      errorAudio.play();
+
       setCodeInput("ERRORE");
       setIsError(true);
       setTimeout(() => {
@@ -164,6 +199,9 @@ const Scena5 = () => {
   useEffect(() => {
     if (correctCode) {
       setBgValue(9);
+      const doorUnlockedSound = new Audio(doorUnlocked);
+      doorUnlockedSound.volume = 1;
+      doorUnlockedSound.play();    
     }
   }, [correctCode]);
 
@@ -189,14 +227,48 @@ const Scena5 = () => {
     navigate("/scena6");
   };
 
+  useEffect(() => {
+    // Funzione per aggiornare le dimensioni dell'immagine
+    const updateImageDimensions = () => {
+      if (imageRef.current) {
+        setImageDimensions({
+          width: imageRef.current.clientWidth,
+          height: imageRef.current.clientHeight,
+        });
+      }
+    };
+
+    // Aggiorna le dimensioni iniziali e aggiungi un listener per il resize
+    updateImageDimensions();
+    window.addEventListener("resize", updateImageDimensions);
+
+    return () => {
+      window.removeEventListener("resize", updateImageDimensions);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (imageRef.current) {
+      const updateImageDimensions = () => {
+        setImageDimensions({
+          width: imageRef.current.clientWidth,
+          height: imageRef.current.clientHeight,
+        });
+      };
+
+      updateImageDimensions();
+      window.addEventListener("resize", updateImageDimensions);
+
+      return () => {
+        window.removeEventListener("resize", updateImageDimensions);
+      };
+    }
+  }, []);
+
   return (
     <section
       className="w-full h-svh flex flex-col items-center justify-center relative"
-      onClick={(e) => {
-        if (e.target.tagName !== "AREA" && (bgValue === 7 || bgValue === 8)) {
-          setBgValue(prevBgValue);
-        }
-      }}
+      style={{ position: "relative" }}
     >
       {scene.dialogue.map(
         (dialogue, index) =>
@@ -238,6 +310,24 @@ const Scena5 = () => {
         />
       ) : null}
 
+      {(bgValue === 5 || bgValue === 6) && (
+        <Dialogue
+          dialogue={scene.dialogue[4]}
+          onClose={() => {
+            setCliccable(true);
+          }}
+        />
+      )}
+
+      {bgValue === 3 && (
+        <Dialogue
+          dialogue={scene.dialogue[5]}
+          onClose={() => {
+            setCliccable(true);
+          }}
+        />
+      )}
+
       {correctCode ? (
         <Button classes="absolute bottom-2 left-2" onClick={handleNavigate}>
           Vai Avanti
@@ -247,215 +337,250 @@ const Scena5 = () => {
           Reset
         </Button>
       )}
-      {bgValue === 8 && (
-        <div className="absolute mb-[21%] flex items-center justify-center z-10">
-          <div className="bg-[#E4E7E6] border-2 border-black px-25 py-4 rounded ">
-            <p className="font-quantico text-6xl">{codeInput}</p>
+      {bgValue === 8 && imageRef.current && imageRef.current.getBoundingClientRect && (
+        <div
+          style={{
+            position: "absolute",
+            top: `${
+              imageRef.current.getBoundingClientRect().top +
+              (217 / 1080) * imageRef.current.clientHeight +
+              ((322 - 217) / 1080) * imageRef.current.clientHeight / 2
+            }px`, // Calcola il centro verticale dell'area
+            left: `${
+              imageRef.current.getBoundingClientRect().left +
+              (785 / 1920) * imageRef.current.clientWidth +
+              ((1193 - 785) / 1920) * imageRef.current.clientWidth / 2
+            }px`, // Calcola il centro orizzontale dell'area
+            transform: "translate(-50%, -50%)", // Centra il div rispetto al punto calcolato
+            width: `${((1193 - 785) / 1920) * imageRef.current.clientWidth}px`, // Larghezza relativa all'immagine
+            height: `${((322 - 217) / 1080) * imageRef.current.clientHeight}px`, // Altezza relativa all'immagine
+          }}
+          className="flex items-center justify-center z-10"
+        >
+          <div className="bg-[#E4E7E6] rounded px-4 py-2">
+            <p
+              className={`font-quantico text-6xl ${
+                isError ? "text-red-500" : "text-black"
+              }`}
+            >
+              {codeInput}
+            </p>
           </div>
         </div>
       )}
-      <ImageMapper
-        src={labImages[bgValue].src}
-        name="lab"
-        width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-        height={window.innerHeight}
-        parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-        responsive={true}
-        onClick={(area, _, event) => {
-          if (bgValue === 8 && event.target.tagName === "AREA") {
-            handleCodeInput(area);
-          } else if (area.id === "grid") {
-            handleNavigate();
-          } else {
-            handleMapClick(area);
-          }
-        }}
-        areas={[
-          {
-            id: "blue",
-            shape: "poly",
-            coords: [
-              416, 398, 416, 326, 471, 327, 471, 387, 527, 524, 522, 541, 506,
-              551, 379, 554, 366, 543, 357, 524,
-            ],
-            fillColor: "rgba(0, 0, 255, 0.5)",
-            lineWidth: 0,
-            strokeColor: "rgba(0, 0, 255, 0.5)",
-            value: 2,
-            disabled: bgValue >= 7,
-          },
-          {
-            id: "yellow",
-            shape: "poly",
-            coords: [
-              555, 536, 620, 410, 617, 348, 676, 346, 671, 358, 669, 371, 673,
-              409, 730, 532, 730, 548, 723, 563, 717, 571, 705, 575, 581, 575,
-              564, 568, 555, 551,
-            ],
-            fillColor: "rgba(255, 255, 0, 0.5)",
-            lineWidth: 0,
-            strokeColor: "rgba(255, 255, 0, 0.5)",
-            value: 1,
-            disabled: bgValue >= 7,
-          },
-          {
-            id: "red",
-            shape: "poly",
-            coords: [
-              761, 507, 822, 383, 818, 327, 876, 319, 873, 349, 873, 375, 871,
-              388, 927, 509, 924, 529, 920, 544, 908, 551, 779, 548, 761, 537,
-              756, 519,
-            ],
-            fillColor: "rgba(255, 0, 0, 0.5)",
-            lineWidth: 0,
-            strokeColor: "rgba(255, 0, 0, 0.5)",
-            value: 4,
-            disabled: bgValue >= 7,
-          },
-          {
-            id: "code",
-            shape: "rect",
-            coords: [444, 86, 523, 181],
-            fillColor: "rgba(0, 0, 0, 0.5)",
-            lineWidth: 0,
-            strokeColor: "rgba(0, 0, 0, 0.5)",
-            value: 8,
-            disabled: bgValue >= 7,
-          },
-          {
-            id: "hint",
-            shape: "rect",
-            coords: [703, 190, 820, 298],
-            fillColor: "rgba(0, 0, 0, 0.5)",
-            lineWidth: 0,
-            strokeColor: "rgba(0, 0, 0, 0.5)",
-            value: 7,
-            disabled: bgValue >= 7,
-          },
-          {
-            id: "grid",
-            shape: "rect",
-            coords: [23, 52, 417, 240],
-            fillColor: "rgba(0, 0, 0, 0.5)",
-            lineWidth: 0,
-            strokeColor: "rgba(0, 0, 0, 0.5)",
-            disabled: !correctCode,
-          },
-          ...(bgValue === 8
-            ? [
-                {
-                  id: "1",
-                  shape: "rect",
-                  coords: [741, 381, 837, 476],
-                  fillColor: "rgba(0, 255, 0, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 255, 0, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "2",
-                  shape: "rect",
-                  coords: [913, 381, 1008, 474],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "3",
-                  shape: "rect",
-                  coords: [1084, 379, 1177, 477],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "4",
-                  shape: "rect",
-                  coords: [741, 511, 839, 604],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "5",
-                  shape: "rect",
-                  coords: [912, 510, 1010, 608],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "6",
-                  shape: "rect",
-                  coords: [1083, 510, 1176, 603],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "7",
-                  shape: "rect",
-                  coords: [741, 637, 839, 733],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "8",
-                  shape: "rect",
-                  coords: [912, 640, 1010, 738],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "9",
-                  shape: "rect",
-                  coords: [1084, 639, 1179, 735],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "0",
-                  shape: "rect",
-                  coords: [915, 766, 1008, 862],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "confirm",
-                  shape: "rect",
-                  coords: [1081, 764, 1176, 863],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-                {
-                  id: "delete",
-                  shape: "rect",
-                  coords: [739, 766, 839, 861],
-                  fillColor: "rgba(0, 0, 255, 0.5)",
-                  lineWidth: 0,
-                  strokeColor: "rgba(0, 0, 255, 0.5)",
-                  disabled: isError,
-                },
-              ]
-            : []),
-        ]}
-        style={{ cursor: "pointer" }}
-      />
+      <div ref={imageRef}>
+        <ImageMapper
+          src={labImages[bgValue].src}
+          name="lab"
+          width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+          height={window.innerHeight}
+          parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+          responsive={true}
+          onClick={(area, _, event) => {
+            if (bgValue === 8 && event.target.tagName === "AREA") {
+              handleCodeInput(area);
+            } else if (area.id === "grid") {
+              handleNavigate();
+            } else {
+              handleMapClick(area);
+            }
+          }}
+          areas={[
+            {
+              id: "blue",
+              shape: "poly",
+              coords: [
+                416, 398, 416, 326, 471, 327, 471, 387, 527, 524, 522, 541, 506,
+                551, 379, 554, 366, 543, 357, 524,
+              ],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              value: 2,
+              disabled: bgValue >= 7,
+            },
+            {
+              id: "yellow",
+              shape: "poly",
+              coords: [
+                555, 536, 620, 410, 617, 348, 676, 346, 671, 358, 669, 371, 673,
+                409, 730, 532, 730, 548, 723, 563, 717, 571, 705, 575, 581, 575,
+                564, 568, 555, 551,
+              ],
+              fillColor: "rgba(255, 255, 0, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(255, 255, 0, 0.5)",
+              value: 1,
+              disabled: bgValue >= 7,
+            },
+            {
+              id: "red",
+              shape: "poly",
+              coords: [
+                761, 507, 822, 383, 818, 327, 876, 319, 873, 349, 873, 375, 871,
+                388, 927, 509, 924, 529, 920, 544, 908, 551, 779, 548, 761, 537,
+                756, 519,
+              ],
+              fillColor: "rgba(255, 0, 0, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(255, 0, 0, 0.5)",
+              value: 4,
+              disabled: bgValue >= 7,
+            },
+            {
+              id: "code",
+              shape: "rect",
+              coords: [444, 86, 523, 181],
+              fillColor: "rgba(0, 0, 0, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 0, 0.5)",
+              value: 8,
+              disabled: bgValue >= 7,
+            },
+            {
+              id: "hint",
+              shape: "rect",
+              coords: [703, 190, 820, 298],
+              fillColor: "rgba(0, 0, 0, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 0, 0.5)",
+              value: 7,
+              disabled: bgValue >= 7,
+            },
+            {
+              id: "grid",
+              shape: "rect",
+              coords: [23, 52, 417, 240],
+              fillColor: "rgba(0, 0, 0, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 0, 0.5)",
+              disabled: !correctCode,
+            },
+            ...(bgValue === 8
+              ? [
+                  {
+                    id: "1",
+                    shape: "rect",
+                    coords: [741, 381, 837, 476],
+                    fillColor: "rgba(0, 255, 0, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 255, 0, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "2",
+                    shape: "rect",
+                    coords: [913, 381, 1008, 474],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "3",
+                    shape: "rect",
+                    coords: [1084, 379, 1177, 477],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "4",
+                    shape: "rect",
+                    coords: [741, 511, 839, 604],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "5",
+                    shape: "rect",
+                    coords: [912, 510, 1010, 608],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "6",
+                    shape: "rect",
+                    coords: [1083, 510, 1176, 603],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "7",
+                    shape: "rect",
+                    coords: [741, 637, 839, 733],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "8",
+                    shape: "rect",
+                    coords: [912, 640, 1010, 738],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "9",
+                    shape: "rect",
+                    coords: [1084, 639, 1179, 735],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "0",
+                    shape: "rect",
+                    coords: [915, 766, 1008, 862],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "confirm",
+                    shape: "rect",
+                    coords: [1081, 764, 1176, 863],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "delete",
+                    shape: "rect",
+                    coords: [739, 766, 839, 861],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: isError,
+                  },
+                  {
+                    id: "schermo",
+                    shape: "rect",
+                    coords: [785,217,1193,322],
+                    fillColor: "rgba(0, 0, 255, 0.5)",
+                    lineWidth: 0,
+                    strokeColor: "rgba(0, 0, 255, 0.5)",
+                    disabled: false,
+                  }
+                ]
+              : []),
+          ]}
+          style={{ cursor: "pointer" }}
+        />
+      </div>
     </section>
   );
 };
