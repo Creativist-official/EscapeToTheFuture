@@ -81,7 +81,7 @@ const SplashScreen = ({ title, location }) => {
 
       {/* Bottone per consentire audio */}
       {!playing["ambient"].playing && (
-        <div className="absolute -right-25 lg:right-0 p-2 scale-85 lg:scale-100">
+        <div className="absolute bottom-0 right-0 scale-85 lg:scale-100">
           <Button
             onClick={async () => {
               
@@ -105,7 +105,7 @@ const SplashScreen = ({ title, location }) => {
               }
             }}
           >
-            <div className="flex flex-row items-center justify-start">
+            <div className="flex flex-row items-center justify-start ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -125,9 +125,6 @@ const SplashScreen = ({ title, location }) => {
                   d="M14.25 8.25a6.75 6.75 0 010 9.5m2.25-11.75a9.75 9.75 0 010 13.75"
                 />
               </svg>
-              <span className="text-black font-elite text-xl w-1/2 text-start">
-                Attiva sottofondo
-              </span>
             </div>
           </Button>
         </div>
