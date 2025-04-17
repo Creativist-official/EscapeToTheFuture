@@ -76,7 +76,7 @@ const Scena6 = () => {
       text: "Pensavi di portare via Enrico? Questo era tutto un piano… Ora sei mio prigioniero!",
     },
     {
-      speaker: "Detective",
+      speaker: "Narratore",
       text: "Per fortuna, Enrico riesce a scappare.",
       delay: 800,
     },
