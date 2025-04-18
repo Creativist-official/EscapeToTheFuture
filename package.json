@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Creativist-official.github.io/EscapeToTheFuture",
+  "homepage": "https://escapetothefuture.github.io/Bitritto",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
