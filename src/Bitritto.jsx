@@ -30,7 +30,37 @@ const Bitritto = () => {
     };
   }, []);
 
-  
+  // Installa PWA
+  useEffect(() => {
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      // Attendere un breve tempo prima di mostrare il prompt
+      setTimeout(() => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice
+            .then((choiceResult) => {
+              if (choiceResult.outcome === "accepted") {
+                console.log("Utente ha accettato l'installazione");
+              } else {
+                console.log("Utente ha rifiutato l'installazione");
+              }
+              deferredPrompt = null;
+            });
+        }
+      }, 1000);
+    });
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', () => {});
+    };
+  }, []);
+
+
   return (
     <>
       {isPortrait ? (

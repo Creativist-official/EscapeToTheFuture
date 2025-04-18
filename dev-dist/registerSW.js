@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/Bitritto/dev-sw.js?dev-sw', { scope: '/Bitritto/', type: 'classic' })
