@@ -101,7 +101,7 @@ const Scena1 = () => {
   };
 
   return (
-    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Scena1/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-14">
+    <section className="w-screen h-svh bg-black flex flex-col items-center justify-center bg-[url(../images/Scena1/Legno.webp)] bg-center bg-cover bg-no-repeat bg-opacity-50 gap-4">
 
       {buttonVisible && (
         <Button
@@ -109,7 +109,9 @@ const Scena1 = () => {
           className={`${
             !animationFinished ? "pointer-events-none opacity-50" : ""
           }`}
-        >Apri la lettera</Button>
+        >
+          Apri la lettera
+        </Button>
       )}
 
       <div className="w-5/11 relative">
@@ -163,16 +165,18 @@ const Scena1 = () => {
                 </div>
               </div>
             </div>
-
-            <div className="absolute bottom-10 flex justify-center items-center">
-              <Button onClick={() => openLetter(false)}>Chiudi lettera</Button>
-              <Button onClick={examined ? goToForest : handleShake}>
-                {examined ? "Vai alla foresta" : "Esamina meglio"}
-              </Button>
-            </div>
           </>
         )}
       </div>
+
+      {divVisible && (
+        <div className="absolute bottom-3 flex justify-center items-center gap-4">
+          <Button onClick={() => openLetter(false)}>Chiudi lettera</Button>
+          <Button onClick={examined ? goToForest : handleShake}>
+            {examined ? "Vai alla foresta" : "Esamina meglio"}
+          </Button>
+        </div>
+      )}
     </section>
   );
 };
