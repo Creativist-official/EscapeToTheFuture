@@ -368,219 +368,221 @@ const Scena5 = () => {
                   </div>
                 </div>
                 )}
-                <div ref={imageRef}>
-                <ImageMapper
-                  src={labImages[bgValue].src}
-                  name="lab"
-                  width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-                  height={window.innerHeight}
-                  parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
-                  responsive={true}
-                  onClick={(area, _, event) => {
-            if (bgValue === 8 && event.target.tagName === "AREA") {
-              handleCodeInput(area);
-            } else if (area.id === "grid") {
-              handleNavigate();
-            } else {
-              handleMapClick(area);
-            }
-          }}
-          areas={[
+                <div
+  ref={imageRef}
+  onClick={(event) => {
+    // Controlla se il clic è avvenuto su un'area mappata
+    if (bgValue === 7 || bgValue === 8) {
+      const clickedArea = event.target.tagName === "AREA";
+      if (!clickedArea) {
+        setBgValue(prevBgValue); // Torna al valore precedente
+      }
+    }
+  }}
+>
+  <ImageMapper
+    src={labImages[bgValue].src}
+    name="lab"
+    width={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+    height={window.innerHeight}
+    parentWidth={window.innerWidth > 1920 ? 1920 : window.innerWidth}
+    responsive={true}
+    onClick={(area, _, event) => {
+      if (bgValue === 8 && event.target.tagName === "AREA") {
+        handleCodeInput(area);
+      } else if (area.id === "grid") {
+        handleNavigate();
+      } else {
+        handleMapClick(area);
+      }
+    }}
+    areas={[
+      {
+        id: "blue",
+        shape: "poly",
+        coords: [
+          416, 398, 416, 326, 471, 327, 471, 387, 527, 524, 522, 541, 506,
+          551, 379, 554, 366, 543, 357, 524,
+        ],
+        fillColor: "rgba(0, 0, 255, 0.5)",
+        lineWidth: 0,
+        strokeColor: "rgba(0, 0, 255, 0.5)",
+        value: 2,
+        disabled: bgValue >= 7,
+      },
+      {
+        id: "yellow",
+        shape: "poly",
+        coords: [
+          555, 536, 620, 410, 617, 348, 676, 346, 671, 358, 669, 371, 673,
+          409, 730, 532, 730, 548, 723, 563, 717, 571, 705, 575, 581, 575,
+          564, 568, 555, 551,
+        ],
+        fillColor: "rgba(255, 255, 0, 0.5)",
+        lineWidth: 0,
+        strokeColor: "rgba(255, 255, 0, 0.5)",
+        value: 1,
+        disabled: bgValue >= 7,
+      },
+      {
+        id: "red",
+        shape: "poly",
+        coords: [
+          761, 507, 822, 383, 818, 327, 876, 319, 873, 349, 873, 375, 871,
+          388, 927, 509, 924, 529, 920, 544, 908, 551, 779, 548, 761, 537,
+          756, 519,
+        ],
+        fillColor: "rgba(255, 0, 0, 0.5)",
+        lineWidth: 0,
+        strokeColor: "rgba(255, 0, 0, 0.5)",
+        value: 4,
+        disabled: bgValue >= 7,
+      },
+      {
+        id: "code",
+        shape: "rect",
+        coords: [444, 86, 523, 181],
+        fillColor: "rgba(0, 0, 0, 0.5)",
+        lineWidth: 0,
+        strokeColor: "rgba(0, 0, 0, 0.5)",
+        value: 8,
+        disabled: bgValue >= 7,
+      },
+      {
+        id: "hint",
+        shape: "rect",
+        coords: [703, 190, 820, 298],
+        fillColor: "rgba(0, 0, 0, 0.5)",
+        lineWidth: 0,
+        strokeColor: "rgba(0, 0, 0, 0.5)",
+        value: 7,
+        disabled: bgValue >= 7,
+      },
+      {
+        id: "grid",
+        shape: "rect",
+        coords: [23, 52, 417, 240],
+        fillColor: "rgba(0, 0, 0, 0.5)",
+        lineWidth: 0,
+        strokeColor: "rgba(0, 0, 0, 0.5)",
+        disabled: !correctCode,
+      },
+      ...(bgValue === 8
+        ? [
             {
-              id: "blue",
-              shape: "poly",
-              coords: [
-                416, 398, 416, 326, 471, 327, 471, 387, 527, 524, 522, 541, 506,
-                551, 379, 554, 366, 543, 357, 524,
-              ],
+              id: "1",
+              shape: "rect",
+              coords: [741, 381, 837, 476],
+              fillColor: "rgba(0, 255, 0, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 255, 0, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "2",
+              shape: "rect",
+              coords: [913, 381, 1008, 474],
               fillColor: "rgba(0, 0, 255, 0.5)",
               lineWidth: 0,
               strokeColor: "rgba(0, 0, 255, 0.5)",
-              value: 2,
-              disabled: bgValue >= 7,
+              disabled: isError,
             },
             {
-              id: "yellow",
-              shape: "poly",
-              coords: [
-                555, 536, 620, 410, 617, 348, 676, 346, 671, 358, 669, 371, 673,
-                409, 730, 532, 730, 548, 723, 563, 717, 571, 705, 575, 581, 575,
-                564, 568, 555, 551,
-              ],
-              fillColor: "rgba(255, 255, 0, 0.5)",
-              lineWidth: 0,
-              strokeColor: "rgba(255, 255, 0, 0.5)",
-              value: 1,
-              disabled: bgValue >= 7,
-            },
-            {
-              id: "red",
-              shape: "poly",
-              coords: [
-                761, 507, 822, 383, 818, 327, 876, 319, 873, 349, 873, 375, 871,
-                388, 927, 509, 924, 529, 920, 544, 908, 551, 779, 548, 761, 537,
-                756, 519,
-              ],
-              fillColor: "rgba(255, 0, 0, 0.5)",
-              lineWidth: 0,
-              strokeColor: "rgba(255, 0, 0, 0.5)",
-              value: 4,
-              disabled: bgValue >= 7,
-            },
-            {
-              id: "code",
+              id: "3",
               shape: "rect",
-              coords: [444, 86, 523, 181],
-              fillColor: "rgba(0, 0, 0, 0.5)",
+              coords: [1084, 379, 1177, 477],
+              fillColor: "rgba(0, 0, 255, 0.5)",
               lineWidth: 0,
-              strokeColor: "rgba(0, 0, 0, 0.5)",
-              value: 8,
-              disabled: bgValue >= 7,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
             },
             {
-              id: "hint",
+              id: "4",
               shape: "rect",
-              coords: [703, 190, 820, 298],
-              fillColor: "rgba(0, 0, 0, 0.5)",
+              coords: [741, 511, 839, 604],
+              fillColor: "rgba(0, 0, 255, 0.5)",
               lineWidth: 0,
-              strokeColor: "rgba(0, 0, 0, 0.5)",
-              value: 7,
-              disabled: bgValue >= 7,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
             },
             {
-              id: "grid",
+              id: "5",
               shape: "rect",
-              coords: [23, 52, 417, 240],
-              fillColor: "rgba(0, 0, 0, 0.5)",
+              coords: [912, 510, 1010, 608],
+              fillColor: "rgba(0, 0, 255, 0.5)",
               lineWidth: 0,
-              strokeColor: "rgba(0, 0, 0, 0.5)",
-              disabled: !correctCode,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
             },
-            ...(bgValue === 8
-              ? [
-                  {
-                    id: "1",
-                    shape: "rect",
-                    coords: [741, 381, 837, 476],
-                    fillColor: "rgba(0, 255, 0, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 255, 0, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "2",
-                    shape: "rect",
-                    coords: [913, 381, 1008, 474],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "3",
-                    shape: "rect",
-                    coords: [1084, 379, 1177, 477],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "4",
-                    shape: "rect",
-                    coords: [741, 511, 839, 604],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "5",
-                    shape: "rect",
-                    coords: [912, 510, 1010, 608],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "6",
-                    shape: "rect",
-                    coords: [1083, 510, 1176, 603],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "7",
-                    shape: "rect",
-                    coords: [741, 637, 839, 733],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "8",
-                    shape: "rect",
-                    coords: [912, 640, 1010, 738],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "9",
-                    shape: "rect",
-                    coords: [1084, 639, 1179, 735],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "0",
-                    shape: "rect",
-                    coords: [915, 766, 1008, 862],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "confirm",
-                    shape: "rect",
-                    coords: [1081, 764, 1176, 863],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "delete",
-                    shape: "rect",
-                    coords: [739, 766, 839, 861],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: isError,
-                  },
-                  {
-                    id: "schermo",
-                    shape: "rect",
-                    coords: [785,217,1193,322],
-                    fillColor: "rgba(0, 0, 255, 0.5)",
-                    lineWidth: 0,
-                    strokeColor: "rgba(0, 0, 255, 0.5)",
-                    disabled: false,
-                  }
-                ]
-              : []),
-          ]}
-          style={{ cursor: "pointer" }}
-        />
-      </div>
+            {
+              id: "6",
+              shape: "rect",
+              coords: [1083, 510, 1176, 603],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "7",
+              shape: "rect",
+              coords: [741, 637, 839, 733],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "8",
+              shape: "rect",
+              coords: [912, 640, 1010, 738],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "9",
+              shape: "rect",
+              coords: [1084, 639, 1179, 735],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "0",
+              shape: "rect",
+              coords: [915, 766, 1008, 862],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "confirm",
+              shape: "rect",
+              coords: [1081, 764, 1176, 863],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+            {
+              id: "delete",
+              shape: "rect",
+              coords: [739, 766, 839, 861],
+              fillColor: "rgba(0, 0, 255, 0.5)",
+              lineWidth: 0,
+              strokeColor: "rgba(0, 0, 255, 0.5)",
+              disabled: isError,
+            },
+          ]
+        : []),
+    ]}
+    style={{ cursor: "pointer" }}
+  />
+</div>
     </section>
   );
 };
