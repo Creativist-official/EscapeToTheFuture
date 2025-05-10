@@ -11,11 +11,14 @@ import news from '@assets/sounds/scena7/SFX - Tv Tower Observation Deck Epidemic
 import Dialogue from '../components/Dialogue';
 
 import sceneBitritto from '@assets/scenesBitritto.json';
+import { useNavigate } from "react-router";
 
 const Scena7 = () => {
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
     const [currentImage, setCurrentImage] = useState(Camera);
     const [scene, setScene] = useState(sceneBitritto.scenes[13]);
+
+    const navigate = useNavigate();
 
     // Preload
     const [preload, setPreload] = useState({
@@ -31,7 +34,7 @@ const Scena7 = () => {
             audio.play();
             audio.onended = () => {
                 const newsAudio = new Audio(news);
-                newsAudio.volume = 0.5;
+                newsAudio.volume = 0.2;
                 newsAudio.play();
                 setPreload({
                     ...preload,
@@ -53,6 +56,10 @@ const Scena7 = () => {
                                 setCurrentDialogueIndex(currentDialogueIndex + 1);
                             } else {
                                 console.log('All dialogues are finished');
+                                // Aspetta 3 secondi e poi naviga alla win
+                                setTimeout(() => {
+                                    navigate("/win");
+                                }, 3000);
                             }
                         }} />
                     )
