@@ -22,6 +22,16 @@ import frigo_unlock from '@assets/sounds/scena4/trim-chiavi-lucchetto-68025.mp3'
 import open_dispensa from '@assets/sounds/scena4/trim-wardrobe-door-94773.mp3';
 import impiccato_win from '@assets/sounds/scena4/3-up-2-89189.mp3';
 import impiccato_fail from '@assets/sounds/scena4/trim-wrong-47985.mp3';
+
+// Impiccato images
+import impiccato_0 from '@assets/images/Scena4/Impiccato_cucina/0.png'
+import impiccato_1 from '@assets/images/Scena4/Impiccato_cucina/1.png'
+import impiccato_2 from '@assets/images/Scena4/Impiccato_cucina/2.png'
+import impiccato_3 from '@assets/images/Scena4/Impiccato_cucina/3.png'
+import impiccato_4 from '@assets/images/Scena4/Impiccato_cucina/4.png'
+import impiccato_5 from '@assets/images/Scena4/Impiccato_cucina/5.png'
+import impiccato_6 from '@assets/images/Scena4/Impiccato_cucina/6.png'
+
 import keystroke from "@assets/sounds/generic/trim-keyboard-typing-one-short-1-292590.mp3";
 
 import sceneBitritto from '@assets/scenesBitritto.json';
@@ -33,6 +43,16 @@ const Scena4 = () => {
     const [impiccatoOpen, setImpiccatoOpen] = useState(false);
     // Stato dell'impiccato, può solo aumentare
     const [impiccatoState, setImpiccatoState] = useState(0);
+    const impiccatoImages = [
+        impiccato_0,
+        impiccato_1,
+        impiccato_2,
+        impiccato_3,
+        impiccato_4,
+        impiccato_5,
+        impiccato_6
+    ];
+    const [impiccatoImg, setImpiccatoImg] = useState(impiccato_0);
     
     
     const [hasDogFood, setHasDogFood] = useState(localStorage.getItem("hasDogFood") === null ? false : JSON.parse(localStorage.getItem("hasDogFood")));
@@ -369,7 +389,7 @@ const Scena4 = () => {
                         <div className="absolute z-4 flex flex-col items-center justify-evenly h-[65%] md:scale-65 lg:scale-100" onClick={(e) => e.stopPropagation()} >
                             <h1 className='text-[2rem] font-[Special_Elite] w-170 text-center'>Qualcosa che gli investigatori usano ogni giorno per svelare i misteri</h1>
                             <div className="flex flex-row items-center justify-between">
-                                <img src={'/EscapeToTheFuture/src/assets/images/Scena4/Impiccato_cucina/' + impiccatoState + '.png'} alt={"stato " + impiccatoState + " dell'impiccato"} className='w-80' />
+                                <img src={impiccatoImg} alt={"stato " + impiccatoState + " dell'impiccato"} className='w-80' />
                                 <div className="flex flex-col items-center justify-center grow-1">
                                     <div className="flex flex-row">
                                         {/* Map impiccato text char */}
@@ -456,6 +476,8 @@ const Scena4 = () => {
                                                     // Shake the tablet
                                                     
                                                     setImpiccatoState(impiccatoState + 1);
+                                                    // Set image
+                                                    setImpiccatoImg(impiccatoImages[impiccatoState + 1]);
                                                 } else {
                                                     // If impiccato reaches 6, go to game over
                                                     localStorage.setItem("gameover_reason", "Hai perso all'impiccato! Il frigo è rimasto chiuso e non riesci a distrarre Cujo. La parola corretta era INDIZI.");
