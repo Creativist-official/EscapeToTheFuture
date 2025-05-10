@@ -526,6 +526,11 @@ const Scena6 = () => {
             // Pause ambient sound
             stanzaAnsia.pause();
             stanzaAnsia.currentTime = 0;
+
+            // Pause dog sound
+            dogSound.pause();
+            dogSound.currentTime = 0;
+            
             if (itemSelected === "Invisibilità") {
               navigate("/scena7");
             } else {
