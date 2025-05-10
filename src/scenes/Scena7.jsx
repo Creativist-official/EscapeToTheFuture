@@ -17,6 +17,8 @@ const Scena7 = () => {
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
     const [currentImage, setCurrentImage] = useState(Camera);
     const [scene, setScene] = useState(sceneBitritto.scenes[13]);
+    const [audioNewsIntro, setAudioNewsIntro] = useState(new Audio(news_intro));
+    const [audioNews, setAudioNews] = useState(new Audio(news));
 
     const navigate = useNavigate();
 
@@ -30,19 +32,17 @@ const Scena7 = () => {
     // Play news intro sound when the image changes to Notiziario, then after audio ends play news sound
     useEffect(() => {
         if (currentImage === Notiziario && !preload.notiziario) {
-            const audio = new Audio(news_intro);
-            audio.play();
-            audio.onended = () => {
-                const newsAudio = new Audio(news);
-                newsAudio.volume = 0.2;
-                newsAudio.play();
+            audioNewsIntro.play();
+            audioNewsIntro.onended = () => {
+                audioNews.volume = 0.2;
+                audioNews.play();
                 setPreload({
                     ...preload,
                     notiziario: true,
                 });
             };
         }
-    }, [currentImage, preload]);
+    }, [currentImage, preload, audioNews, audioNewsIntro]);
 
     return (
         <div>
@@ -58,6 +58,10 @@ const Scena7 = () => {
                                 console.log('All dialogues are finished');
                                 // Aspetta 3 secondi e poi naviga alla win
                                 setTimeout(() => {
+                                    // Stop audio
+                                    audioNews.pause();
+                                    audioNewsIntro.pause();
+
                                     navigate("/win");
                                 }, 3000);
                             }
