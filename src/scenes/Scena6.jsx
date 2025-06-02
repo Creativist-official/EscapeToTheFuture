@@ -6,6 +6,7 @@ import scena6A from "@assets/images/Scena6/enricoSvenuto.png";
 import scena6B from "@assets/images/Scena6/magoPdor.png";
 import prigione from "@assets/images/Scena6/prigione.png";
 import enricoScappato from "@assets/images/Scena6/enricoScappato.png";
+import nessuno from "@assets/images/Scena6/nessuno.png";
 import cagnolino from "@assets/images/Scena6/cagnolino.png";
 import borsa from "@assets/images/Scena6/borsa.png";
 
@@ -293,11 +294,12 @@ const Scena6 = () => {
         src={cagnolino}
         alt="Cagnolino"
         className={`w-full h-full object-contain absolute${
-          dogAnimation == 0 ? " animate-slide-slow" : ""
+          dogAnimation == 0 ? " animate-slide-slow delay-5000" : ""
         }${dogAnimation == 2 ? " animate-move-right" : ""}${
           scene < 4 ? " hidden" : ""
         }${showHint && !dogClicked ? " animate-slight-bounce" : ""}`}
       />
+      
       <img
         src={scena6A}
         alt="Scena 6-soloEnrico"
@@ -313,7 +315,7 @@ const Scena6 = () => {
         }`}
       />
       <img
-        src={enricoScappato}
+        src={nessuno}
         alt="Scena 6-EnricoScappato"
         className={`w-full h-full object-contain${
           scene !== 4 ? " hidden" : ""
